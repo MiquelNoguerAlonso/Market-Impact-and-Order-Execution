@@ -1,0 +1,182 @@
+\subsection{Exact checks of the cost of discarded reports}
+\label{sec:summaryexperiment}
+
+The finite-observation planning gap and the loss of an omitted observation
+are different quantities. This experiment checks
+\cref{thm:summarysandwich,prop:binarysummary} on a finite tree where both can
+be evaluated exactly. It also shows why a fine belief grid cannot recover
+information that the controller never receives.
+
+\subsubsection*{Controlled liquidity with a coarser controller}
+
+Use the seven instructions, transitions, fills and charges in
+\eqref{eq:partialexperimentkernel}--\eqref{eq:partialexperimentcost}, with
+three decisions, two quantity units and $b_0=1/2$. The richer agent observes
+both the fill and public signal. The implemented summary controller retains
+the quantity and a rounded filter driven only by fills; it discards the
+public signal. Its update uses the kernel obtained by summing
+\eqref{eq:partialexperimentkernel} over $y$. It retains the same exact
+quantity mask as the richer agent.
+
+All positive-probability fine-report histories under all feasible actions
+are enumerated with rational arithmetic. Histories are merged only when
+their stage, quantity, controller memory and exact full posterior agree.
+At each summary, the smallest and largest of these full posteriors give
+\eqref{eq:posteriorfiber}. The endpoint recursions then produce $L,U$ and
+the upper-recursion minimizing policy $\sigma$. Independently, full-posterior
+dynamic programming computes $V^{\rm rich}$, and fill-history dynamic
+programming computes the exact coarse-history optimum $V^{\rm coarse}$.
+The latter retains the entire fill history and has no rounding error.
+A separate forward calculation propagates actual hidden-state probabilities
+under the fixed $\sigma$ to obtain its physical cost $J_\sigma$.
+
+\begin{table}[tb]
+\centering\small
+\caption{Exact finite-tree observation-reduction checks, in USD.
+$z_0/z_1$ denotes the two probabilities of public signal one given next
+hidden state; $m$ is the number of uniform belief subintervals.
+The two exact optima and $L_0$ are displayed downward to six decimals;
+$J_\sigma$ and $J_\sigma-L_0$ are displayed upward. The machine-readable
+results retain every exact rational value.}
+\label{tab:summarycertificate}
+\begin{tabular}{rrrrrrr}
+\toprule
+$z_0/z_1$ & $m$ & $V^{\rm rich}$ & $V^{\rm coarse}$ &
+$J_\sigma$ & $L_0$ & Certified gap\\
+\midrule
+\inputtable{tables/observation_summary_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+The first row uses the original public-signal probabilities. Its richer
+optimum is the previously checked
+$232172138011/156250000000=1.4859016832704$.
+Discarding the signal raises the optimal expected cost by exactly
+$1293658149/156250000000=0.0082794121536$ USD, before any rounding or
+summary-policy restriction. The remaining rows strengthen only the report,
+to probabilities $0.05$ and $0.95$. The coarse model is unchanged because
+it integrates out that report. Its information loss rises to exactly
+\[
+ V^{\rm coarse}-V^{\rm rich}
+ =\frac{205859933299369}{2500000000000000}
+ =0.0823439733197476\ \mathrm{USD}.
+\]
+Increasing $m$ from eight to sixteen slightly improves the
+certificate while leaving the selected controller's initial cost unchanged.
+
+These are valid but conservative certificates: the stagewise interval
+extrema can combine posterior histories that one physical trajectory cannot
+jointly realize. The upper-recursion policy need not be optimal among
+summary policies. The reported gap uses the sharper physical evaluation
+$J_\sigma-L_0$, not $U_0-L_0$, and is compared with the exact achieved gap
+$J_\sigma-V^{\rm rich}$ in the audit output.
+
+There are $1,24,324,3456$ distinct full-posterior/memory states at the four
+stages in each case. Every one of the 349 nonterminal states satisfies
+$L\le V^{\rm rich}\le J^\sigma\le U$ in exact arithmetic. The separate
+forward hidden-state evaluation equals the history-based evaluation exactly
+and conserves probability at every stage. The maximum discrepancy between
+the full posterior and rounded memory exceeds $0.43$ even in the first
+case, whereas the one-step rounding radius is $1/16$. This directly checks
+that those two errors cannot be identified.
+
+\subsubsection*{A transparent probe example and the sufficiency limit}
+
+For a separate two-decision example, one unit remains and good/bad liquidity
+is static with equal prior probabilities. At the first decision the trader
+may wait at zero cost or pay $0.02$ USD for a report that identifies the
+state correctly with probability $0.9$. At the second decision, a market
+instruction completes at cost $1$ USD. Alternatively, a passive instruction
+fills at zero cost with probability $0.9$ in good liquidity and $0.1$ in bad
+liquidity; any failure is completed at cost $2$ USD. Every instruction is
+feasible and all residuals are completed.
+
+Writing $b$ for the probability of good liquidity in this example, the
+passive expected cost is $1.8-1.6b$. A retained favorable report gives
+$b=0.9$ and passive cost $0.36$; an unfavorable report gives $b=0.1$ and
+selects the market instruction. Thus the richer agent probes and has value
+\[
+ V^{\rm rich}=0.02+\tfrac12(0.36+1)=0.70.
+\]
+An agent discarding the report has exact posterior $b=1/2$, optimally waits,
+and has value $V^{\rm coarse}=1$. Its information loss is $0.30$ USD even
+with an exact coarse filter and no quantization. If the summary remembers
+whether it probed but discards the report, its post-probe posterior envelope
+is $[0.1,0.9]$. The endpoint recursions give
+\[
+ L_0=\min\{1,0.02+0.36\}=0.38,\qquad
+ U_0=\min\{1,0.02+1\}=1.
+\]
+The resulting $0.62$ USD certificate covers the $0.30$ USD actual loss.
+Retaining the report makes every conditional envelope a singleton; both
+recursions then equal $0.70$, as required by
+\cref{cor:summarysufficiency}. These values are checked as exact fractions.
+
+\subsubsection*{Action certificates and decision sufficiency}
+
+The same three finite trees also check
+\cref{thm:summaryactioncertificate}. Every one of the 1,237 feasible
+state--action pairs per case satisfies both action bounds in
+\eqref{eq:summaryactionbounds} and the Bellman-advantage bound
+\eqref{eq:summaryactionexcess}, using exact fractions. The resulting regret
+recursion bounds the selected controller at all 349 nonterminal states.
+Across the three cases, 648, 409 and 417 strict action-screening comparisons
+identify only truly suboptimal actions. These counts include the different
+full histories in a common summary fiber.
+
+\begin{table}[tb]
+\centering\small
+\caption{Two certificates for the same implemented controller in the
+three controlled-liquidity cases, in USD. The cost certificate is
+$J_\sigma-L_0$ using physical evaluation; the action certificate is
+$R_0^\sigma$. The combined bound takes their minimum. All displayed gaps
+and bounds are rounded upward to six decimals from exact rational values.}
+\label{tab:actioncertificate}
+\begin{tabular}{rrrrrr}
+\toprule
+$z_0/z_1$ & $m$ & Actual gap & Cost certificate & Action certificate & Combined\\
+\midrule
+\inputtable{tables/action_separation_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+Here the cost certificate is sharper in every row of
+\cref{tab:actioncertificate}; the action recursion is not a uniformly
+tighter replacement. A separate two-stage case shows the distinction.
+At the first stage the only feasible action costs $0.02$ USD and produces
+a perfect report of a static, equally likely binary state. The richer agent
+retains this report and the summary controller discards it. At the second
+stage both terminal instructions complete the remaining unit by assumption.
+Instruction $L$ has all-in charges $0.10$ and $0.20$ USD in the two states;
+instruction $M$ costs $0.50$ USD in either state. These supplied charges
+define a finite execution example, not an estimated exchange fill law.
+
+The summary's posterior envelope after the report is $[0,1]$. Its action
+bounds are $Q^-(L)=0.10$, $Q^+(L)=0.20$ and
+$Q^-(M)=Q^+(M)=0.50$. Hence $e(L)=0$ and $e(M)=0.40$.
+The fixed controller choosing $L$ has
+\[
+ L_0=0.12,\qquad J_L=V_0^{\rm rich}=0.17,\qquad U_0=0.22.
+\]
+The physically evaluated cost certificate is $0.05$ USD, but the action
+certificate is exactly zero. It establishes optimality despite the
+non-singleton envelope and nonzero cost interval. The richer conditional
+value at the final decision is $0.10$ or $0.20$, so the summary is
+\emph{decision sufficient} here without determining that conditional value.
+
+For a randomized controller choosing $M$ with probability $1/4$, physical
+cost is $0.2575$ USD and true regret is $0.0875$ USD. The cost certificate
+is $0.1375$ USD while the action certificate is $0.10$ USD. The script
+checks these quantities and the conditional bounds in both hidden states
+as exact fractions. This also checks the action average in
+\eqref{eq:summaryactionrecursion}; randomization is evaluated as implemented.
+
+The script \texttt{scripts/observation\_summary\_checks.py} generates both
+tables and stores the exact fractions, state counts and conditional checks.
+The same script checks the Gaussian sign symmetry in
+\cref{thm:ledgerlower} and the nonuniform cell created by inserting the
+initial prior $1/3$ into an eight-subinterval grid. These are finite
+verification cases supporting the written proofs; they do not constitute a
+machine-checked proof of the general conditional-envelope theorem.

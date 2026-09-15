@@ -1,0 +1,367 @@
+\subsection{Certifying the loss from an observable summary}
+\label{sec:summarycertificate}
+
+A finite controller may retain fills and a rounded filter while discarding
+timestamps or finer reports. The lower bound in \cref{thm:computablepartial}
+then concerns the declared finite observations; it need not be a lower bound
+for an agent observing the richer history. The following construction closes
+this comparison under explicit conditional-law bounds. It uses the robust
+dynamic-programming foundations of \citet{iyengar2005,nilim2005}. The role
+here is to certify a feasible execution controller against a richer
+information class, without assuming that its summary is Markov or sufficient.
+
+\begin{assumption}[Conditional action-law envelopes for an observable summary]
+\label{ass:summaryenvelopes}
+There are $K$ decisions under a supplied controlled law on standard Borel
+history spaces. Let $H_k$ be the full observed history and let
+$Z_k=\Psi_k(H_k)\in\mathcal Z_k$ be a finite summary, updated from the
+preceding summary, action and new observations. The initial history is fixed.
+Stage and terminal charges are bounded. The nonempty finite feasible action
+set satisfies
+\[
+ A_k(H_k)=A_k(Z_k).
+\]
+In particular, the summary retains every unresolved reservation, instruction
+status and session variable needed for feasibility. For every feasible
+$(z,a)$, a nonempty compact set
+$\mathcal U_k(z,a)\subset\mathbb R\times\Delta(\mathcal Z_{k+1})$
+is supplied, and contains
+\begin{equation}\label{eq:conditionalenvelope}
+ \bigl(r_k(H,a),p_k(H,a)\bigr):=
+ \bigl(\E[c_k\mid H,a],\ \mathcal L(Z_{k+1}\mid H,a)\bigr)
+ \quad\text{whenever }\Psi_k(H)=z.
+\end{equation}
+Supplied terminal functions $l_K,u_K$ satisfy
+$l_K(\Psi_K(H))\le\E[c_K\mid H]\le u_K(\Psi_K(H))$.
+These inclusions hold for the conditional versions of the controlled model
+on all admissible histories, or almost surely under every feasible policy,
+including each feasible counterfactual action. Bounds established only under
+one logging policy do not meet this assumption.
+\end{assumption}
+
+Write $p\cdot v=\sum_{z'}p(z')v(z')$. Define the finite recursions
+\begin{align}\label{eq:summarysandwichdp}
+ L_K&=l_K,\qquad U_K=u_K,\nonumber\\
+ L_k(z)&=\min_{a\in A_k(z)}\inf_{(r,p)\in\mathcal U_k(z,a)}
+                   \{r+p\cdot L_{k+1}\},\\
+ U_k(z)&=\min_{a\in A_k(z)}\sup_{(r,p)\in\mathcal U_k(z,a)}
+                   \{r+p\cdot U_{k+1}\}.\nonumber
+\end{align}
+Fix a minimizing action $\sigma_k(z)$ in the upper recursion, with a
+deterministic tie rule. Compactness and finite action sets ensure attainment.
+The recursions become numerical algorithms when their extrema can be
+evaluated or enclosed, as in the two explicit constructions below.
+Let $V_k^{\rm rich}(H)$ be the infimum of remaining expected cost over all
+feasible policies using $H$ and subsequent full observations.
+
+\begin{theorem}[A certificate against the richer history optimum]
+\label{thm:summarysandwich}
+Under \cref{ass:summaryenvelopes}, for $z=\Psi_k(H)$,
+\begin{equation}\label{eq:summarysandwich}
+ L_k(z)\le V_k^{\rm rich}(H)\le J_k^\sigma(H)\le U_k(z).
+\end{equation}
+In particular, with $z_0=\Psi_0(H_0)$,
+\begin{equation}\label{eq:summaryregret}
+ 0\le J_\sigma-V_0^{\rm rich}(H_0)\le U_0(z_0)-L_0(z_0).
+\end{equation}
+For any other feasible summary controller $\rho$, including a randomized
+finite-score signature controller, replace the minimum in the upper recursion
+by the action average under $\rho_k(\cdot\mid z)$ and call the result
+$U_k^\rho$. Then $J_\rho-V_0^{\rm rich}(H_0)\le U_0^\rho(z_0)-L_0(z_0)$.
+Any independently certified upper evaluation $\overline E_\rho\ge J_\rho$
+may replace $U_0^\rho(z_0)$.
+\end{theorem}
+\begin{proof}
+At the terminal stage the asserted conditional bounds are the assumption.
+Suppose the lower bound holds at $k+1$ for the conditional cost of every
+feasible continuation. At history $H$, conditional on any chosen action $a$,
+the tower property bounds that cost below by
+$r_k(H,a)+p_k(H,a)\cdot L_{k+1}$. Membership in
+\eqref{eq:conditionalenvelope} bounds it below by the corresponding infimum,
+and then by $L_k(z)$. An average over randomized actions preserves the
+inequality. Taking the infimum over all full-history continuations proves
+$L_k(z)\le V_k^{\rm rich}(H)$, without restricting those continuations to
+summary policies.
+
+For the selected summary policy, the induction hypothesis and the tower
+property instead give
+\[
+ J_k^\sigma(H)\le r_k(H,\sigma_k(z))+
+       p_k(H,\sigma_k(z))\cdot U_{k+1}\le U_k(z).
+\]
+The selected action is feasible at every history in the summary fiber, so
+this policy belongs to the class defining $V_k^{\rm rich}$. This proves the
+middle inequality. For a fixed randomized controller, average the
+actionwise suprema instead. Subtraction and an upper evaluation give the
+remaining assertions.
+\end{proof}
+
+The stagewise envelope choices in \eqref{eq:summarysandwichdp} constitute
+a rectangular bounding relaxation. A single physical model, or a fixed
+unknown parameter, need not attain all those choices along one path.
+The proof requires only conditional inclusion; it does not reset the hidden
+state or assume that a physical adversary reselects the model at each step.
+This distinction may make the certificate conservative.
+
+\begin{corollary}[Exact value sufficiency and model transfer]
+\label{cor:summarysufficiency}
+If every envelope is the singleton
+$\{(\widehat r_k(z,a),\widehat P_k(\cdot\mid z,a))\}$ and $l_K=u_K$,
+then $L=U$ and the summary policy is optimal among all full-history policies.
+More generally, suppose the envelope certificate is computed in a supplied
+approximate model and
+$|J_\pi-\widehat J_\pi|\le B_T$ uniformly over the common feasible
+full-history policy class. Keep the summary update and the candidate $\rho$
+fixed in both models. Then
+\begin{equation}\label{eq:summarytransfer}
+ J_\rho-\inf_{\pi\in\Pi_{\rm rich}}J_\pi
+ \le 2B_T+\widehat{\overline E}_\rho-\widehat L_0(z_0).
+\end{equation}
+\end{corollary}
+\begin{proof}
+Singleton envelopes make both recursions the same Bellman recursion, so
+\cref{thm:summarysandwich} forces equality. For transfer,
+$J_\rho\le\widehat J_\rho+B_T$ and
+$\inf_\pi J_\pi\ge\inf_\pi\widehat J_\pi-B_T$.
+Apply the approximate-model certificate and subtract.
+\end{proof}
+
+\subsubsection*{A quantitative bound from conditional model discrepancies}
+
+The envelopes themselves can retain state and action dependence. A simpler
+uniform rate follows when they have the rectangular form
+\begin{equation}\label{eq:summarytvenvelope}
+ \begin{aligned}
+ \mathcal U_k(z,a)=
+ [\widehat r_k(z,a)-\alpha_k(z,a),\widehat r_k(z,a)+\alpha_k(z,a)]
+ &\times\mathcal P_k(z,a),\\
+ \mathcal P_k(z,a)=\{p\in\Delta(\mathcal Z_{k+1}):
+              \|p-\widehat P_k(\cdot\mid z,a)\|_{\TV}
+ &\le\epsilon_k(z,a)\},
+ \end{aligned}
+\end{equation}
+where $\alpha_k\ge0$, $0\le\epsilon_k\le1$, and
+$l_K=\widehat g-\delta_K$, $u_K=\widehat g+\delta_K$, $\delta_K\ge0$.
+Let $\widehat V$ solve the nominal finite Bellman recursion with
+$(\widehat r,\widehat P,\widehat g)$, and write
+$\operatorname{span}(v)=\max v-\min v$.
+
+\begin{proposition}[An explicit observation-reduction error bound]
+\label{prop:summaryrate}
+Define
+\begin{align}\label{eq:summaryrateconstants}
+ d_K&=\max_z\delta_K(z),\nonumber\\
+ d_k&=\max_{z,a}\{\alpha_k(z,a)+
+                   \epsilon_k(z,a)\operatorname{span}(\widehat V_{k+1})\},
+ &B_k&=d_K+\sum_{j=k}^{K-1}d_j.
+\end{align}
+For the recursions \eqref{eq:summarysandwichdp},
+\begin{equation}\label{eq:summaryrate}
+ \widehat V_k-B_k\le L_k\le\widehat V_k\le U_k
+                         \le\widehat V_k+B_k,\qquad
+ U_0(z_0)-L_0(z_0)\le2B_0.
+\end{equation}
+The envelope recursions are finite linear programs. With rational data they
+can be solved exactly; certified outward bounds on their extrema also give
+a valid lower--upper certificate.
+\end{proposition}
+\begin{proof}
+For probability vectors,
+$|(p-\widehat P)\cdot v|\le\epsilon\operatorname{span}(v)$ under the
+stated total-variation convention. Thus applying either envelope Bellman
+operator to $\widehat V_{k+1}$ changes the nominal value by at most $d_k$.
+Each operator is monotone and is one-Lipschitz in the sup norm, since its
+transition vectors have unit mass. Backward induction from the terminal
+error $d_K$ proves the outer bounds. The nominal pair belongs to every
+envelope; a second induction gives $L_k\le\widehat V_k\le U_k$.
+The absolute-value constraints defining a finite total-variation ball have
+a linear-program representation. Lower bounds on the lower extrema and
+upper bounds on the selected action's upper extrema propagate in the
+required directions. An inexactly selected action is evaluated as a fixed
+controller by \cref{thm:summarysandwich}.
+\end{proof}
+
+This bound uses nominal continuation-value spans, not a stability constant
+for Bayes' formula. Computing the state-dependent recursions can retain
+information discarded by the maxima in $d_k$. Neither refinement substitutes
+for valid conditional error bounds.
+
+\subsubsection*{A constructive witness for binary hidden liquidity}
+
+Suppose the richer controlled model is hidden Markov with the binary state
+of \cref{ass:finiteobservation}. A fine report is reduced to a symbol $o$,
+and $M_{k,x,a,o}$ is its joint hidden-transition law after summing or
+integrating the finer reports. The symbol retains the next ledger state
+$F_k(x,a,o)$ and charge $c_k(x,a,o)$. The summary is $z=(x,\gamma)$ with
+the fixed update \eqref{eq:beliefmemory}, driven by these coarse symbols.
+Assume supplied intervals satisfying, for every admissible full history,
+\begin{equation}\label{eq:posteriorfiber}
+ \mathcal I_k(z)=[b_k^-(z),b_k^+(z)]\subset[0,1]
+ ,\qquad \Pp(h_k=1\mid H_k)\in\mathcal I_k(\Psi_k(H_k)).
+\end{equation}
+This is a condition on the full posterior, not a claim that it equals
+the controller's memory $\gamma$.
+
+For each $b\in\mathcal I_k(z)$ define
+\begin{align}\label{eq:binarysummaryenvelope}
+ r_b(z,a)&=\sum_o p_b^a(o)c_k(x,a,o),\nonumber\\
+ P_b(z'\mid z,a)&=\sum_o p_b^a(o)
+ \mathbf 1\{z'=(F_k(x,a,o),Q_m\Phi_\gamma^a(o))\},\\
+ \mathcal U_k(z,a)&=\{(r_b(z,a),P_b(\cdot\mid z,a)):
+                                      b\in\mathcal I_k(z)\}.\nonumber
+\end{align}
+The update uses $\gamma$, while the physical probabilities use $b$.
+The chosen zero-probability update convention is fixed for every symbol,
+including a symbol impossible under $\gamma$ but possible under $b$.
+Terminal bounds are the minimum and maximum of
+$(1-b)c_K(x,0)+bc_K(x,1)$ on $\mathcal I_K(z)$.
+
+\begin{proposition}[Endpoint evaluation of posterior envelopes]
+\label{prop:binarysummary}
+Under these hypotheses, \eqref{eq:binarysummaryenvelope} satisfies
+\cref{ass:summaryenvelopes}. Each infimum and supremum in
+\eqref{eq:summarysandwichdp} is attained at $b_k^-(z)$ or $b_k^+(z)$.
+For supplied intervals, the backward recursions require
+$O(K\max_k|\mathcal Z_k|\,|A|\,|O|)$ arithmetic operations.
+If $|b-\gamma|\le\eta_k(z)$ throughout the interval, rectangular
+envelopes of the form \eqref{eq:summarytvenvelope} are valid with
+\begin{equation}\label{eq:binarysummaryradius}
+ \alpha_k(z,a)=\eta_k(z)|\bar c_1-\bar c_0|,\qquad
+ \epsilon_k(z,a)=\min\{1,\eta_k(z)\|P^1-P^0\|_{\TV}\},
+\end{equation}
+where $\bar c_h$ and $P^h$ are the conditional mean charge and next-summary
+law given current hidden state $h$, $z$ and $a$. The nominal pair is the
+mixture at $\gamma$. The analogous terminal radius is
+$\eta_K(z)|c_K(x,1)-c_K(x,0)|$.
+\end{proposition}
+\begin{proof}
+The controlled hidden-Markov property makes the conditional coarse outcome
+law the mixture in \eqref{eq:finitebeliefkernel} at the full posterior $b$.
+The memory update is already fixed by $z,a,o$. Therefore both the charge
+mean and next-summary law in \eqref{eq:binarysummaryenvelope} are affine
+in $b$, proving conditional inclusion and compactness. Pairing with any
+fixed continuation vector remains affine, so the two endpoints suffice.
+Each endpoint evaluation sums over at most $|O|$ symbols. Finally,
+$r_b-r_\gamma=(b-\gamma)(\bar c_1-\bar c_0)$ and
+$P_b-P_\gamma=(b-\gamma)(P^1-P^0)$, proving the radius formulas.
+\end{proof}
+
+The paired envelope preserves the dependence between charge and transition
+errors through the same posterior. It can be tighter than their rectangular
+enclosure. On a finite observation tree, intervals in
+\eqref{eq:posteriorfiber} can be constructed by exact enumeration of all
+positive-probability histories under all feasible actions, followed by
+grouping at each summary. That preparatory enumeration can grow
+exponentially; the stated arithmetic bound covers the subsequent backward
+recursions, not the construction of the intervals. Continuous reports require
+a separate analytic or validated numerical enclosure. The trivial interval
+$[0,1]$ is always available but may yield a weak certificate.
+
+In particular, $\eta_k(z)$ cannot generally be set to $1/(2m)$: repeated
+rounding and discarded reports separate the full posterior from $\gamma$.
+The one-step quantization radius in \cref{prop:partialmeshrate} belongs to
+its resampling comparison and does not bound this different error.
+Given valid posterior intervals, a controller evaluated by
+\eqref{eq:truecontrollerevaluation} has the directly computable certificate
+\[
+ J_\rho-V_0^{\rm rich}(H_0)\le U_m(\rho)-L_0(z_0).
+\]
+Here the physical evaluation may integrate out the discarded reports because
+the fixed controller does not use them. The new lower bound $L_0$ is what
+makes the comparison valid against policies that do use those reports.
+Section~\ref{sec:summaryexperiment} gives exact finite-tree checks and an
+example where information reduction has a strictly positive cost.
+
+\subsubsection*{Action comparisons can certify more than a cost interval}
+
+An interval for the optimal cost can remain wide even when the same action
+is optimal throughout a summary fiber. The next result uses the existing
+conditional envelopes to certify decisions directly. The Bellman comparison
+and upper/lower action screening are standard bounding principles; the
+statement below keeps the richer-history information class and the exact
+execution mask of \cref{ass:summaryenvelopes}.
+
+For the lower and upper functions in \eqref{eq:summarysandwichdp}, define
+\begin{align}\label{eq:summaryactionbounds}
+ Q_k^-(z,a)&=\inf_{(r,p)\in\mathcal U_k(z,a)}
+                     \{r+p\cdot L_{k+1}\},\nonumber\\
+ Q_k^+(z,a)&=\sup_{(r,p)\in\mathcal U_k(z,a)}
+                     \{r+p\cdot U_{k+1}\}.
+\end{align}
+If $a$ is the only feasible action, set $e_k(z,a)=0$. Otherwise set
+\begin{equation}\label{eq:summaryactionexcess}
+ e_k(z,a)=
+ \left[Q_k^+(z,a)-\min_{a'\in A_k(z)\setminus\{a\}}Q_k^-(z,a')\right]_+.
+\end{equation}
+For any feasible summary controller $\rho$, use the finite recursion
+\begin{align}\label{eq:summaryactionrecursion}
+ R_K^\rho(z)&=0,\nonumber\\
+ R_k^\rho(z)&=\sum_{a\in A_k(z)}\rho_k(a\mid z)
+ \left\{e_k(z,a)+
+       \sup_{(r,p)\in\mathcal U_k(z,a)}p\cdot R_{k+1}^\rho\right\}.
+\end{align}
+The supremum in this last display concerns continuation only; the immediate
+cost is already accounted for through the action comparison.
+
+\begin{theorem}[An action-comparison execution certificate]
+\label{thm:summaryactioncertificate}
+Under \cref{ass:summaryenvelopes}, every feasible summary controller satisfies
+\begin{equation}\label{eq:summaryactioncertificate}
+ 0\le J_k^\rho(H)-V_k^{\rm rich}(H)
+       \le R_k^\rho(\Psi_k(H)).
+\end{equation}
+Consequently an independently certified upper evaluation
+$\overline E_\rho\ge J_\rho$ gives the combined bound
+\begin{equation}\label{eq:summarycombinedcertificate}
+ J_\rho-V_0^{\rm rich}(H_0)\le
+ \min\{\overline E_\rho-L_0(z_0),\,R_0^\rho(z_0)\}.
+\end{equation}
+If every action used by $\rho$ has $e_k(z,a)=0$ at every stage and summary,
+then $\rho$ is optimal among all richer-history policies. This conclusion
+does not require singleton envelopes or equality of $L$ and $U$.
+For the binary posterior envelopes, both action bounds and every step of
+\eqref{eq:summaryactionrecursion} use only their two endpoints.
+\end{theorem}
+\begin{proof}
+Let $Q_k^*(H,a)$ be the true expected charge plus the optimal richer-history
+continuation after action $a$. The tower property, conditional inclusion
+and \cref{thm:summarysandwich} give
+\[
+ Q_k^-(z,a)\le Q_k^*(H,a)\le Q_k^+(z,a).
+\]
+With at least two feasible actions, its Bellman advantage satisfies
+\[
+ Q_k^*(H,a)-V_k^{\rm rich}(H)
+ =\left[Q_k^*(H,a)-\min_{a'\ne a}Q_k^*(H,a')\right]_+
+ \le e_k(z,a).
+\]
+With one feasible action the advantage is zero. At $K$ the policy and
+optimal conditional terminal costs agree. If the claimed regret bound
+holds at $k+1$, condition on the action selected by $\rho$ and subtract the
+true Bellman value. The resulting difference is the action advantage plus
+the conditional expected continuation regret. Bound the first by $e_k$,
+the second by $p_k(H,a)\cdot R_{k+1}^\rho$, and then use membership in the
+conditional envelope. Averaging over $\rho_k$ proves
+\eqref{eq:summaryactioncertificate} by backward induction.
+The earlier cost-interval certificate gives the other endpoint in
+\eqref{eq:summarycombinedcertificate}. If all used action excesses vanish,
+the recursion gives $R^\rho=0$. Finally, the binary transition law is affine
+in its posterior, so pairing it with any fixed continuation vector again
+attains its extrema at the interval endpoints.
+\end{proof}
+
+The minimum of the two certificates is useful: neither bound is uniformly
+sharper. A cost interval measures uncertainty in value, while
+\eqref{eq:summaryactionexcess} compares the selected action with its
+alternatives. The same bounds also give safe action screening. If
+$Q_k^-(z,a)>\min_{a'} Q_k^+(z,a')$, action $a$ is strictly suboptimal at every
+full history in that fiber and may be removed without changing the
+richer-history optimum. The inequality is strict so that optimal ties are
+not removed. This screening concerns optimization; it does not relax a
+reservation, order-status or completion constraint.
+
+These conclusions remain conditional on valid envelopes for all feasible
+histories and actions. A small fitted action gap under one set of reports
+does not establish the required uniform comparison. For model transfer,
+compute the minimum in \eqref{eq:summarycombinedcertificate} in the
+approximate model and add $2B_T$ as in \cref{cor:summarysufficiency}.

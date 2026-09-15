@@ -1,0 +1,278 @@
+\subsection{Computable certificates under partial observation}
+\label{sec:computablepartial}
+
+The class gap in \cref{thm:classgap} is existential. A finite-observation
+specialization admits a different, constructive route: compute a lower bound
+on the unrestricted partially observed optimum and an upper bound on the
+cost of an implementable controller. Their difference is a global certificate.
+Belief-state dynamic programming and its piecewise-linear value functions are
+classical \citep{smallwood1973}; computable bounds and finite-horizon
+point-based planning are developed by \citet{lovejoy1991} and
+\citet{walravenspaan2019}. The construction below combines those foundations
+with the execution ledger, an observable finite-memory signature policy, and
+the model-error certificate of \cref{cor:bookcertificate}.
+
+\begin{assumption}[Finite observations and a binary hidden state]
+\label{ass:finiteobservation}
+There are $K$ decision stages, a finite observable state space $\mathcal X$,
+a hidden state $h\in\{0,1\}$, and finite action and observation alphabets.
+The nonempty feasible set $A_k(x)$ depends only on the observable state,
+which retains every ledger, reservation and session variable needed for
+feasibility. The joint controlled kernel is
+\[
+ M_{k,x,a,o}(h,h')\ge0,\qquad
+ \sum_{o,h'}M_{k,x,a,o}(h,h')=1.
+\]
+An outcome $o$ determines the next observable state $x'=F_k(x,a,o)$ and
+the stage charge $c_k(x,a,o)$. A terminal charge $c_K(x,h)$ is allowed.
+Actions may change both the hidden transition and the observation law.
+For each stage $j$, all remaining total losses lie in a common interval of
+width $S_j$ over states and feasible continuation policies. All primitive
+arrays, charges and these bounds are supplied. The initial state $x_0$ and
+belief $b_0=\Pp(h_0=1)$ are known.
+\end{assumption}
+
+The analytic statements allow real data. Algorithmic claims require rational
+primitives and grid nodes, or validated enclosures together with certified
+comparisons for the controller's memory update.
+
+The observation alphabet is the information actually available to this
+controller. If a marked continuous-time model is reduced to these symbols,
+discarding timestamps or reports changes the information problem unless
+sufficiency is proved. No equivalence with a richer observation filtration
+is assumed. Section~\ref{sec:summarycertificate} supplies a separate
+certificate for that richer comparison. Binary hidden liquidity is the explicit computable case below;
+it does not exhaust the finite hidden-state setting.
+
+For $b\in[0,1]$, put $\boldsymbol b=(1-b,b)$ and define
+\begin{align}\label{eq:finitebeliefkernel}
+ p_b^a(o)&=\sum_{h,h'}\boldsymbol b_h M_{k,x,a,o}(h,h'),&
+ \Phi_b^a(o)&=\frac{\sum_h\boldsymbol b_h M_{k,x,a,o}(h,1)}{p_b^a(o)},\\
+ r_k(x,b,a)&=\sum_o p_b^a(o)c_k(x,a,o).\nonumber
+\end{align}
+Zero-probability outcomes contribute zero and may be assigned any posterior.
+The optimal value $V_k(x,b)$ minimizes expected remaining cost over all
+policies using the declared observation history, including their own actions.
+
+\begin{lemma}[Concavity and a computable belief modulus]\label{lem:beliefmodulus}
+For fixed $k,x$, $V_k(x,\cdot)$ is concave, piecewise linear and
+$S_k$-Lipschitz on $[0,1]$.
+\end{lemma}
+\begin{proof}
+A fixed deterministic continuation tree has conditional costs $v_0,v_1$,
+so its expected cost is $(1-b)v_0+bv_1$. The common feasible action masks
+give the same finite family of trees for every $b$. Their minimum is concave
+and piecewise linear. The range assumption gives $|v_1-v_0|\le S_k$ for
+every tree; taking minima preserves that Lipschitz bound. Behavioral
+randomization cannot improve the minimum of these expected costs.
+\end{proof}
+
+\subsubsection*{Two finite backward recursions}
+
+Let $G_m=\{0,1/m,\ldots,1\}\cup\{b_0\}$, and let $Q_m b$ be a
+nearest node, with a fixed tie rule. Write $I_m f$ for linear interpolation
+of node values: if $b=(1-\theta)g_i+\theta g_{i+1}$, then
+$(I_m f)(b)=(1-\theta)f(g_i)+\theta f(g_{i+1})$.
+Adjacent nodes have distance at most $1/m$; inserting the initial prior
+therefore preserves the mesh estimates without restricting its value.
+The nearest-node planning problem is the finite Markov decision process
+\begin{align}\label{eq:nearestbeliefdp}
+ W_K(x,g)&=(1-g)c_K(x,0)+g\,c_K(x,1),\nonumber\\
+ W_k(x,g)&=\min_{a\in A_k(x)}\left\{
+ r_k(x,g,a)+\sum_o p_g^a(o)
+ W_{k+1}\bigl(F_k(x,a,o),Q_m\Phi_g^a(o)\bigr)\right\}.
+\end{align}
+Let $a_k^m(x,g)$ be a minimizing action. Independently compute
+\begin{align}\label{eq:belieflowerdp}
+ \underline V_K^m(x,g)&=(1-g)c_K(x,0)+g\,c_K(x,1),\nonumber\\
+ \underline V_k^m(x,g)&=\min_{a\in A_k(x)}\left\{
+ r_k(x,g,a)+\sum_o p_g^a(o)
+ (I_m\underline V_{k+1}^m)\bigl(F_k(x,a,o),\Phi_g^a(o)\bigr)\right\}.
+\end{align}
+Interpolation here gives a lower relaxation for cost minimization. It is
+not the deployed controller's state update.
+
+The deployed controller starts at $\gamma_0=b_0$, selects
+$a_k^m(x_k,\gamma_k)$, and updates its observable memory by
+\begin{equation}\label{eq:beliefmemory}
+ \gamma_{k+1}=Q_m\Phi_{\gamma_k}^{a_k}(o_{k+1}).
+\end{equation}
+This recursively rounded belief need not equal the true posterior conditional
+on the entire observed history. The physical hidden state always evolves
+according to $M$; it is never redrawn from $\gamma_k$ in deployment.
+
+\subsubsection*{Evaluation in the physical model}
+
+For any feasible finite-memory action probabilities $\sigma_k(a\mid x,\gamma)$
+and the update \eqref{eq:beliefmemory}, evaluate on the augmented state
+$(x,\gamma,h)$:
+\begin{align}\label{eq:truecontrollerevaluation}
+ E_K(x,\gamma,h)&=c_K(x,h),\nonumber\\
+ E_k(x,\gamma,h)&=\sum_{a\in A_k(x)}\sigma_k(a\mid x,\gamma)
+ \sum_{o,h'}M_{k,x,a,o}(h,h')\bigl\{c_k(x,a,o)\nonumber\\
+ &\hspace{23mm}+E_{k+1}\bigl(F_k(x,a,o),Q_m\Phi_\gamma^a(o),h'\bigr)\bigr\},\\
+ U_m(\sigma)&=(1-b_0)E_0(x_0,b_0,0)+b_0E_0(x_0,b_0,1).\nonumber
+\end{align}
+The hidden coordinate is integrated out offline. Neither the online action
+nor its memory update observes $h$. Evaluation may also use a different
+physical kernel while retaining the planner's filter in the memory update.
+
+\begin{theorem}[A computable global execution certificate]
+\label{thm:computablepartial}
+Under \cref{ass:finiteobservation}, write $V^*=V_0(x_0,b_0)$. For every
+feasible controller evaluated by \eqref{eq:truecontrollerevaluation},
+\begin{equation}\label{eq:computablegap}
+ \underline V_0^m(x_0,b_0)\le V^*\le U_m(\sigma),\qquad
+ 0\le J_\sigma-V^*\le
+ \mathcal G_m(\sigma):=U_m(\sigma)-\underline V_0^m(x_0,b_0).
+\end{equation}
+All quantities on the right are obtained by finite backward induction.
+An outward lower enclosure of $\underline V_0^m$ and outward upper enclosure
+of $U_m$ give a valid numerically enclosed certificate. The result holds
+for any candidate table; its validity does not require a local optimizer
+to have found a global minimum.
+\end{theorem}
+\begin{proof}
+At $K$ the grid terminal values are exact. If
+$\underline V_{k+1}^m(x,g_i)\le V_{k+1}(x,g_i)$ at all nodes, concavity
+from \cref{lem:beliefmodulus} gives
+$I_m\underline V_{k+1}^m(x,b)\le V_{k+1}(x,b)$ for every belief.
+Nonnegative observation probabilities and minimization preserve the inequality
+in the backward step. This proves the lower bound. Conditioning on the
+actual hidden state and the finite controller memory gives
+\eqref{eq:truecontrollerevaluation}, hence $U_m(\sigma)=J_\sigma$.
+Feasibility places this controller in the class defining $V^*$ and proves
+the upper bound. Subtraction gives the certificate. Replacing either endpoint
+by an enclosure in the indicated direction can only enlarge it.
+\end{proof}
+
+This certificate closes both an optimization gap and a representation gap
+relative to the full history-policy optimum of this model. Successive mesh
+values need not yield monotonically improving deployed policies. A stopping
+rule uses the computed gap of the retained best certified controller, not
+the difference between two grid values.
+
+\begin{proposition}[Explicit mesh and numerical optimization bounds]
+\label{prop:partialmeshrate}
+Set
+\[
+ \varepsilon_m=\frac1{2m}\sum_{j=1}^K S_j.
+\]
+For the exact nearest-node minimizer $\sigma^m$,
+\begin{equation}\label{eq:partialmeshrate}
+ J_{\sigma^m}-V^*\le2\varepsilon_m,\qquad
+ \mathcal G_m(\sigma^m)\le3\varepsilon_m.
+\end{equation}
+If a computed table has global gap at most $\tau_m$ in the finite problem
+\eqref{eq:nearestbeliefdp}, add $\tau_m$ to both bounds. One computable
+choice is $\tau_m=\sum_k\tilde e_k$, where $\tilde e_k$ bounds, at every grid state,
+the selected action's excess over the minimum of its true Bellman action
+values. Enclosures
+$\widetilde Q_k^-(z,a)\le\widetilde Q_k(z,a)\le\widetilde Q_k^+(z,a)$ give
+\begin{equation}\label{eq:partialnumericalgap}
+ \tilde e_k=\max_z\left[\widetilde Q_k^+(z,\widehat a_k(z))-
+                         \min_{a\in A_k(z)}\widetilde Q_k^-(z,a)\right]_+.
+\end{equation}
+Here the action values use the optimal continuation of the finite model,
+enclosed recursively by backward induction.
+\end{proposition}
+\begin{proof}
+Nearest rounding changes a binary belief by at most $1/(2m)$ in total
+variation. For interpolation between neighboring nodes, the mean distance
+of its two nodes from $b$ is
+$2\theta(1-\theta)(g_{i+1}-g_i)\le1/(2m)$.
+Using \cref{lem:beliefmodulus} in the two backward recursions gives,
+at grid nodes,
+\[
+ |W_k-V_k|\le\frac1{2m}\sum_{j=k+1}^K S_j,\qquad
+ 0\le V_k-\underline V_k^m\le\frac1{2m}\sum_{j=k+1}^K S_j.
+\]
+The terminal interpolation is in fact exact; retaining $S_K$ is a valid
+conservative bound.
+
+To compare the deployed controller with the nearest-node planning model,
+introduce an artificial hidden-state resampling after each observation.
+Given the preceding artificial history, the pre-resampling posterior is
+$\Phi_\gamma^a(o)$; replace it by $Q_m\Phi_\gamma^a(o)$. This defines the
+finite Markov model \eqref{eq:nearestbeliefdp}. Starting from the physical
+model, introduce resamplings one at a time in forward order: the $j$th
+hybrid has the first $j$ resamplings and no later ones. Before the next
+replacement, the common prefix therefore has all preceding resamplings,
+so the stated posterior is its correct conditional law. Any fixed
+continuation rule, with no later resampling in either compared hybrid, has conditional
+remaining-cost span at most $S_j$. Changing this distribution changes its
+expected cost by at most $S_j/(2m)$. Summing gives a uniform objective
+difference at most $\varepsilon_m$ for every common history policy.
+This argument compares unconditional policy costs; it needs no uniform
+Lipschitz bound on Bayes' formula after a rare observation.
+
+The artificial model has the observable sufficient state $(x,\gamma)$,
+so its optimum over all history policies is $W_0(x_0,b_0)$. Comparing the
+true and artificial optima and their selected policy gives
+$J_{\sigma^m}-V^*\le2\varepsilon_m$. Adding the lower-relaxation defect
+proves the factor three. A finite-model optimization gap contributes
+$\tau_m$ once. Finally, the finite-horizon performance-difference recursion
+bounds that gap by $\sum_k\tilde e_k$; \eqref{eq:partialnumericalgap} encloses each
+selected-action excess.
+\end{proof}
+
+In the resampling comparison, the continuation uses the same observable
+memory update and action map in both models. A sampled hidden state is not
+revealed. The artificial model exists only for the comparison proof;
+\eqref{eq:truecontrollerevaluation} evaluates the physical model.
+
+\begin{corollary}[Finite-memory signature implementation and model transfer]
+\label{cor:partialsignature}
+Append an observable summary channel which starts at zero and at decision
+$k$ has value $e_{(x_k,\gamma_k)}$. Linear interpolation between its update
+nodes gives a finite-variation path whose first signature level equals this
+current one-hot vector. Give $a_k^m(x,\gamma)$ score $\log w$, $w\ge1$,
+and every other admissible action score zero, retaining the exact mask.
+This is a depth-one signature-softmax controller $\sigma^{m,w}$ on the
+specified augmented observation path. With $m_A=|A|$,
+\begin{equation}\label{eq:partialsignaturegap}
+ \mathcal G_m(\sigma^{m,w})
+ \le3\varepsilon_m+\tau_m+
+       KS_0\frac{m_A-1}{w+m_A-1}.
+\end{equation}
+Its usually sharper certificate is the directly computed
+$U_m(\sigma^{m,w})-\underline V_0^m$.
+If these quantities are computed in an approximate physical model and
+$|J_\pi-\widehat J_\pi|\le B_T$ uniformly over the common feasible policies,
+then the deployed policy satisfies
+\begin{equation}\label{eq:partialtransfer}
+ J_{\sigma^{m,w}}-\inf_{\pi\in\Pi}J_\pi
+ \le 2B_T+\widehat U_m(\sigma^{m,w})-
+                  \widehat{\underline V}_0^m(x_0,b_0).
+\end{equation}
+For the hypotheses of \cref{cor:bookcertificate}, one may take
+$B_T=D_{\rm cost}+S_0(1-e^{-dT})$ when $S_0$ also bounds the approximate
+loss range.
+\end{corollary}
+\begin{proof}
+The first signature level is the channel's endpoint minus its zero origin.
+Stage-specific linear coefficients therefore reproduce the table scores.
+With $m_k(z):=|A_k(z)|\le m_A$ feasible actions, where $z=(x,\gamma)$,
+the preferred-action probability is $w/(w+m_k(z)-1)$.
+The bound \eqref{eq:partialsignaturegap} uses the monotone worst case
+$m_k(z)=m_A$. \Cref{lem:policyperturb} bounds its cost difference from the
+deterministic table by the last term in that bound.
+Apply \cref{prop:partialmeshrate}. For transfer, insert the approximate
+objective on both sides of a policy comparison and use
+\cref{thm:computablepartial}; the two model discrepancies contribute $2B_T$.
+The filter and table remain fixed when this policy is evaluated in the true
+environment.
+\end{proof}
+
+The summary is computed from observations, actions and the supplied filter,
+not from the hidden regime. Its dimension is
+$|\mathcal X||G_m|\le|\mathcal X|(m+2)$, and
+the policy has $K|\mathcal X||G_m|$ preferred-action entries. With at most
+$B$ outcome branches, the recursions take
+$O(K|\mathcal X||G_m||A|B)$ arithmetic operations for a binary hidden state.
+The explicit accuracy parameter is the belief mesh and table size. This is
+not a dimension-free depth bound for the unaugmented transcript signature,
+nor does it make endogenous coefficient optimization convex. A higher-
+dimensional hidden-state simplex requires a mesh whose size can grow
+combinatorially. Unknown primitive-model error still requires evidence;
+the computed planning gap alone cannot certify an unvalidated market model.
