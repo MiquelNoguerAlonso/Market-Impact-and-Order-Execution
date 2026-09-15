@@ -1,31 +1,22 @@
-# The Mathematics of Market Impact and Order Execution
+# Market Microstructure Trilogy — Paper I
 
-**Miquel Noguer Alonso**  
-Artificial Intelligence Finance Institute (AIFI)
+**The Mathematics of Market Impact and Order Execution**  
+DOI: <https://doi.org/10.5281/zenodo.22736805>  
+Fixed manuscript date: **15 September 2026**
 
-A theoretical and computational treatment of impact kernels, feasible execution policies, venue allocation, hidden liquidity, and execution certificates.
+The main document is `main.tex`. Run `latexmk -pdf main.tex` to perform the
+required pdfLaTeX passes. All 11 PNG figures and every section and table
+dependency required to compile the deposited PDF are included.
 
-- DOI: [10.5281/zenodo.22736805](https://doi.org/10.5281/zenodo.22736805)
-- Overleaf: [editable project](https://www.overleaf.com/project/6aa88ac6155ad0f8efdcc21b)
-- Manuscript: [`paper.pdf`](paper.pdf)
-- LaTeX: [`paper.tex`](paper.tex)
+`Trilogy_Citations.bib` contains the definitive BibTeX records for all three
+papers. The trilogy uses a fixed star citation architecture: Papers II and III
+cite Paper I; Papers II and III do not cite one another.
 
-## Repository contents
+## Repository downloads
 
-This private repository is part 1 of the *Market Microstructure Trilogy*. It contains the reviewed manuscript, its LaTeX source, and the corresponding source and verification archive. The manuscript uses author-year citations and includes a table of contents.
+- [Final PDF](paper.pdf)
+- [Complete manuscript source](Market_Impact_and_Order_Execution_Source.zip)
+- [Editable Overleaf project](https://www.overleaf.com/project/6aa88ac6155ad0f8efdcc21b)
 
-## Build
-
-The manuscript was built with pdfLaTeX. For Papers II and III, run BibTeX between LaTeX passes.
-
-```bash
-latexmk -pdf paper.tex
-```
-
-## Verification status
-
-The released PDF was reproduced from the included source on 15 September 2026. The Overleaf build completed with zero errors and zero warnings. Numerical and symbolic checks are contained in the accompanying verification archive.
-
-## Scope
-
-The guarantees in the paper are conditional on the declared models, information sets, and uncertainty bounds. Synthetic calculations verify the stated identities and certificates; they do not claim live-market profitability.
+The repository entry point `paper.tex` is identical to `main.tex`.
+`source-and-reproducibility.zip` is an alias of the current manuscript source archive.
