@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the Zenodo record."
+title: "The Mathematics of Market Impact and Order Execution"
+type: article
+authors:
+  - family-names: "Noguer Alonso"
+    given-names: "Miquel"
+doi: "10.5281/zenodo.22736805"
+date-released: 2026-09-15
+url: "https://doi.org/10.5281/zenodo.22736805"
