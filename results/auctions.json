@@ -1,0 +1,60 @@
+{
+  "prices": [
+    100.0,
+    100.01,
+    100.02,
+    100.03
+  ],
+  "demand": [
+    1200,
+    1200,
+    800,
+    300
+  ],
+  "supply": [
+    200,
+    800,
+    1100,
+    1100
+  ],
+  "paired": [
+    200,
+    800,
+    800,
+    300
+  ],
+  "imbalance": [
+    1000,
+    400,
+    -300,
+    -800
+  ],
+  "nasdaq_selected_price": 100.02,
+  "nasdaq_matched_shares": 800,
+  "nyse_stipulated_price": 100.01,
+  "nyse_matched_without_dmm": 800,
+  "nyse_matched_with_200_dmm_sell_shares": 1000,
+  "at_price_capacities": [
+    600,
+    300,
+    300
+  ],
+  "parity_allocation": [
+    200,
+    200,
+    200
+  ],
+  "global_fifo_comparator": [
+    600,
+    0,
+    0
+  ],
+  "endpoint": {
+    "auction_shares": 625,
+    "continuous_shares": 375,
+    "objective": 16.375,
+    "continuous_only": 32.0,
+    "auction_only": 22.0
+  },
+  "scope": "Artificial unrestricted book; NYSE DMM response is stipulated, not inferred."
+}

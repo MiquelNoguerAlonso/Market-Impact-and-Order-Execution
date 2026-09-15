@@ -1,0 +1,27 @@
+{
+  "seed": 5257,
+  "paths": 16000,
+  "units": 20,
+  "shares_per_unit": 100,
+  "waiting_intervals": 12,
+  "immediate_linear": 1.0,
+  "immediate_quadratic": 0.08,
+  "inventory_weight": 0.008,
+  "fill_probabilities": [
+    [
+      0.15,
+      0.6
+    ],
+    [
+      0.05,
+      0.75
+    ]
+  ],
+  "passive_charges": [
+    -0.3,
+    0.05
+  ],
+  "prior": 0.5,
+  "belief_grid_points": 101,
+  "refined_grid_points": 201
+}

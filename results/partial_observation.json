@@ -1,0 +1,317 @@
+{
+  "scope": "Synthetic, finite-observation, action-dependent hidden-liquidity execution; no hidden regime is provided to the certified controller.",
+  "parameters": {
+    "horizon": 12,
+    "parent_units": 10,
+    "shares_per_unit": 100,
+    "initial_bad_probability": 0.5,
+    "signal_probability_one_given_good_bad": [
+      0.35,
+      0.65
+    ],
+    "probability_denominator": 100000000,
+    "actions": [
+      {
+        "name": "Wait",
+        "market": 0,
+        "passive": 0,
+        "to_bad": 5,
+        "to_good": 18,
+        "fill_good": 0,
+        "fill_bad": 0,
+        "fee": 0
+      },
+      {
+        "name": "Lit 1",
+        "market": 0,
+        "passive": 1,
+        "to_bad": 12,
+        "to_good": 12,
+        "fill_good": 80,
+        "fill_bad": 18,
+        "fee": 10
+      },
+      {
+        "name": "Lit 2",
+        "market": 0,
+        "passive": 2,
+        "to_bad": 28,
+        "to_good": 7,
+        "fill_good": 65,
+        "fill_bad": 8,
+        "fee": 10
+      },
+      {
+        "name": "Dark 1",
+        "market": 0,
+        "passive": 1,
+        "to_bad": 4,
+        "to_good": 15,
+        "fill_good": 70,
+        "fill_bad": 3,
+        "fee": 25
+      },
+      {
+        "name": "Market 1",
+        "market": 1,
+        "passive": 0,
+        "to_bad": 35,
+        "to_good": 6,
+        "fill_good": 0,
+        "fill_bad": 0,
+        "fee": 0
+      },
+      {
+        "name": "Market 2",
+        "market": 2,
+        "passive": 0,
+        "to_bad": 60,
+        "to_good": 3,
+        "fill_good": 0,
+        "fill_bad": 0,
+        "fee": 0
+      },
+      {
+        "name": "Split 1+1",
+        "market": 1,
+        "passive": 1,
+        "to_bad": 40,
+        "to_good": 5,
+        "fill_good": 72,
+        "fill_bad": 12,
+        "fee": 10
+      }
+    ]
+  },
+  "grid_results": [
+    {
+      "subintervals": 8,
+      "belief_nodes": 9,
+      "controller_states": 99,
+      "lower_bound": 16.470839293048947,
+      "policy_value_lo": 16.484905812259775,
+      "policy_value_hi": 16.484905812259893,
+      "certified_gap": 0.014066519210945929,
+      "evaluation_width": 1.1723955140041653e-13,
+      "optimization_tolerance": 1.0871303857129547e-12,
+      "uniform_mesh_gap_bound": 139.59000000000108
+    },
+    {
+      "subintervals": 16,
+      "belief_nodes": 17,
+      "controller_states": 187,
+      "lower_bound": 16.479852984702468,
+      "policy_value_lo": 16.48561620374196,
+      "policy_value_hi": 16.485616203742076,
+      "certified_gap": 0.0057632190396077485,
+      "evaluation_width": 1.1723955140041653e-13,
+      "optimization_tolerance": 1.0871303857129547e-12,
+      "uniform_mesh_gap_bound": 69.7950000000011
+    },
+    {
+      "subintervals": 32,
+      "belief_nodes": 33,
+      "controller_states": 363,
+      "lower_bound": 16.482822540724843,
+      "policy_value_lo": 16.48448247114376,
+      "policy_value_hi": 16.48448247114388,
+      "certified_gap": 0.0016599304190378918,
+      "evaluation_width": 1.2079226507921703e-13,
+      "optimization_tolerance": 1.0800249583553537e-12,
+      "uniform_mesh_gap_bound": 34.89750000000108
+    },
+    {
+      "subintervals": 64,
+      "belief_nodes": 65,
+      "controller_states": 715,
+      "lower_bound": 16.48405766570689,
+      "policy_value_lo": 16.485463955117858,
+      "policy_value_hi": 16.485463955117975,
+      "certified_gap": 0.0014062894110864479,
+      "evaluation_width": 1.1723955140041653e-13,
+      "optimization_tolerance": 1.1084466677857577e-12,
+      "uniform_mesh_gap_bound": 17.44875000000111
+    },
+    {
+      "subintervals": 128,
+      "belief_nodes": 129,
+      "controller_states": 1419,
+      "lower_bound": 16.484165866303933,
+      "policy_value_lo": 16.484398588495292,
+      "policy_value_hi": 16.484398588495413,
+      "certified_gap": 0.00023272219148040565,
+      "evaluation_width": 1.2079226507921703e-13,
+      "optimization_tolerance": 1.1048939541069572e-12,
+      "uniform_mesh_gap_bound": 8.724375000001105
+    },
+    {
+      "subintervals": 256,
+      "belief_nodes": 257,
+      "controller_states": 2827,
+      "lower_bound": 16.48417142293632,
+      "policy_value_lo": 16.484177952076838,
+      "policy_value_hi": 16.48417795207696,
+      "certified_gap": 6.529140637923093e-06,
+      "evaluation_width": 1.2079226507921703e-13,
+      "optimization_tolerance": 1.1119993814645582e-12,
+      "uniform_mesh_gap_bound": 4.362187500001112
+    },
+    {
+      "subintervals": 512,
+      "belief_nodes": 513,
+      "controller_states": 5643,
+      "lower_bound": 16.48417251581353,
+      "policy_value_lo": 16.484172956706484,
+      "policy_value_hi": 16.484172956706605,
+      "certified_gap": 4.40893074937776e-07,
+      "evaluation_width": 1.2079226507921703e-13,
+      "optimization_tolerance": 1.1084466677857577e-12,
+      "uniform_mesh_gap_bound": 2.1810937500011085
+    },
+    {
+      "subintervals": 1024,
+      "belief_nodes": 1025,
+      "controller_states": 11275,
+      "lower_bound": 16.48417271399559,
+      "policy_value_lo": 16.484172955266253,
+      "policy_value_hi": 16.48417295526637,
+      "certified_gap": 2.412707793553182e-07,
+      "evaluation_width": 1.1723955140041653e-13,
+      "optimization_tolerance": 1.1155520951433587e-12,
+      "uniform_mesh_gap_bound": 1.0905468750011156
+    }
+  ],
+  "policies": {
+    "Certified belief controller": [
+      16.484172955266253,
+      16.48417295526637
+    ],
+    "Frozen prior": [
+      17.602995432137174,
+      17.602995432137366
+    ],
+    "Most-likely regime": [
+      17.087775019779702,
+      17.08777501977986
+    ],
+    "Action-independent transition": [
+      17.89796384225956,
+      17.897963842259774
+    ]
+  },
+  "fully_observed_oracle": 16.17120901634631,
+  "softmax_results": [
+    {
+      "preferred_weight": 64,
+      "value_lo": 17.04386428856257,
+      "value_hi": 17.043864288562766,
+      "certified_gap": 0.5596915745671752
+    },
+    {
+      "preferred_weight": 1024,
+      "value_lo": 16.520626083913807,
+      "value_hi": 16.520626083913992,
+      "certified_gap": 0.03645336991840154
+    },
+    {
+      "preferred_weight": 16384,
+      "value_lo": 16.4864574711231,
+      "value_hi": 16.48645747112328,
+      "certified_gap": 0.0022847571276898297
+    },
+    {
+      "preferred_weight": 1048576,
+      "value_lo": 16.484208657211273,
+      "value_hi": 16.48420865721145,
+      "certified_gap": 3.594321585964622e-05
+    }
+  ],
+  "independent_exact_tree": {
+    "horizon": 3,
+    "parent": 2,
+    "rational_value": "232172138011/156250000000",
+    "value": 1.4859016832704,
+    "nodes": 3553,
+    "grid_lower": 1.4856300595274166,
+    "controller_upper": 1.4859016832704057
+  },
+  "rational_controller_checks": {
+    "deterministic_value": "232172138011/156250000000",
+    "softmax_value": "30046663830713209734516296477/19246587500000000000000000000",
+    "both_contained_in_outward_intervals": true
+  },
+  "integer_rounding_and_probability_enclosure_checks": 24600,
+  "forward_evaluation": {
+    "value": 16.484172955266317,
+    "maximum_mass_error": 2.220446049250313e-16,
+    "positive_mass_stage_memory_states": 9390,
+    "expected_action_counts": {
+      "Wait": 0.0,
+      "Lit 1": 4.27235253723254,
+      "Lit 2": 0.0,
+      "Dark 1": 0.05077033355228579,
+      "Market 1": 0.3128538434571239,
+      "Market 2": 2.8356954406328283,
+      "Split 1+1": 2.1895806292872657
+    }
+  },
+  "robustness": [
+    {
+      "horizon": 6,
+      "initial_bad": 0.25,
+      "value_hi": 17.820083779088513,
+      "certified_gap": 9.352518830496593e-07,
+      "frozen_excess_lower": 0.14683143855933165,
+      "blind_excess_lower": 1.0689298277116739
+    },
+    {
+      "horizon": 6,
+      "initial_bad": 0.5,
+      "value_hi": 17.83266637066455,
+      "certified_gap": 5.412132964011108e-09,
+      "frozen_excess_lower": 0.14892493255140946,
+      "blind_excess_lower": 0.8034666343770701
+    },
+    {
+      "horizon": 6,
+      "initial_bad": 0.75,
+      "value_hi": 17.845147471672952,
+      "certified_gap": 1.078681169275342e-06,
+      "frozen_excess_lower": 0.013909199008288907,
+      "blind_excess_lower": 0.6353340341581556
+    },
+    {
+      "horizon": 12,
+      "initial_bad": 0.25,
+      "value_hi": 16.452233705012905,
+      "certified_gap": 2.105720799505662e-06,
+      "frozen_excess_lower": 2.502594071906422,
+      "blind_excess_lower": 1.7006759330779564
+    },
+    {
+      "horizon": 12,
+      "initial_bad": 0.5,
+      "value_hi": 16.48417795207696,
+      "certified_gap": 6.529140637923093e-06,
+      "frozen_excess_lower": 1.1188174800602153,
+      "blind_excess_lower": 1.4293548268741885
+    },
+    {
+      "horizon": 12,
+      "initial_bad": 0.75,
+      "value_hi": 16.509602844383586,
+      "certified_gap": 1.1191766091656066e-06,
+      "frozen_excess_lower": 0.25686552184016515,
+      "blind_excess_lower": 1.505268785559714
+    }
+  ],
+  "signature_controller_checks": {
+    "score_mask_and_memory_cases": 240,
+    "hidden_regime_input": false,
+    "signature_depth": 1,
+    "summary_dimension": 11275,
+    "sampling": "Exact integer weights for the rational softmax law."
+  },
+  "numerical_method": "Integer likelihoods and Bayes quantization; elementary binary64 products, sums and divisions expanded with nextafter; all evaluated quantities are nonnegative.",
+  "timing_scope": "Wall time is printed to the build log and excluded from deterministic results."
+}

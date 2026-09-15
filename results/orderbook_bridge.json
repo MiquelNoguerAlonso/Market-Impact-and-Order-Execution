@@ -1,0 +1,1308 @@
+{
+  "description": "Synthetic tagged FIFO book; one-share parent with guaranteed terminal facility.",
+  "parameters": {
+    "true_sell_rate": 1.2,
+    "learned_sell_rate": 1.4,
+    "bid_arrival_rate": 0.4,
+    "ask_arrival_rate": 0.6,
+    "external_buy_rate": 0.5,
+    "cancellation_rate_per_external_bid": 0.15,
+    "bid_price": 100,
+    "ask_price": 101,
+    "terminal_price": 102,
+    "external_bid_capacity": 2,
+    "ask_capacity": 1,
+    "horizon": 1.0,
+    "decisions": 4,
+    "interval": 0.25,
+    "initial_bid_queue": [
+      "E",
+      "E"
+    ],
+    "initial_ask_depth": 1,
+    "action_tie_breaking": [
+      "post",
+      "cross",
+      "wait"
+    ],
+    "impact_cost_error": 0.0,
+    "total_loss_range_width": 2.0
+  },
+  "checks": {
+    "construction": {
+      "exhaustive_matching_cases": 3888,
+      "states": 19,
+      "raw_mark_types": 6,
+      "non_lumpability_counterexample": "passed",
+      "fifo_variable_size_check": "passed"
+    },
+    "uniformization": {
+      "clock_rate": 3.1999999999999997,
+      "primitive_tv": 0.062499999999999944,
+      "mismatch_rate": 0.19999999999999982,
+      "poisson_cutoff": 15,
+      "poisson_tail": 6.342497440494014e-16,
+      "uniformization_max_row_tv_error": 7.763700706625576e-16,
+      "endpoint_max_row_tv": 0.03613013096300455,
+      "endpoint_tv_bound": 0.04877057549928595,
+      "joint_mark_max_tv": 0.06249999999999996
+    },
+    "linear_response": {
+      "three_state_derivative": 0.7237371148864922,
+      "duhamel_remainders": [
+        {
+          "amplitude": 0.1,
+          "remainder": 0.0004969613155352132,
+          "bound": 0.020000000000000004,
+          "symmetric_derivative_error": 0.00043849494523051646
+        },
+        {
+          "amplitude": 0.05,
+          "remainder": 0.00011881529518058959,
+          "bound": 0.005000000000000001,
+          "symmetric_derivative_error": 0.00010964986505801466
+        },
+        {
+          "amplitude": 0.025,
+          "remainder": 2.9021981791301638e-05,
+          "bound": 0.0012500000000000002,
+          "symmetric_derivative_error": 2.7414099590172825e-05
+        }
+      ],
+      "piecewise_signed_input_remainders": [
+        {
+          "amplitude": 0.1,
+          "remainder": 0.00010470524206426221,
+          "bound": 0.011400500000000003
+        },
+        {
+          "amplitude": 0.05,
+          "remainder": 2.494457780808912e-05,
+          "bound": 0.0028501250000000007
+        }
+      ],
+      "two_state_exact_exponential_max_error": 4.996003610813204e-16
+    },
+    "policy_bounds": {
+      "state_stage_model_cases": 532,
+      "largest_fixed_policy_error": 0.5708292226816531,
+      "largest_regret": 0.07906620930438413,
+      "all_bounds_passed": true
+    }
+  },
+  "true_optimum": 1.0,
+  "true_initial_action": "cross",
+  "learned_policy": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0
+    ]
+  ],
+  "state_order": [
+    [
+      [],
+      0
+    ],
+    [
+      [],
+      1
+    ],
+    [
+      [
+        "E"
+      ],
+      0
+    ],
+    [
+      [
+        "E"
+      ],
+      1
+    ],
+    [
+      [
+        "E",
+        "E"
+      ],
+      0
+    ],
+    [
+      [
+        "E",
+        "E"
+      ],
+      1
+    ],
+    [
+      [
+        "O"
+      ],
+      0
+    ],
+    [
+      [
+        "O"
+      ],
+      1
+    ],
+    [
+      [
+        "O",
+        "E"
+      ],
+      0
+    ],
+    [
+      [
+        "O",
+        "E"
+      ],
+      1
+    ],
+    [
+      [
+        "E",
+        "O"
+      ],
+      0
+    ],
+    [
+      [
+        "E",
+        "O"
+      ],
+      1
+    ],
+    [
+      [
+        "O",
+        "E",
+        "E"
+      ],
+      0
+    ],
+    [
+      [
+        "O",
+        "E",
+        "E"
+      ],
+      1
+    ],
+    [
+      [
+        "E",
+        "O",
+        "E"
+      ],
+      0
+    ],
+    [
+      [
+        "E",
+        "O",
+        "E"
+      ],
+      1
+    ],
+    [
+      [
+        "E",
+        "E",
+        "O"
+      ],
+      0
+    ],
+    [
+      [
+        "E",
+        "E",
+        "O"
+      ],
+      1
+    ],
+    null
+  ],
+  "table": [
+    {
+      "estimate": 0.9999999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.7250769876880728,
+      "endpoint_tv": 0.037982562389687065,
+      "endpoint_bound": 0.048770575499286005
+    },
+    {
+      "estimate": 1.1999999999999997,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 8.881784197001251e-16,
+      "endpoint_tv": 1.3053794156725473e-16,
+      "endpoint_bound": 5.551115123125783e-17
+    },
+    {
+      "estimate": 1.4,
+      "model_value": 0.9980425949753224,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 0.7250769876880724,
+      "endpoint_tv": 0.03613013096300455,
+      "endpoint_bound": 0.04877057549928598
+    },
+    {
+      "estimate": 1.5999999999999999,
+      "model_value": 0.9667242958792712,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.3187198158574427,
+      "endpoint_tv": 0.07049817464607865,
+      "endpoint_bound": 0.09516258196404041
+    },
+    {
+      "estimate": 1.9999999999999996,
+      "model_value": 0.8885029124142841,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.13428756096908456,
+      "endpoint_bound": 0.18126924692201807
+    },
+    {
+      "estimate": 2.4,
+      "model_value": 0.7823903834016973,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.1920065845876916,
+      "endpoint_bound": 0.2591817793182821
+    }
+  ],
+  "curve": [
+    {
+      "estimate": 0.6,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.8047534556238942,
+      "endpoint_tv": 0.11988975574333996,
+      "endpoint_bound": 0.1392920235749422
+    },
+    {
+      "estimate": 0.62,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.7604065337383918,
+      "endpoint_tv": 0.11559695680189572,
+      "endpoint_bound": 0.1349777068892587
+    },
+    {
+      "estimate": 0.64,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.7151637446047403,
+      "endpoint_tv": 0.11132556828449361,
+      "endpoint_bound": 0.13064176460119417
+    },
+    {
+      "estimate": 0.6599999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.6690069905040414,
+      "endpoint_tv": 0.10707548340619802,
+      "endpoint_bound": 0.12628408831196558
+    },
+    {
+      "estimate": 0.6799999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.6219178081192227,
+      "endpoint_tv": 0.10284659591466591,
+      "endpoint_bound": 0.12190456907943868
+    },
+    {
+      "estimate": 0.7,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.5738773611494663,
+      "endpoint_tv": 0.09863880008748957,
+      "endpoint_bound": 0.1175030974154046
+    },
+    {
+      "estimate": 0.72,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.5248664327754367,
+      "endpoint_tv": 0.09445199072955425,
+      "endpoint_bound": 0.11307956328284248
+    },
+    {
+      "estimate": 0.74,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.474865417972296,
+      "endpoint_tv": 0.09028606317040785,
+      "endpoint_bound": 0.10863385609316863
+    },
+    {
+      "estimate": 0.76,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.4238543156674344,
+      "endpoint_tv": 0.08614091326164457,
+      "endpoint_bound": 0.10416586470347174
+    },
+    {
+      "estimate": 0.7799999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.371812720739773,
+      "endpoint_tv": 0.08201643737430064,
+      "endpoint_bound": 0.09967547741373439
+    },
+    {
+      "estimate": 0.7999999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.318719815857443,
+      "endpoint_tv": 0.07791253239626414,
+      "endpoint_bound": 0.09516258196404043
+    },
+    {
+      "estimate": 0.82,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.2645543631505767,
+      "endpoint_tv": 0.07382909572969679,
+      "endpoint_bound": 0.09062706553176858
+    },
+    {
+      "estimate": 0.84,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.2092946957158757,
+      "endpoint_tv": 0.0697660252884693,
+      "endpoint_bound": 0.08606881472877181
+    },
+    {
+      "estimate": 0.8599999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.1529187089495614,
+      "endpoint_tv": 0.06572321949560914,
+      "endpoint_bound": 0.08148771559854266
+    },
+    {
+      "estimate": 0.8799999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.0954038517052365,
+      "endpoint_tv": 0.061700577280760796,
+      "endpoint_bound": 0.07688365361336423
+    },
+    {
+      "estimate": 0.8999999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 1.0367271172731287,
+      "endpoint_tv": 0.057697998077659275,
+      "endpoint_bound": 0.07225651367144711
+    },
+    {
+      "estimate": 0.9199999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.9768650341770981,
+      "endpoint_tv": 0.05371538182161628,
+      "endpoint_bound": 0.06760618009405178
+    },
+    {
+      "estimate": 0.94,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.9157936567857349,
+      "endpoint_tv": 0.04975262894701773,
+      "endpoint_bound": 0.06293253662259657
+    },
+    {
+      "estimate": 0.96,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.8534885557337863,
+      "endpoint_tv": 0.04580964038483559,
+      "endpoint_bound": 0.05823546641575129
+    },
+    {
+      "estimate": 0.98,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.789924808150086,
+      "endpoint_tv": 0.04188631756015037,
+      "endpoint_bound": 0.053514852046516126
+    },
+    {
+      "estimate": 0.9999999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.7250769876880728,
+      "endpoint_tv": 0.037982562389687065,
+      "endpoint_bound": 0.048770575499286005
+    },
+    {
+      "estimate": 1.02,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.6589191543549117,
+      "endpoint_tv": 0.03409827727936318,
+      "endpoint_bound": 0.04400251816690008
+    },
+    {
+      "estimate": 1.04,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.5914248441351544,
+      "endpoint_tv": 0.03023336512184848,
+      "endpoint_bound": 0.039210560847676774
+    },
+    {
+      "estimate": 1.0599999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.5225670584047771,
+      "endpoint_tv": 0.026387729294137983,
+      "endpoint_bound": 0.03439458374243355
+    },
+    {
+      "estimate": 1.0799999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.4523182531313703,
+      "endpoint_tv": 0.02256127365513541,
+      "endpoint_bound": 0.02955446645149185
+    },
+    {
+      "estimate": 1.0999999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.38065032785616204,
+      "endpoint_tv": 0.01875390254325074,
+      "endpoint_bound": 0.024690087971667354
+    },
+    {
+      "estimate": 1.1199999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.30753461445345714,
+      "endpoint_tv": 0.014965520774007752,
+      "endpoint_bound": 0.019801326693244716
+    },
+    {
+      "estimate": 1.14,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.23294186566300537,
+      "endpoint_tv": 0.011196033637664877,
+      "endpoint_bound": 0.014888060396937351
+    },
+    {
+      "estimate": 1.16,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.1568422433907073,
+      "endpoint_tv": 0.0074453468968474785,
+      "endpoint_bound": 0.009950166250831956
+    },
+    {
+      "estimate": 1.18,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.07920530677297886,
+      "endpoint_tv": 0.0037133667841915668,
+      "endpoint_bound": 0.0049875208073176915
+    },
+    {
+      "estimate": 1.1999999999999997,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 8.881784197001251e-16,
+      "endpoint_tv": 1.3053794156725473e-16,
+      "endpoint_bound": 5.551115123125783e-17
+    },
+    {
+      "estimate": 1.2199999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.07920530677297799,
+      "endpoint_tv": 0.0036948462900902443,
+      "endpoint_bound": 0.004987520807317636
+    },
+    {
+      "estimate": 1.2399999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.15684224339070643,
+      "endpoint_tv": 0.007371264457428592,
+      "endpoint_bound": 0.0099501662508319
+    },
+    {
+      "estimate": 1.2599999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.23294186566300454,
+      "endpoint_tv": 0.011029346412661106,
+      "endpoint_bound": 0.014888060396937297
+    },
+    {
+      "estimate": 1.2799999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.3075346144534563,
+      "endpoint_tv": 0.01466918360802701,
+      "endpoint_bound": 0.01980132669324466
+    },
+    {
+      "estimate": 1.2999999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.3806503278561612,
+      "endpoint_tv": 0.018290867039645786,
+      "endpoint_bound": 0.024690087971667298
+    },
+    {
+      "estimate": 1.3199999999999998,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.45231825313136953,
+      "endpoint_tv": 0.02189448724979179,
+      "endpoint_bound": 0.029554466451491797
+    },
+    {
+      "estimate": 1.3399999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.5225670584047764,
+      "endpoint_tv": 0.025480134329157984,
+      "endpoint_bound": 0.034394583742433496
+    },
+    {
+      "estimate": 1.3599999999999999,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.5914248441351544,
+      "endpoint_tv": 0.029047897919108216,
+      "endpoint_bound": 0.039210560847676774
+    },
+    {
+      "estimate": 1.38,
+      "model_value": 1.0,
+      "true_value": 1.0,
+      "initial_action": "cross",
+      "regret": 0.0,
+      "regret_bound": 0.6589191543549117,
+      "endpoint_tv": 0.03259786721391803,
+      "endpoint_bound": 0.04400251816690008
+    },
+    {
+      "estimate": 1.4,
+      "model_value": 0.9980425949753224,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 0.7250769876880724,
+      "endpoint_tv": 0.03613013096300455,
+      "endpoint_bound": 0.04877057549928598
+    },
+    {
+      "estimate": 1.42,
+      "model_value": 0.9950540329931535,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 0.789924808150086,
+      "endpoint_tv": 0.03964477747314561,
+      "endpoint_bound": 0.053514852046516126
+    },
+    {
+      "estimate": 1.44,
+      "model_value": 0.9920316023790623,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 0.8534885557337863,
+      "endpoint_tv": 0.043141894610686904,
+      "endpoint_bound": 0.05823546641575129
+    },
+    {
+      "estimate": 1.46,
+      "model_value": 0.9889760682020639,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 0.9157936567857349,
+      "endpoint_tv": 0.04662156980373919,
+      "endpoint_bound": 0.06293253662259657
+    },
+    {
+      "estimate": 1.48,
+      "model_value": 0.9858881941237325,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 0.9768650341770981,
+      "endpoint_tv": 0.050083890044363366,
+      "endpoint_bound": 0.06760618009405178
+    },
+    {
+      "estimate": 1.5,
+      "model_value": 0.9827687419706497,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.0367271172731287,
+      "endpoint_tv": 0.05352894189074582,
+      "endpoint_bound": 0.07225651367144711
+    },
+    {
+      "estimate": 1.5199999999999998,
+      "model_value": 0.9796184713271767,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.0954038517052358,
+      "endpoint_tv": 0.05695681146936211,
+      "endpoint_bound": 0.07688365361336418
+    },
+    {
+      "estimate": 1.5399999999999998,
+      "model_value": 0.9764381391478567,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.1529187089495607,
+      "endpoint_tv": 0.06036758447713034,
+      "endpoint_bound": 0.0814877155985426
+    },
+    {
+      "estimate": 1.5599999999999998,
+      "model_value": 0.9732284993887843,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.2092946957158754,
+      "endpoint_tv": 0.06376134618355321,
+      "endpoint_bound": 0.08606881472877179
+    },
+    {
+      "estimate": 1.5799999999999998,
+      "model_value": 0.9699903026572829,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.2645543631505762,
+      "endpoint_tv": 0.0671381814328504,
+      "endpoint_bound": 0.09062706553176855
+    },
+    {
+      "estimate": 1.5999999999999999,
+      "model_value": 0.9667242958792712,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.3187198158574427,
+      "endpoint_tv": 0.07049817464607865,
+      "endpoint_bound": 0.09516258196404041
+    },
+    {
+      "estimate": 1.6199999999999997,
+      "model_value": 0.9634312219836954,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.3718127207397721,
+      "endpoint_tv": 0.07384140982324344,
+      "endpoint_bound": 0.09967547741373432
+    },
+    {
+      "estimate": 1.6399999999999997,
+      "model_value": 0.9601118196034415,
+      "true_value": 1.0258970846329492,
+      "initial_action": "post",
+      "regret": 0.025897084632949152,
+      "regret_bound": 1.423854315667434,
+      "endpoint_tv": 0.07716797054539856,
+      "endpoint_bound": 0.1041658647034717
+    },
+    {
+      "estimate": 1.6599999999999997,
+      "model_value": 0.9566495897682956,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.4748654179722953,
+      "endpoint_tv": 0.08047793997673508,
+      "endpoint_bound": 0.10863385609316857
+    },
+    {
+      "estimate": 1.6799999999999997,
+      "model_value": 0.9529513790367257,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.524866432775436,
+      "endpoint_tv": 0.08377140086666113,
+      "endpoint_bound": 0.11307956328284244
+    },
+    {
+      "estimate": 1.6999999999999997,
+      "model_value": 0.949227540567307,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.5738773611494659,
+      "endpoint_tv": 0.08704843555187075,
+      "endpoint_bound": 0.11750309741540454
+    },
+    {
+      "estimate": 1.7199999999999998,
+      "model_value": 0.94547892561318,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.621917808119222,
+      "endpoint_tv": 0.09030912595840139,
+      "endpoint_bound": 0.12190456907943863
+    },
+    {
+      "estimate": 1.7399999999999998,
+      "model_value": 0.9417063776519438,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.669006990504041,
+      "endpoint_tv": 0.09355355360368325,
+      "endpoint_bound": 0.12628408831196553
+    },
+    {
+      "estimate": 1.7599999999999998,
+      "model_value": 0.9379107321671747,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.71516374460474,
+      "endpoint_tv": 0.09678179959857655,
+      "endpoint_bound": 0.13064176460119414
+    },
+    {
+      "estimate": 1.7799999999999998,
+      "model_value": 0.9340928164444837,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.7604065337383916,
+      "endpoint_tv": 0.09999394464939915,
+      "endpoint_bound": 0.13497770688925867
+    },
+    {
+      "estimate": 1.7999999999999998,
+      "model_value": 0.9302534493815637,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.804753455623894,
+      "endpoint_tv": 0.10319006905994463,
+      "endpoint_bound": 0.13929202357494216
+    },
+    {
+      "estimate": 1.8199999999999998,
+      "model_value": 0.9263934413117134,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.8482222496213017,
+      "endpoint_tv": 0.10637025273348982,
+      "endpoint_bound": 0.14358482251638643
+    },
+    {
+      "estimate": 1.8399999999999999,
+      "model_value": 0.9225135938403239,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.8908303038278056,
+      "endpoint_tv": 0.10953457517479195,
+      "endpoint_bound": 0.14785621103378865
+    },
+    {
+      "estimate": 1.8599999999999999,
+      "model_value": 0.918614699693844,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.9325946620332028,
+      "endpoint_tv": 0.11268311549207717,
+      "endpoint_bound": 0.15210629591208416
+    },
+    {
+      "estimate": 1.88,
+      "model_value": 0.9146975425807451,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 1.9735320305376414,
+      "endpoint_tv": 0.1158159523990172,
+      "endpoint_bound": 0.1563351834036163
+    },
+    {
+      "estimate": 1.9,
+      "model_value": 0.9107628970640234,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.11893316421669786,
+      "endpoint_bound": 0.16054297923079264
+    },
+    {
+      "estimate": 1.92,
+      "model_value": 0.9068115284448045,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.12203482887557707,
+      "endpoint_bound": 0.16472978858872797
+    },
+    {
+      "estimate": 1.94,
+      "model_value": 0.9028441926565989,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.12512102391743285,
+      "endpoint_bound": 0.16889571614787435
+    },
+    {
+      "estimate": 1.96,
+      "model_value": 0.8988616361698122,
+      "true_value": 1.0325851156215897,
+      "initial_action": "post",
+      "regret": 0.03258511562158972,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.12819182649730196,
+      "endpoint_bound": 0.17304086605663768
+    },
+    {
+      "estimate": 1.98,
+      "model_value": 0.8937567945909041,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.13124731338540868,
+      "endpoint_bound": 0.17716534194398162
+    },
+    {
+      "estimate": 1.9999999999999996,
+      "model_value": 0.8885029124142841,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.13428756096908456,
+      "endpoint_bound": 0.18126924692201807
+    },
+    {
+      "estimate": 2.0199999999999996,
+      "model_value": 0.8832385990140391,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.13731264525467735,
+      "endpoint_bound": 0.18535268358858537
+    },
+    {
+      "estimate": 2.0399999999999996,
+      "model_value": 0.8779647885045941,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.14032264186945193,
+      "endpoint_bound": 0.18941575402981284
+    },
+    {
+      "estimate": 2.0599999999999996,
+      "model_value": 0.8726824005243918,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.1433176260634804,
+      "endpoint_bound": 0.19345855982267307
+    },
+    {
+      "estimate": 2.0799999999999996,
+      "model_value": 0.8673923402083309,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.1462976727115236,
+      "endpoint_bound": 0.19748120203752145
+    },
+    {
+      "estimate": 2.0999999999999996,
+      "model_value": 0.8620954981702924,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.1492628563149028,
+      "endpoint_bound": 0.20148378124062288
+    },
+    {
+      "estimate": 2.1199999999999997,
+      "model_value": 0.8567927504953157,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.15221325100336275,
+      "endpoint_bound": 0.20546639749666593
+    },
+    {
+      "estimate": 2.1399999999999997,
+      "model_value": 0.851484958740995,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.15514893053692413,
+      "endpoint_bound": 0.2094291503712644
+    },
+    {
+      "estimate": 2.1599999999999997,
+      "model_value": 0.8461729699476787,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.1580699683077283,
+      "endpoint_bound": 0.21337213893344653
+    },
+    {
+      "estimate": 2.1799999999999997,
+      "model_value": 0.8408576166570781,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.1609764373418715,
+      "endpoint_bound": 0.21729546175813177
+    },
+    {
+      "estimate": 2.1999999999999997,
+      "model_value": 0.8355397169388944,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.16386841030123123,
+      "endpoint_bound": 0.2211992169285951
+    },
+    {
+      "estimate": 2.2199999999999998,
+      "model_value": 0.8302200744250853,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.16674595948528187,
+      "endpoint_bound": 0.22508350203891903
+    },
+    {
+      "estimate": 2.2399999999999998,
+      "model_value": 0.8248994783514214,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.169609156832903,
+      "endpoint_bound": 0.2289484141964337
+    },
+    {
+      "estimate": 2.26,
+      "model_value": 0.8195787036059721,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.17245807392417745,
+      "endpoint_bound": 0.23279405002414427
+    },
+    {
+      "estimate": 2.28,
+      "model_value": 0.8142585107841881,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.17529278198218085,
+      "endpoint_bound": 0.2366205056631468
+    },
+    {
+      "estimate": 2.3,
+      "model_value": 0.8089396462502577,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.17811335187476224,
+      "endpoint_bound": 0.2404278767750315
+    },
+    {
+      "estimate": 2.32,
+      "model_value": 0.8036228422044124,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.18091985411631595,
+      "endpoint_bound": 0.2442162585442745
+    },
+    {
+      "estimate": 2.34,
+      "model_value": 0.798308816755891,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.183712358869544,
+      "endpoint_bound": 0.24798574568061735
+    },
+    {
+      "estimate": 2.36,
+      "model_value": 0.7929982740012578,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.18649093594721095,
+      "endpoint_bound": 0.2517364324214348
+    },
+    {
+      "estimate": 2.38,
+      "model_value": 0.7876919041077943,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.18925565481388829,
+      "endpoint_bound": 0.25546841253409064
+    },
+    {
+      "estimate": 2.4,
+      "model_value": 0.7823903834016973,
+      "true_value": 1.0790662093043841,
+      "initial_action": "post",
+      "regret": 0.07906620930438413,
+      "regret_bound": 2.0,
+      "endpoint_tv": 0.1920065845876916,
+      "endpoint_bound": 0.2591817793182821
+    }
+  ],
+  "independent_event_simulation": {
+    "learned_environment": {
+      "paths": 40000,
+      "seed": 4304211,
+      "mean": 0.994425,
+      "standard_error": 0.0021177724401780537,
+      "passive_aggressive_terminal_counts": [
+        3700,
+        32823,
+        3477
+      ],
+      "exact_value": 0.9980425949753224,
+      "standardized_difference": -1.7082075990271566
+    },
+    "true_environment": {
+      "paths": 40000,
+      "seed": 4304212,
+      "mean": 1.025125,
+      "standard_error": 0.0019767248279416983,
+      "passive_aggressive_terminal_counts": [
+        2636,
+        33723,
+        3641
+      ],
+      "exact_value": 1.0258970846329492,
+      "standardized_difference": -0.3905878157826529
+    }
+  }
+}

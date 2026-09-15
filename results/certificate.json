@@ -1,0 +1,287 @@
+{
+  "parameters": {
+    "T": 1,
+    "X": 1,
+    "rate_cap": 2,
+    "temporary_eta": 0.15,
+    "linear_charge": "a(t,U)=-0.3*(t-U)_+",
+    "support": [
+      0.0,
+      0.2,
+      0.4,
+      0.6000000000000001,
+      0.8,
+      1.0
+    ],
+    "probabilities": [
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666,
+      0.16666666666666666
+    ],
+    "feature_bounds": [
+      1.0,
+      0.5,
+      0.5
+    ],
+    "coefficient_radius_bound": 2.0,
+    "seed": 525717,
+    "iid_confidence_level": 0.95,
+    "distinct_coefficient_entries": 9
+  },
+  "true_optimum_coefficients": [
+    0.143166928945052,
+    -1.1272093486416634,
+    -0.5864567934682327
+  ],
+  "true_optimum_objective": 0.45588230237939564,
+  "true_optimum_duality_gap": 3.899986204206757e-11,
+  "scenarios": [
+    {
+      "rho": 0.9,
+      "sample_size": 100,
+      "sample_counts": [
+        25,
+        17,
+        13,
+        21,
+        12,
+        12
+      ],
+      "coefficients": [
+        0.12696753045774492,
+        -1.104512381661246,
+        -0.6218382891135542
+      ],
+      "true_objective": 0.4559010202650744,
+      "regret_against_true_qp": 1.8717885678753987e-05,
+      "kernel_cost_bound": 0.019345109284578388,
+      "matrix_error_op": 0.0018247744096869041,
+      "linear_error_l2": 0.004001252485741359,
+      "optimization_gap": 1.8235737191690385e-09,
+      "regret_certificate": 0.06929342561319117,
+      "iid_95_matrix_bound": 0.27198794282743355,
+      "iid_95_linear_bound": 0.5702198341170687,
+      "iid_95_regret_bound": 4.495473099480473
+    },
+    {
+      "rho": 0.9,
+      "sample_size": 1000,
+      "sample_counts": [
+        164,
+        153,
+        177,
+        149,
+        167,
+        190
+      ],
+      "coefficients": [
+        0.13780846214256276,
+        -1.0863587414981803,
+        -0.6380243342166941
+      ],
+      "true_objective": 0.4558860640696154,
+      "regret_against_true_qp": 3.761690219761249e-06,
+      "kernel_cost_bound": 0.019345109284578388,
+      "matrix_error_op": 0.00016303512853599499,
+      "linear_error_l2": 0.0007634373543387372,
+      "optimization_gap": 2.030282480618194e-08,
+      "regret_certificate": 0.04304826931762449,
+      "iid_95_matrix_bound": 0.08601013954383475,
+      "iid_95_linear_bound": 0.18031934428133253,
+      "iid_95_regret_bound": 1.4480487323479898
+    },
+    {
+      "rho": 0.9,
+      "sample_size": 10000,
+      "sample_counts": [
+        1657,
+        1660,
+        1674,
+        1696,
+        1662,
+        1651
+      ],
+      "coefficients": [
+        0.1366231496525815,
+        -1.099386314952512,
+        -0.6273673857423251
+      ],
+      "true_objective": 0.4558846181038547,
+      "regret_against_true_qp": 2.315724459078794e-06,
+      "kernel_cost_bound": 0.019345109284578388,
+      "matrix_error_op": 2.4301157410680055e-05,
+      "linear_error_l2": 1.95671450722254e-05,
+      "optimization_gap": 8.57603918436034e-17,
+      "regret_certificate": 0.0389628964087312,
+      "iid_95_matrix_bound": 0.027198794282743355,
+      "iid_95_linear_bound": 0.05702198341170687,
+      "iid_95_regret_bound": 0.48436850647793117
+    },
+    {
+      "rho": 1.0,
+      "sample_size": 100,
+      "sample_counts": [
+        19,
+        11,
+        17,
+        15,
+        18,
+        20
+      ],
+      "coefficients": [
+        0.14812842057089215,
+        -1.1043708520689124,
+        -0.5993723067893032
+      ],
+      "true_objective": 0.45589018305628276,
+      "regret_against_true_qp": 7.880676887117577e-06,
+      "kernel_cost_bound": 0.0,
+      "matrix_error_op": 6.582435269659688e-05,
+      "linear_error_l2": 0.001555224475534616,
+      "optimization_gap": 3.827063843782341e-10,
+      "regret_certificate": 0.006747493106417623,
+      "iid_95_matrix_bound": 0.26653171536842896,
+      "iid_95_linear_bound": 0.5613098519869862,
+      "iid_95_regret_bound": 4.377493131278083
+    },
+    {
+      "rho": 1.0,
+      "sample_size": 1000,
+      "sample_counts": [
+        178,
+        139,
+        158,
+        180,
+        168,
+        177
+      ],
+      "coefficients": [
+        0.14635003655229237,
+        -1.1223002002853644,
+        -0.5849997266100511
+      ],
+      "true_objective": 0.45588383732255816,
+      "regret_against_true_qp": 1.5349431625177878e-06,
+      "kernel_cost_bound": 0.0,
+      "matrix_error_op": 3.76758041552e-05,
+      "linear_error_l2": 0.0007406294916165768,
+      "optimization_gap": 2.7550661405029153e-15,
+      "regret_certificate": 0.0032639243997106622,
+      "iid_95_matrix_bound": 0.084284728923594,
+      "iid_95_linear_bound": 0.1775017605370866,
+      "iid_95_regret_bound": 1.384284873537101
+    },
+    {
+      "rho": 1.0,
+      "sample_size": 10000,
+      "sample_counts": [
+        1688,
+        1644,
+        1676,
+        1689,
+        1679,
+        1624
+      ],
+      "coefficients": [
+        0.14325476103117027,
+        -1.1295374593467082,
+        -0.5839530185909512
+      ],
+      "true_objective": 0.4558823207299477,
+      "regret_against_true_qp": 1.835055207788372e-08,
+      "kernel_cost_bound": 0.0,
+      "matrix_error_op": 3.1998303022853806e-05,
+      "linear_error_l2": 8.806953032878008e-05,
+      "optimization_gap": 6.943109364461637e-09,
+      "regret_certificate": 0.0006082714886073152,
+      "iid_95_matrix_bound": 0.026653171536842896,
+      "iid_95_linear_bound": 0.05613098519869862,
+      "iid_95_regret_bound": 0.43774932003264705
+    },
+    {
+      "rho": 1.1,
+      "sample_size": 100,
+      "sample_counts": [
+        15,
+        20,
+        17,
+        20,
+        20,
+        8
+      ],
+      "coefficients": [
+        0.14830864018113632,
+        -1.2041093521758464,
+        -0.49927336746188106
+      ],
+      "true_objective": 0.45589916039162726,
+      "regret_against_true_qp": 1.6858012231613095e-05,
+      "kernel_cost_bound": 0.017524694974069638,
+      "matrix_error_op": 6.804915155305798e-05,
+      "linear_error_l2": 0.001616360728958426,
+      "optimization_gap": 3.3279714899657475e-10,
+      "regret_certificate": 0.04205922640919459,
+      "iid_95_matrix_bound": 0.26131577037849635,
+      "iid_95_linear_bound": 0.5527922494858121,
+      "iid_95_regret_bound": 4.336744551252155
+    },
+    {
+      "rho": 1.1,
+      "sample_size": 1000,
+      "sample_counts": [
+        151,
+        159,
+        187,
+        166,
+        172,
+        165
+      ],
+      "coefficients": [
+        0.15175028820568048,
+        -1.1664898227830895,
+        -0.5300096008055499
+      ],
+      "true_objective": 0.45588651712447253,
+      "regret_against_true_qp": 4.214745076891457e-06,
+      "kernel_cost_bound": 0.017524694974069638,
+      "matrix_error_op": 0.00038064742930652947,
+      "linear_error_l2": 0.0005369228998784602,
+      "optimization_gap": 3.3711107668386864e-10,
+      "regret_certificate": 0.040242261319216426,
+      "iid_95_matrix_bound": 0.08263530229176089,
+      "iid_95_linear_bound": 0.17480825812632086,
+      "iid_95_regret_bound": 1.3953648411246207
+    },
+    {
+      "rho": 1.1,
+      "sample_size": 10000,
+      "sample_counts": [
+        1647,
+        1657,
+        1713,
+        1649,
+        1703,
+        1631
+      ],
+      "coefficients": [
+        0.1492556146304049,
+        -1.1554809577058816,
+        -0.5460078130333087
+      ],
+      "true_objective": 0.45588445133048117,
+      "regret_against_true_qp": 2.148951085523265e-06,
+      "kernel_cost_bound": 0.017524694974069638,
+      "matrix_error_op": 4.287342326683253e-05,
+      "linear_error_l2": 3.0512010200564398e-05,
+      "optimization_gap": 7.300648188963456e-09,
+      "regret_certificate": 0.035514432675724385,
+      "iid_95_matrix_bound": 0.026131577037849633,
+      "iid_95_linear_bound": 0.05527922494858121,
+      "iid_95_regret_bound": 0.46521891334590937
+    }
+  ],
+  "scope": "Known finite synthetic law; measured deterministic errors, not market confidence intervals."
+}

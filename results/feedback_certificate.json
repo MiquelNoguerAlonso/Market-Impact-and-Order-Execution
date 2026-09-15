@@ -1,0 +1,204 @@
+{
+  "encoding": {
+    "transcripts_reconstructed": 31,
+    "initial_signal_distinguished_at_depth_one": true,
+    "same_timestamp_order_distinguished_at_depth_two": true,
+    "omitted_initial_bit_infimum": 0.5,
+    "observed_initial_bit_infimum": 0.0
+  },
+  "scores": {
+    "finite_score_floor_and_mask_cases": 1260,
+    "inadmissible_probabilities_exactly_zero": true,
+    "no_logarithm_of_inadmissible_zero_probabilities": true
+  },
+  "feedback": {
+    "rows": [
+      {
+        "fitted_sell_rate": 1.2,
+        "signature_depth": 1,
+        "logit_size": 0.0,
+        "model_optimal_value": 1.0,
+        "model_policy_value": 1.2233518416603002,
+        "model_global_gap_at_initial_state": 0.2233518416603002,
+        "tau_bound": 2,
+        "true_policy_value": 1.2233518416603002,
+        "true_regret": 0.2233518416603002,
+        "combined_regret_bound": 2
+      },
+      {
+        "fitted_sell_rate": 1.2,
+        "signature_depth": 1,
+        "logit_size": 1.0,
+        "model_optimal_value": 1.0,
+        "model_policy_value": 1.0679754009643827,
+        "model_global_gap_at_initial_state": 0.0679754009643827,
+        "tau_bound": 2,
+        "true_policy_value": 1.0679754009643827,
+        "true_regret": 0.0679754009643827,
+        "combined_regret_bound": 2
+      },
+      {
+        "fitted_sell_rate": 1.2,
+        "signature_depth": 1,
+        "logit_size": 2.0,
+        "model_optimal_value": 1.0,
+        "model_policy_value": 1.0160953217676687,
+        "model_global_gap_at_initial_state": 0.016095321767668702,
+        "tau_bound": 1.704111662707212,
+        "true_policy_value": 1.0160953217676687,
+        "true_regret": 0.016095321767668702,
+        "combined_regret_bound": 1.704111662707212
+      },
+      {
+        "fitted_sell_rate": 1.2,
+        "signature_depth": 1,
+        "logit_size": 4.0,
+        "model_optimal_value": 1.0,
+        "model_policy_value": 1.0012202027458517,
+        "model_global_gap_at_initial_state": 0.0012202027458516618,
+        "tau_bound": 0.2826947522247688,
+        "true_policy_value": 1.0012202027458517,
+        "true_regret": 0.0012202027458516618,
+        "combined_regret_bound": 0.2826947522247688
+      },
+      {
+        "fitted_sell_rate": 1.2,
+        "signature_depth": 1,
+        "logit_size": 8.0,
+        "model_optimal_value": 1.0,
+        "model_policy_value": 1.0000191188444747,
+        "model_global_gap_at_initial_state": 1.9118844474697028e-05,
+        "tau_bound": 0.005363803335315355,
+        "true_policy_value": 1.0000191188444747,
+        "true_regret": 1.9118844474697028e-05,
+        "combined_regret_bound": 0.005363803335315355
+      },
+      {
+        "fitted_sell_rate": 1.2,
+        "signature_depth": 1,
+        "logit_size": 12.0,
+        "model_optimal_value": 1.0,
+        "model_policy_value": 1.0000003490539795,
+        "model_global_gap_at_initial_state": 3.490539794981373e-07,
+        "tau_bound": 9.830618962504195e-05,
+        "true_policy_value": 1.0000003490539795,
+        "true_regret": 3.490539794981373e-07,
+        "combined_regret_bound": 9.830618962504195e-05
+      },
+      {
+        "fitted_sell_rate": 1.2,
+        "signature_depth": 1,
+        "logit_size": 20.0,
+        "model_optimal_value": 1.0,
+        "model_policy_value": 1.0000000001170875,
+        "model_global_gap_at_initial_state": 1.1708745084604288e-10,
+        "tau_bound": 3.297845782306959e-08,
+        "true_policy_value": 1.0000000001170875,
+        "true_regret": 1.1708745084604288e-10,
+        "combined_regret_bound": 3.297845782306959e-08
+      },
+      {
+        "fitted_sell_rate": 1.4,
+        "signature_depth": 1,
+        "logit_size": 0.0,
+        "model_optimal_value": 0.9980425949753224,
+        "model_policy_value": 1.2062563017051282,
+        "model_global_gap_at_initial_state": 0.20821370672980577,
+        "tau_bound": 2,
+        "true_policy_value": 1.2233518416603002,
+        "true_regret": 0.2233518416603002,
+        "combined_regret_bound": 2
+      },
+      {
+        "fitted_sell_rate": 1.4,
+        "signature_depth": 1,
+        "logit_size": 1.0,
+        "model_optimal_value": 0.9980425949753224,
+        "model_policy_value": 1.1072483441677794,
+        "model_global_gap_at_initial_state": 0.10920574919245696,
+        "tau_bound": 2,
+        "true_policy_value": 1.1254742942262574,
+        "true_regret": 0.12547429422625744,
+        "combined_regret_bound": 2
+      },
+      {
+        "fitted_sell_rate": 1.4,
+        "signature_depth": 1,
+        "logit_size": 2.0,
+        "model_optimal_value": 0.9980425949753224,
+        "model_policy_value": 1.0439414788542623,
+        "model_global_gap_at_initial_state": 0.04589888387893981,
+        "tau_bound": 1.704111662707212,
+        "true_policy_value": 1.0658865659570096,
+        "true_regret": 0.06588656595700959,
+        "combined_regret_bound": 2
+      },
+      {
+        "fitted_sell_rate": 1.4,
+        "signature_depth": 1,
+        "logit_size": 4.0,
+        "model_optimal_value": 0.9980425949753224,
+        "model_policy_value": 1.0047991086147723,
+        "model_global_gap_at_initial_state": 0.006756513639449846,
+        "tau_bound": 0.2826947522247688,
+        "true_policy_value": 1.0315686256195478,
+        "true_regret": 0.03156862561954776,
+        "combined_regret_bound": 1.0077717399128412
+      },
+      {
+        "fitted_sell_rate": 1.4,
+        "signature_depth": 1,
+        "logit_size": 8.0,
+        "model_optimal_value": 0.9980425949753224,
+        "model_policy_value": 0.9981687769305292,
+        "model_global_gap_at_initial_state": 0.00012618195520675002,
+        "tau_bound": 0.005363803335315355,
+        "true_policy_value": 1.026002421020506,
+        "true_regret": 0.026002421020506095,
+        "combined_regret_bound": 0.7304407910233878
+      },
+      {
+        "fitted_sell_rate": 1.4,
+        "signature_depth": 1,
+        "logit_size": 12.0,
+        "model_optimal_value": 0.9980425949753224,
+        "model_policy_value": 0.998044906976949,
+        "model_global_gap_at_initial_state": 2.312001626592064e-06,
+        "tau_bound": 9.830618962504195e-05,
+        "true_policy_value": 1.0258990145014097,
+        "true_regret": 0.025899014501409745,
+        "combined_regret_bound": 0.7251752938776974
+      },
+      {
+        "fitted_sell_rate": 1.4,
+        "signature_depth": 1,
+        "logit_size": 20.0,
+        "model_optimal_value": 0.9980425949753224,
+        "model_policy_value": 0.9980425957509178,
+        "model_global_gap_at_initial_state": 7.755953657095915e-10,
+        "tau_bound": 3.297845782306959e-08,
+        "true_policy_value": 1.0258970852803515,
+        "true_regret": 0.025897085280351506,
+        "combined_regret_bound": 0.7250770206665302
+      }
+    ],
+    "stage_state_optimality_comparisons": 1064,
+    "hybrid_stage_state_comparisons": 1064,
+    "scope": "Fully observed 19-state book; a Bellman oracle constructs depth-one logits. No generic depth rate or local-optimization guarantee is inferred."
+  },
+  "reference": {
+    "frozen_mode_gamma": 0.0,
+    "report_probabilities_after_actions_zero_one": [
+      0.6321205588285577,
+      0.8646647167633873
+    ],
+    "changed_reset_intervention_kappa": 1.0,
+    "autonomous_reference_controlled_policy_comparisons": 256,
+    "maximum_endpoint_defect_to_path_bound_ratio": 0.4965853037914099,
+    "one_decision_softmax_second_derivatives_at_minus_two_plus_two": [
+      0.07996250105615305,
+      -0.07996250105615312
+    ]
+  },
+  "status": "All feedback, encoding, mask, hybrid and reference-model checks passed."
+}
