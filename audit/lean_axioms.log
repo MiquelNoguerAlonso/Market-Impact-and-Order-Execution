@@ -1,0 +1,6 @@
+'MarketImpact.loop_cost_eq_area_pairing' depends on axioms: [propext, Classical.choice, Quot.sound]
+'MarketImpact.loop_cost_one_asset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'MarketImpact.RayData.ray_sign_conditions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'MarketImpact.value_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+'MarketImpact.zero_cost_isGLB' depends on axioms: [propext, Classical.choice, Quot.sound]
+'MarketImpact.zero_cost_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,62 @@
+{
+  "construction": {
+    "exhaustive_matching_cases": 3888,
+    "states": 19,
+    "raw_mark_types": 6,
+    "non_lumpability_counterexample": "passed",
+    "fifo_variable_size_check": "passed"
+  },
+  "uniformization": {
+    "clock_rate": 3.1999999999999997,
+    "primitive_tv": 0.062499999999999944,
+    "mismatch_rate": 0.19999999999999982,
+    "poisson_cutoff": 15,
+    "poisson_tail": 6.342497440494014e-16,
+    "uniformization_max_row_tv_error": 7.763700706625576e-16,
+    "endpoint_max_row_tv": 0.03613013096300455,
+    "endpoint_tv_bound": 0.04877057549928595,
+    "joint_mark_max_tv": 0.06249999999999996
+  },
+  "linear_response": {
+    "three_state_derivative": 0.7237371148864922,
+    "duhamel_remainders": [
+      {
+        "amplitude": 0.1,
+        "remainder": 0.0004969613155352132,
+        "bound": 0.020000000000000004,
+        "symmetric_derivative_error": 0.00043849494523051646
+      },
+      {
+        "amplitude": 0.05,
+        "remainder": 0.00011881529518058959,
+        "bound": 0.005000000000000001,
+        "symmetric_derivative_error": 0.00010964986505801466
+      },
+      {
+        "amplitude": 0.025,
+        "remainder": 2.9021981791301638e-05,
+        "bound": 0.0012500000000000002,
+        "symmetric_derivative_error": 2.7414099590172825e-05
+      }
+    ],
+    "piecewise_signed_input_remainders": [
+      {
+        "amplitude": 0.1,
+        "remainder": 0.00010470524206426221,
+        "bound": 0.011400500000000003
+      },
+      {
+        "amplitude": 0.05,
+        "remainder": 2.494457780808912e-05,
+        "bound": 0.0028501250000000007
+      }
+    ],
+    "two_state_exact_exponential_max_error": 4.996003610813204e-16
+  },
+  "policy_bounds": {
+    "state_stage_model_cases": 532,
+    "largest_fixed_policy_error": 0.5708292226816531,
+    "largest_regret": 0.07906620930438413,
+    "all_bounds_passed": true
+  }
+}

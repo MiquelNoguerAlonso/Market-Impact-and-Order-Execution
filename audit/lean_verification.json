@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "lean_version": "Lean (version 4.19.0, x86_64-unknown-linux-gnu, commit 6caaee842e94, Release)",
+  "toolchain": "leanprover/lean4:v4.19.0",
+  "mathlib_commit": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+  "mathlib_tracked_sources_unmodified": true,
+  "clean_project_build": true,
+  "compile_command": "lake build",
+  "audit_command": "lake env lean MarketImpactCore/Audit.lean",
+  "build_warnings": 0,
+  "build_errors": 0,
+  "prohibited_active_source_tokens": [],
+  "allowed_axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "reported_axioms": {
+    "MarketImpact.loop_cost_eq_area_pairing": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "MarketImpact.loop_cost_one_asset": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "MarketImpact.RayData.ray_sign_conditions": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "MarketImpact.value_convex": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "MarketImpact.zero_cost_isGLB": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "MarketImpact.zero_cost_nonempty": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "source_sha256": {
+    "lean/MarketImpactCore/Audit.lean": "1a8fd2acd8b9bcf0512820f2b1ee752aaffd0cd842fee100eb41657db8569c3a",
+    "lean/MarketImpactCore/LoopCost.lean": "4ab8b5bdd3df7efde42500b8d81bceb64ebb01fa9d67eee3b25f35ac33732b17",
+    "lean/MarketImpactCore/QuarticSign.lean": "567bbbe442021d0065859bbd6762a0cde85a29cd56b0aa9a3736e467bb2289a5",
+    "lean/MarketImpactCore/VenueConvex.lean": "b5823c3eb93a9eefcf4fcbed787488abd1fadb3f5975705ae83eea79f6e9fe3f",
+    "lean/lakefile.lean": "e1c24f374ead2d9d2dd3607fd8285892388a7fcb6732b89454f8ac29815b0d47",
+    "lean/lake-manifest.json": "5a98ded1d8d1ded18047c904f8c8586ccd80018cc9d2806785272194aaf88a88",
+    "lean/lean-toolchain": "55e97be96000b5e9e290c9e74482e5e317861499a5540353ce845471bded8cea"
+  },
+  "scope": "Finite-grid loop cost, scalar ray sign conditions, convex value at feasible quantities, and a zero-cost consistency example. The continuum theorem, analytic-functional assumptions, attainment, uniqueness, KKT conditions and execution certificates are not formalized here.",
+  "delivering_environment_note": "audit/environment/README.md"
+}

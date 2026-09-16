@@ -1,0 +1,640 @@
+{
+  "orderbook_bridge": {
+    "construction": {
+      "exhaustive_matching_cases": 3888,
+      "states": 19,
+      "raw_mark_types": 6,
+      "non_lumpability_counterexample": "passed",
+      "fifo_variable_size_check": "passed"
+    },
+    "uniformization": {
+      "clock_rate": 3.1999999999999997,
+      "primitive_tv": 0.062499999999999944,
+      "mismatch_rate": 0.19999999999999982,
+      "poisson_cutoff": 15,
+      "poisson_tail": 6.342497440494014e-16,
+      "uniformization_max_row_tv_error": 7.763700706625576e-16,
+      "endpoint_max_row_tv": 0.03613013096300455,
+      "endpoint_tv_bound": 0.04877057549928595,
+      "joint_mark_max_tv": 0.06249999999999996
+    },
+    "linear_response": {
+      "three_state_derivative": 0.7237371148864922,
+      "duhamel_remainders": [
+        {
+          "amplitude": 0.1,
+          "remainder": 0.0004969613155352132,
+          "bound": 0.020000000000000004,
+          "symmetric_derivative_error": 0.00043849494523051646
+        },
+        {
+          "amplitude": 0.05,
+          "remainder": 0.00011881529518058959,
+          "bound": 0.005000000000000001,
+          "symmetric_derivative_error": 0.00010964986505801466
+        },
+        {
+          "amplitude": 0.025,
+          "remainder": 2.9021981791301638e-05,
+          "bound": 0.0012500000000000002,
+          "symmetric_derivative_error": 2.7414099590172825e-05
+        }
+      ],
+      "piecewise_signed_input_remainders": [
+        {
+          "amplitude": 0.1,
+          "remainder": 0.00010470524206426221,
+          "bound": 0.011400500000000003
+        },
+        {
+          "amplitude": 0.05,
+          "remainder": 2.494457780808912e-05,
+          "bound": 0.0028501250000000007
+        }
+      ],
+      "two_state_exact_exponential_max_error": 4.996003610813204e-16
+    },
+    "policy_bounds": {
+      "state_stage_model_cases": 532,
+      "largest_fixed_policy_error": 0.5708292226816531,
+      "largest_regret": 0.07906620930438413,
+      "all_bounds_passed": true
+    }
+  },
+  "three_point_defect_and_phantom_profit": {
+    "status": "passed",
+    "arithmetic": "exact fractions; no floating-point tolerance",
+    "independent_optimizer": "six TV-polygon edges and zero trade",
+    "tested_kernel_triples": 405,
+    "positive_defect_cases": 178,
+    "zero_defect_cases": 227,
+    "interior_edge_stationary_points_checked": 1252,
+    "energy_expansion_checks": 1215,
+    "example_coefficients": {
+      "d_squared": "2/5",
+      "p_squared": "-3/10"
+    },
+    "example_defect": "3/40",
+    "gross_volume_four_profit": "3/5",
+    "threshold_examples": [
+      {
+        "kernel": [
+          "1",
+          "3/5",
+          "1/5"
+        ],
+        "discretely_convex": true,
+        "defect": "0"
+      },
+      {
+        "kernel": [
+          "1",
+          "7/10",
+          "1/5"
+        ],
+        "discretely_convex": false,
+        "defect": "0"
+      },
+      {
+        "kernel": [
+          "1",
+          "4/5",
+          "1/5"
+        ],
+        "discretely_convex": false,
+        "defect": "0"
+      },
+      {
+        "kernel": [
+          "1",
+          "19/20",
+          "1/5"
+        ],
+        "discretely_convex": false,
+        "defect": "3/40"
+      }
+    ],
+    "excluded_assumption_counterexample": {
+      "kernel": [
+        "0",
+        "0",
+        "1"
+      ],
+      "actual_defect": "1/2",
+      "reason": "G0 < G2 lies outside the proposition"
+    },
+    "lipschitz_sharpness": {
+      "base_kernel": [
+        "1",
+        "19/20",
+        "1/5"
+      ],
+      "perturbed_kernel": [
+        "99/100",
+        "24/25",
+        "19/100"
+      ],
+      "uniform_distance": "1/100",
+      "defect_increase": "1/100",
+      "ratio": "1"
+    },
+    "phantom_bound_sharpness": {
+      "true_admissible_kernel": [
+        "1",
+        "4/5",
+        "1/5"
+      ],
+      "estimated_kernel": [
+        "99/100",
+        "81/100",
+        "19/100"
+      ],
+      "entrywise_error": "1/100",
+      "cases": [
+        {
+          "gross_volume": "0",
+          "phantom_profit": "0",
+          "half_Q_squared_error": "0"
+        },
+        {
+          "gross_volume": "1",
+          "phantom_profit": "1/200",
+          "half_Q_squared_error": "1/200"
+        },
+        {
+          "gross_volume": "4",
+          "phantom_profit": "2/25",
+          "half_Q_squared_error": "2/25"
+        },
+        {
+          "gross_volume": "10",
+          "phantom_profit": "1/2",
+          "half_Q_squared_error": "1/2"
+        }
+      ]
+    },
+    "zero_defect_opposite_side_optimum": {
+      "kernel": [
+        "1",
+        "7/10",
+        "1/5"
+      ],
+      "signed_optimum": [
+        "3/4",
+        "-1/2",
+        "3/4"
+      ],
+      "signed_cost": "11/40",
+      "buy_only_optimum": [
+        "1/2",
+        "0",
+        "1/2"
+      ],
+      "buy_only_cost": "3/10",
+      "signed_potential": [
+        "11/20",
+        "11/20",
+        "11/20"
+      ],
+      "buy_only_potential": [
+        "3/5",
+        "7/10",
+        "3/5"
+      ]
+    },
+    "projection_error_counterexample": {
+      "metric": "Euclidean norm on the three sampled kernel values",
+      "true_kernel": [
+        "1",
+        "4/5",
+        "1/5"
+      ],
+      "estimate": [
+        "101/100",
+        "81/100",
+        "19/100"
+      ],
+      "projection": [
+        "329/325",
+        "1049/1300",
+        "62/325"
+      ],
+      "uniform_error_before": "1/100",
+      "uniform_error_after": "4/325",
+      "error_ratio": "16/13",
+      "projected_defect": "0"
+    },
+    "uniform_cone_distance_example": {
+      "kernel": [
+        "1",
+        "19/20",
+        "1/5"
+      ],
+      "admissible_repair": [
+        "43/40",
+        "7/8",
+        "11/40"
+      ],
+      "uniform_distance": "3/40",
+      "defect": "3/40"
+    },
+    "scope": "Fixed three-point impact models; tests corroborate the manuscript proofs."
+  },
+  "ordinary_signature_counterexample": {
+    "exact_matching_coordinates": 31,
+    "matching_depth": 4,
+    "expected_executed_quantity": "3/20",
+    "expected_temporary_cost_eta_one": "1/15",
+    "expected_costs": [
+      0.014846068021966731,
+      0.014889084069545158
+    ]
+  },
+  "exponential_signature_algebra": {
+    "policy_depth": 1,
+    "rho": 1.3,
+    "eta": 0.4,
+    "expanded_maximum_word_depth": 6,
+    "exact_maximum_word_depth": 4,
+    "signature_coordinates_integrated": 777,
+    "checks": [
+      {
+        "u": 0.0,
+        "direct_ode_cost": 1.061042907533732,
+        "expanded_shuffle_cost": 1.0610429075343206,
+        "shorter_shuffle_cost": 1.0610429075336751,
+        "impact_state_error": 4.0190073491430667e-14
+      },
+      {
+        "u": 0.2,
+        "direct_ode_cost": 0.7442170048463519,
+        "expanded_shuffle_cost": 0.74421700484677,
+        "shorter_shuffle_cost": 0.7442170048463072,
+        "impact_state_error": 3.219646771412954e-14
+      },
+      {
+        "u": 0.4,
+        "direct_ode_cost": 0.5185999875361991,
+        "expanded_shuffle_cost": 0.5185999875365188,
+        "shorter_shuffle_cost": 0.5185999875361618,
+        "impact_state_error": 3.2529534621517087e-14
+      },
+      {
+        "u": 0.6,
+        "direct_ode_cost": 0.3708828678342565,
+        "expanded_shuffle_cost": 0.37088286783451635,
+        "shorter_shuffle_cost": 0.3708828678342253,
+        "impact_state_error": 3.236300116782331e-14
+      },
+      {
+        "u": 0.8,
+        "direct_ode_cost": 0.2891935513651856,
+        "expanded_shuffle_cost": 0.28919355136539204,
+        "shorter_shuffle_cost": 0.28919355136516045,
+        "impact_state_error": 3.019806626980426e-14
+      },
+      {
+        "u": 1.0,
+        "direct_ode_cost": 0.26370449292050135,
+        "expanded_shuffle_cost": 0.2637044929206839,
+        "shorter_shuffle_cost": 0.26370449292047976,
+        "impact_state_error": 3.108624468950438e-14
+      }
+    ],
+    "conclusion": "Both constructions agree with an independent ODE. Exponential differentials give the exact sufficient depth 2N+2."
+  },
+  "impact": {
+    "signed_loop_cost": -2.0,
+    "grid_defect": 0.07499999999999998,
+    "gross_volume_four_profit": 0.5999999999999999,
+    "riesz": [
+      {
+        "beta": 0.2,
+        "constant_potential": 1.367617082587984,
+        "cell_energy": 1.3888888888888888,
+        "uniform_energy_exact": 1.3888888888888886,
+        "zero_diagonal_energy_bias": 0.07261385781883867
+      },
+      {
+        "beta": 0.5,
+        "constant_potential": 2.62205755429212,
+        "cell_energy": 2.6666666666666656,
+        "uniform_energy_exact": 2.6666666666666665,
+        "zero_diagonal_energy_bias": 0.4216370213557834
+      },
+      {
+        "beta": 0.8,
+        "constant_potential": 8.291679474884905,
+        "cell_energy": 8.333333333333337,
+        "uniform_energy_exact": 8.333333333333336,
+        "zero_diagonal_energy_bias": 3.98480208245849
+      }
+    ],
+    "pareto_boundary": [
+      {
+        "q": 1.0,
+        "fair_pricing_boundary_term": 0.33333333333333337
+      },
+      {
+        "q": 2.0,
+        "fair_pricing_boundary_term": 0.16666666666666674
+      },
+      {
+        "q": 4.0,
+        "fair_pricing_boundary_term": 0.08333333333333326
+      },
+      {
+        "q": 10.0,
+        "fair_pricing_boundary_term": 0.033333333333333215
+      }
+    ],
+    "crossover": {
+      "cases": [
+        {
+          "c": "1",
+          "kappa": "1",
+          "level_matching_size": "4",
+          "slope_matching_size": "9/4"
+        },
+        {
+          "c": "2",
+          "kappa": "3",
+          "level_matching_size": "16/9",
+          "slope_matching_size": "1"
+        },
+        {
+          "c": "5",
+          "kappa": "2",
+          "level_matching_size": "25",
+          "slope_matching_size": "225/16"
+        }
+      ],
+      "ratio_level_to_slope_size": "16/9"
+    },
+    "transient_cross_impact": {
+      "model_path_pairs": 12,
+      "maximum_identity_error": 1.028066520802895e-13,
+      "checks": [
+        {
+          "model": "permanent",
+          "path": "unit_square",
+          "symmetric_energy": 0.0,
+          "weighted_area_pairing": 2.0,
+          "cost_from_cells": -2.0,
+          "cost_from_ode": -2.0000000000000027,
+          "cost_reversed": 2.0000000000000004,
+          "endpoint": 1.078520768856852e-33,
+          "dissipation": 0.0,
+          "maximum_identity_error": 2.6645352591003757e-15
+        },
+        {
+          "model": "permanent",
+          "path": "mixed_closed",
+          "symmetric_energy": 2.7755575615628914e-17,
+          "weighted_area_pairing": -0.2222222222222222,
+          "cost_from_cells": 0.22222222222222232,
+          "cost_from_ode": 0.22222222222222218,
+          "cost_reversed": -0.22222222222222263,
+          "endpoint": 1.6460682493434656e-31,
+          "dissipation": 0.0,
+          "maximum_identity_error": 4.440892098500626e-16
+        },
+        {
+          "model": "permanent",
+          "path": "open_path",
+          "symmetric_energy": 0.475,
+          "weighted_area_pairing": 0.4444444444444444,
+          "cost_from_cells": 0.03055555555555553,
+          "cost_from_ode": 0.03055555555555556,
+          "cost_reversed": 0.9194444444444445,
+          "endpoint": 0.4750000000000004,
+          "dissipation": 0.0,
+          "maximum_identity_error": 4.440892098500626e-16
+        },
+        {
+          "model": "scalar_exponential",
+          "path": "unit_square",
+          "symmetric_energy": 0.5302789533538712,
+          "weighted_area_pairing": 1.8737645649187955,
+          "cost_from_cells": -1.3434856115649243,
+          "cost_from_ode": -1.3434856115649088,
+          "cost_reversed": 2.404043518272677,
+          "endpoint": 0.0791769115429657,
+          "dissipation": 0.4511020418109412,
+          "maximum_identity_error": 3.574918139293004e-14
+        },
+        {
+          "model": "scalar_exponential",
+          "path": "mixed_closed",
+          "symmetric_energy": 0.1385133845087743,
+          "weighted_area_pairing": -0.20040216081548326,
+          "cost_from_cells": 0.33891554532425755,
+          "cost_from_ode": 0.3389155453242622,
+          "cost_reversed": -0.061888776306704044,
+          "endpoint": 0.028000201178844664,
+          "dissipation": 0.11051318332994385,
+          "maximum_identity_error": 1.4238610290817633e-14
+        },
+        {
+          "model": "scalar_exponential",
+          "path": "open_path",
+          "symmetric_energy": 0.3895306045403579,
+          "weighted_area_pairing": 0.2758620231301221,
+          "cost_from_cells": 0.11366858141023586,
+          "cost_from_ode": 0.11366858141024018,
+          "cost_reversed": 0.6653926276704814,
+          "endpoint": 0.23807071095104845,
+          "dissipation": 0.15145989358931758,
+          "maximum_identity_error": 8.104628079763643e-15
+        },
+        {
+          "model": "scalar_mixture",
+          "path": "unit_square",
+          "symmetric_energy": 0.4729731760081448,
+          "weighted_area_pairing": 1.8759052325916286,
+          "cost_from_cells": -1.4029320565834835,
+          "cost_from_ode": -1.4029320565834618,
+          "cost_reversed": 2.3488784085997807,
+          "endpoint": 0.06600820794383562,
+          "dissipation": 0.4069649680643542,
+          "maximum_identity_error": 4.50195436485501e-14
+        },
+        {
+          "model": "scalar_mixture",
+          "path": "mixed_closed",
+          "symmetric_energy": 0.12326154207687877,
+          "weighted_area_pairing": -0.2012267976773202,
+          "cost_from_cells": 0.3244883397541989,
+          "cost_from_ode": 0.32448833975420416,
+          "cost_reversed": -0.07796525560043606,
+          "endpoint": 0.023497547601255338,
+          "dissipation": 0.09976399447564036,
+          "maximum_identity_error": 1.6917023337725823e-14
+        },
+        {
+          "model": "scalar_mixture",
+          "path": "open_path",
+          "symmetric_energy": 0.39741382015398896,
+          "weighted_area_pairing": 0.2932983934119757,
+          "cost_from_cells": 0.1041154267420133,
+          "cost_from_ode": 0.10411542674202447,
+          "cost_reversed": 0.6907122135659632,
+          "endpoint": 0.2632903522102602,
+          "dissipation": 0.13412346794374724,
+          "maximum_identity_error": 1.8485213360008856e-14
+        },
+        {
+          "model": "lag_dependent_matrix",
+          "path": "unit_square",
+          "symmetric_energy": 1.0672965784104702,
+          "weighted_area_pairing": 0.16788184490721614,
+          "cost_from_cells": 0.899414733503254,
+          "cost_from_ode": 0.8994147335032658,
+          "cost_reversed": 1.2351784233177445,
+          "endpoint": 0.15799197055252562,
+          "dissipation": 0.9093046078580473,
+          "maximum_identity_error": 1.028066520802895e-13
+        },
+        {
+          "model": "lag_dependent_matrix",
+          "path": "mixed_closed",
+          "symmetric_energy": 0.2751409406137407,
+          "weighted_area_pairing": -0.026502968550316114,
+          "cost_from_cells": 0.30164390916405687,
+          "cost_from_ode": 0.30164390916407063,
+          "cost_reversed": 0.24863797206343569,
+          "endpoint": 0.04303115596438406,
+          "dissipation": 0.2321097846493907,
+          "maximum_identity_error": 3.402833570476105e-14
+        },
+        {
+          "model": "lag_dependent_matrix",
+          "path": "open_path",
+          "symmetric_energy": 0.9431451909186271,
+          "weighted_area_pairing": 0.06857448805612507,
+          "cost_from_cells": 0.874570702862502,
+          "cost_from_ode": 0.8745707028625068,
+          "cost_reversed": 1.0117196789747667,
+          "endpoint": 0.6305273532895683,
+          "dissipation": 0.312617837629087,
+          "maximum_identity_error": 2.8199664825478976e-14
+        }
+      ],
+      "closed_inventory_terminal_impact": [
+        [
+          -0.27113204715679545,
+          -0.34814043982790427
+        ]
+      ],
+      "short_loop_limit": [
+        {
+          "horizon": 0.1,
+          "cost": -1.9295431368399485,
+          "permanent_limit": -2.0,
+          "continuity_error_bound": 1.1133568924364428
+        },
+        {
+          "horizon": 0.01,
+          "cost": -1.9929202313512941,
+          "permanent_limit": -2.0,
+          "continuity_error_bound": 0.11641220685288216
+        },
+        {
+          "horizon": 0.001,
+          "cost": -1.999291702106421,
+          "permanent_limit": -2.0,
+          "continuity_error_bound": 0.01169367598625924
+        }
+      ],
+      "zero_symmetric_energy_counterexample": [
+        {
+          "path": "unit_square",
+          "net_vector": [
+            0.0,
+            0.0
+          ],
+          "g_r_cost": 0.0,
+          "first_moment_times_A_times_net": 0.0
+        },
+        {
+          "path": "mixed_closed",
+          "net_vector": [
+            0.0,
+            0.0
+          ],
+          "g_r_cost": 1.734723475976807e-17,
+          "first_moment_times_A_times_net": 0.0
+        },
+        {
+          "path": "open_path",
+          "net_vector": [
+            0.5,
+            1.0
+          ],
+          "g_r_cost": -0.22222222222222218,
+          "first_moment_times_A_times_net": -0.22222222222222215
+        }
+      ],
+      "conclusion": "Energy-area decomposition, matrix-lag reversal, and finite-exponential endpoint formula pass independent cell-integral and ODE checks."
+    }
+  },
+  "information": {
+    "binary_sharpness": [
+      {
+        "u": 0.1,
+        "mutual_information": 0.020135513550688766,
+        "saving_Delta_one": 0.1,
+        "ratio_to_sharp_ceiling": 0.9966292807734962
+      },
+      {
+        "u": 0.05,
+        "mutual_information": 0.00500836684635686,
+        "saving_Delta_one": 0.05,
+        "ratio_to_sharp_ceiling": 0.9991643639639399
+      },
+      {
+        "u": 0.01,
+        "mutual_information": 0.00020001333546704192,
+        "saving_Delta_one": 0.01,
+        "ratio_to_sharp_ceiling": 0.9999666629995028
+      },
+      {
+        "u": 0.005,
+        "mutual_information": 5.000083336670347e-05,
+        "saving_Delta_one": 0.005,
+        "ratio_to_sharp_ceiling": 0.9999916664371389
+      }
+    ],
+    "gaussian_expansion": {
+      "rows": [
+        {
+          "epsilon": 0.2,
+          "mutual_information": 0.0049751646254504595,
+          "I_over_epsilon_squared": 0.12437911563626146,
+          "saving_Delta_one": 0.03982783727702899
+        },
+        {
+          "epsilon": 0.1,
+          "mutual_information": 0.0012484400960706362,
+          "I_over_epsilon_squared": 0.1248440096070636,
+          "saving_Delta_one": 0.019938805838372486
+        },
+        {
+          "epsilon": 0.05,
+          "mutual_information": 0.00031240238440833403,
+          "I_over_epsilon_squared": 0.12496095376333359,
+          "saving_Delta_one": 0.009972518195238034
+        },
+        {
+          "epsilon": 0.02,
+          "mutual_information": 4.999750016660526e-05,
+          "I_over_epsilon_squared": 0.12499375041651314,
+          "saving_Delta_one": 0.003989356314631598
+        }
+      ],
+      "limiting_I_over_epsilon_squared": 0.125,
+      "finding": "Supports the new Gaussian I=epsilon^2/8+o(epsilon^2) expansion."
+    }
+  },
+  "status": "All mathematical checks passed; proofs and scope are stated in the manuscript."
+}

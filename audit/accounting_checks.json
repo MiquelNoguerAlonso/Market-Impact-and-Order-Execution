@@ -1,0 +1,86 @@
+{
+  "ledgers": {
+    "completed_ledgers": 500,
+    "largest_accounting_error": 5.684341886080802e-14
+  },
+  "posteriors": {
+    "binomial_posterior_cases": 50,
+    "largest_posterior_mean_error": 2.220446049250313e-16
+  },
+  "reservation": {
+    "events": [
+      {
+        "event": "send A for 600",
+        "remaining": 1000,
+        "reservations": {
+          "A": 600
+        }
+      },
+      {
+        "event": "send B for 400",
+        "remaining": 1000,
+        "reservations": {
+          "A": 600,
+          "B": 400
+        }
+      },
+      {
+        "event": "authoritative A cumulative fill 200",
+        "remaining": 800,
+        "reservations": {
+          "A": 400,
+          "B": 400
+        }
+      },
+      {
+        "event": "request cancellation of A; keep reservation",
+        "remaining": 800,
+        "reservations": {
+          "A": 400,
+          "B": 400
+        }
+      },
+      {
+        "event": "terminal A report: cumulative fill 350",
+        "remaining": 650,
+        "reservations": {
+          "B": 400
+        }
+      },
+      {
+        "event": "duplicate terminal A report: no quantity change",
+        "remaining": 650,
+        "reservations": {
+          "B": 400
+        }
+      },
+      {
+        "event": "send C for 250",
+        "remaining": 650,
+        "reservations": {
+          "B": 400,
+          "C": 250
+        }
+      },
+      {
+        "event": "B completes 400",
+        "remaining": 250,
+        "reservations": {
+          "C": 250
+        }
+      },
+      {
+        "event": "C completes 250",
+        "remaining": 0,
+        "reservations": {}
+      }
+    ],
+    "total_filled": 1000
+  },
+  "outputs": {
+    "policy_rows_verified": 6,
+    "paired_comparison_verified": true,
+    "certificate_scenarios_verified": 9
+  },
+  "status": "All accounting and output checks passed."
+}

@@ -1,0 +1,406 @@
+{
+  "status": "passed",
+  "arithmetic": "fractions.Fraction (exact rational)",
+  "scope": "Finite examples; not a formal proof of the general theorem.",
+  "controlled_liquidity_cases": [
+    {
+      "signal_probabilities_percent": [
+        35,
+        65
+      ],
+      "mesh_subintervals": 8,
+      "horizon": 3,
+      "parent_units": 2,
+      "rich_optimum": {
+        "exact": "232172138011/156250000000",
+        "decimal": 1.4859016832704
+      },
+      "coarse_history_optimum": {
+        "exact": "729580613/488281250",
+        "decimal": 1.494181095424
+      },
+      "lower_bound": {
+        "exact": "6820452690510937915478282259254120564424053/5187750724206387191910453869307546875000000",
+        "decimal": 1.3147225171568586
+      },
+      "upper_recursion": {
+        "exact": "513682777883/332487500000",
+        "decimal": 1.5449686917041994
+      },
+      "physical_policy_cost": {
+        "exact": "18754937/12500000",
+        "decimal": 1.50039496
+      },
+      "information_loss": {
+        "exact": "1293658149/156250000000",
+        "decimal": 0.0082794121536
+      },
+      "actual_policy_gap": {
+        "exact": "2264574489/156250000000",
+        "decimal": 0.0144932767296
+      },
+      "certified_policy_gap": {
+        "exact": "963222349824675427072715497567421456789697/5187750724206387191910453869307546875000000",
+        "decimal": 0.18567244284314133
+      },
+      "envelope_width": {
+        "exact": "31771435123090121054355871735957768099383475503/137988981513165692917626162469711439328125000000",
+        "decimal": 0.23024617454734073
+      },
+      "action_regret_certificate": {
+        "exact": "6971905084456940724874538000671179538023431978837373/18026880544879966122758681865043102433826250000000000",
+        "decimal": 0.38675050112522746
+      },
+      "combined_certificate": {
+        "exact": "963222349824675427072715497567421456789697/5187750724206387191910453869307546875000000",
+        "decimal": 0.18567244284314133
+      },
+      "full_states_by_stage": [
+        1,
+        24,
+        324,
+        3456
+      ],
+      "summary_states_by_stage": [
+        1,
+        11,
+        22,
+        24
+      ],
+      "conditional_sandwich_checks": 349,
+      "conditional_action_checks": 1237,
+      "strict_action_screening_checks": 648,
+      "forward_hidden_state_evaluation_equals_history_evaluation": true,
+      "maximum_posterior_memory_distance": {
+        "exact": "165567723923/382434888232",
+        "decimal": 0.4329304909612748
+      }
+    },
+    {
+      "signal_probabilities_percent": [
+        5,
+        95
+      ],
+      "mesh_subintervals": 8,
+      "horizon": 3,
+      "parent_units": 2,
+      "rich_optimum": {
+        "exact": "3529592805260631/2500000000000000",
+        "decimal": 1.4118371221042525
+      },
+      "coarse_history_optimum": {
+        "exact": "729580613/488281250",
+        "decimal": 1.494181095424
+      },
+      "lower_bound": {
+        "exact": "121918453540869862807999859006789621/131932807024943160754247500000000000",
+        "decimal": 0.9240950472449208
+      },
+      "upper_recursion": {
+        "exact": "7558046296378707333816677/4575473797397375000000000",
+        "decimal": 1.6518609068809185
+      },
+      "physical_policy_cost": {
+        "exact": "194002690463/125000000000",
+        "decimal": 1.552021523704
+      },
+      "information_loss": {
+        "exact": "205859933299369/2500000000000000",
+        "decimal": 0.0823439733197476
+      },
+      "actual_policy_gap": {
+        "exact": "350461003999369/2500000000000000",
+        "decimal": 0.1401844015997476
+      },
+      "certified_policy_gap": {
+        "exact": "82844102644528216679801159833143119/131932807024943160754247500000000000",
+        "decimal": 0.6279264764590793
+      },
+      "envelope_width": {
+        "exact": "3514556591282072687997983223777692359138640983301/4829240812477694053095639849659812802500000000000",
+        "decimal": 0.7277658596359976
+      },
+      "action_regret_certificate": {
+        "exact": "281061500941902409966463335979456726062051879580031423884195796714306993901283712963910671304137/177346082297466134604457930066694464792596935081409654597650690072679959235100806359375000000000",
+        "decimal": 1.5848193391183705
+      },
+      "combined_certificate": {
+        "exact": "82844102644528216679801159833143119/131932807024943160754247500000000000",
+        "decimal": 0.6279264764590793
+      },
+      "full_states_by_stage": [
+        1,
+        24,
+        324,
+        3456
+      ],
+      "summary_states_by_stage": [
+        1,
+        11,
+        22,
+        24
+      ],
+      "conditional_sandwich_checks": 349,
+      "conditional_action_checks": 1237,
+      "strict_action_screening_checks": 409,
+      "forward_hidden_state_evaluation_equals_history_evaluation": true,
+      "maximum_posterior_memory_distance": {
+        "exact": "13678001/13904872",
+        "decimal": 0.9836840641179581
+      }
+    },
+    {
+      "signal_probabilities_percent": [
+        5,
+        95
+      ],
+      "mesh_subintervals": 16,
+      "horizon": 3,
+      "parent_units": 2,
+      "rich_optimum": {
+        "exact": "3529592805260631/2500000000000000",
+        "decimal": 1.4118371221042525
+      },
+      "coarse_history_optimum": {
+        "exact": "729580613/488281250",
+        "decimal": 1.494181095424
+      },
+      "lower_bound": {
+        "exact": "76259957344584536401100726971/81108198037546872500000000000",
+        "decimal": 0.9402250227440885
+      },
+      "upper_recursion": {
+        "exact": "7558046296378707333816677/4575473797397375000000000",
+        "decimal": 1.6518609068809185
+      },
+      "physical_policy_cost": {
+        "exact": "194002690463/125000000000",
+        "decimal": 1.552021523704
+      },
+      "information_loss": {
+        "exact": "205859933299369/2500000000000000",
+        "decimal": 0.0823439733197476
+      },
+      "actual_policy_gap": {
+        "exact": "350461003999369/2500000000000000",
+        "decimal": 0.1401844015997476
+      },
+      "certified_policy_gap": {
+        "exact": "49621711758534743258669088769/81108198037546872500000000000",
+        "decimal": 0.6117965009599116
+      },
+      "envelope_width": {
+        "exact": "2112752633302750650800402651438613035404651/2968867478999303259825760567677500000000000",
+        "decimal": 0.71163588413683
+      },
+      "action_regret_certificate": {
+        "exact": "654271027721746445145984724707934550751419316622283277258928359657880423885989954749/419577393586953431838478174372498362622777525857750947269235612669486875000000000000",
+        "decimal": 1.5593571954113277
+      },
+      "combined_certificate": {
+        "exact": "49621711758534743258669088769/81108198037546872500000000000",
+        "decimal": 0.6117965009599116
+      },
+      "full_states_by_stage": [
+        1,
+        24,
+        324,
+        3456
+      ],
+      "summary_states_by_stage": [
+        1,
+        12,
+        37,
+        42
+      ],
+      "conditional_sandwich_checks": 349,
+      "conditional_action_checks": 1237,
+      "strict_action_screening_checks": 417,
+      "forward_hidden_state_evaluation_equals_history_evaluation": true,
+      "maximum_posterior_memory_distance": {
+        "exact": "3389933903/3685460752",
+        "decimal": 0.9198127808471097
+      }
+    }
+  ],
+  "probe_example": {
+    "rich_optimum": {
+      "exact": "7/10",
+      "decimal": 0.7
+    },
+    "coarse_optimum": {
+      "exact": "1",
+      "decimal": 1.0
+    },
+    "information_loss": {
+      "exact": "3/10",
+      "decimal": 0.3
+    },
+    "lower_bound": {
+      "exact": "19/50",
+      "decimal": 0.38
+    },
+    "upper_bound": {
+      "exact": "1",
+      "decimal": 1.0
+    },
+    "certified_gap": {
+      "exact": "31/50",
+      "decimal": 0.62
+    },
+    "report_retained_lower": {
+      "exact": "7/10",
+      "decimal": 0.7
+    },
+    "report_retained_upper": {
+      "exact": "7/10",
+      "decimal": 0.7
+    }
+  },
+  "non_singleton_decision_example": {
+    "fee": {
+      "exact": "1/50",
+      "decimal": 0.02
+    },
+    "terminal_instruction_costs": {
+      "L": [
+        {
+          "exact": "1/10",
+          "decimal": 0.1
+        },
+        {
+          "exact": "1/5",
+          "decimal": 0.2
+        }
+      ],
+      "M": [
+        {
+          "exact": "1/2",
+          "decimal": 0.5
+        },
+        {
+          "exact": "1/2",
+          "decimal": 0.5
+        }
+      ]
+    },
+    "rich_optimum": {
+      "exact": "17/100",
+      "decimal": 0.17
+    },
+    "lower_bound": {
+      "exact": "3/25",
+      "decimal": 0.12
+    },
+    "upper_bound": {
+      "exact": "11/50",
+      "decimal": 0.22
+    },
+    "envelope_width": {
+      "exact": "1/10",
+      "decimal": 0.1
+    },
+    "screened_instruction": "M",
+    "policies": [
+      {
+        "market_probability": {
+          "exact": "0",
+          "decimal": 0.0
+        },
+        "physical_cost": {
+          "exact": "17/100",
+          "decimal": 0.17
+        },
+        "actual_regret": {
+          "exact": "0",
+          "decimal": 0.0
+        },
+        "cost_interval_certificate": {
+          "exact": "1/20",
+          "decimal": 0.05
+        },
+        "action_certificate": {
+          "exact": "0",
+          "decimal": 0.0
+        },
+        "combined_certificate": {
+          "exact": "0",
+          "decimal": 0.0
+        }
+      },
+      {
+        "market_probability": {
+          "exact": "1/4",
+          "decimal": 0.25
+        },
+        "physical_cost": {
+          "exact": "103/400",
+          "decimal": 0.2575
+        },
+        "actual_regret": {
+          "exact": "7/80",
+          "decimal": 0.0875
+        },
+        "cost_interval_certificate": {
+          "exact": "11/80",
+          "decimal": 0.1375
+        },
+        "action_certificate": {
+          "exact": "1/10",
+          "decimal": 0.1
+        },
+        "combined_certificate": {
+          "exact": "1/10",
+          "decimal": 0.1
+        }
+      },
+      {
+        "market_probability": {
+          "exact": "1",
+          "decimal": 1.0
+        },
+        "physical_cost": {
+          "exact": "13/25",
+          "decimal": 0.52
+        },
+        "actual_regret": {
+          "exact": "7/20",
+          "decimal": 0.35
+        },
+        "cost_interval_certificate": {
+          "exact": "2/5",
+          "decimal": 0.4
+        },
+        "action_certificate": {
+          "exact": "2/5",
+          "decimal": 0.4
+        },
+        "combined_certificate": {
+          "exact": "2/5",
+          "decimal": 0.4
+        }
+      }
+    ]
+  },
+  "localized_corrections": {
+    "initial_prior": "1/3",
+    "grid": [
+      "0",
+      "1/8",
+      "1/4",
+      "1/3",
+      "3/8",
+      "1/2",
+      "5/8",
+      "3/4",
+      "7/8",
+      "1"
+    ],
+    "interpolation_checks": 45,
+    "gaussian_savings_unit_loss": {
+      "-1": 0.1914624612740131,
+      "0": 0.0,
+      "1": 0.1914624612740131
+    }
+  }
+}

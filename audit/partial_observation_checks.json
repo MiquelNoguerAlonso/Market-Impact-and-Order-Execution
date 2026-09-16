@@ -1,0 +1,39 @@
+{
+  "independent_exact_tree": {
+    "horizon": 3,
+    "parent": 2,
+    "rational_value": "232172138011/156250000000",
+    "value": 1.4859016832704,
+    "nodes": 3553,
+    "grid_lower": 1.4856300595274166,
+    "controller_upper": 1.4859016832704057
+  },
+  "rational_controller_checks": {
+    "deterministic_value": "232172138011/156250000000",
+    "softmax_value": "30046663830713209734516296477/19246587500000000000000000000",
+    "both_contained_in_outward_intervals": true
+  },
+  "integer_rounding_and_probability_enclosure_checks": 24600,
+  "forward_evaluation": {
+    "value": 16.484172955266317,
+    "maximum_mass_error": 2.220446049250313e-16,
+    "positive_mass_stage_memory_states": 9390,
+    "expected_action_counts": {
+      "Wait": 0.0,
+      "Lit 1": 4.27235253723254,
+      "Lit 2": 0.0,
+      "Dark 1": 0.05077033355228579,
+      "Market 1": 0.3128538434571239,
+      "Market 2": 2.8356954406328283,
+      "Split 1+1": 2.1895806292872657
+    }
+  },
+  "signature_controller_checks": {
+    "score_mask_and_memory_cases": 240,
+    "hidden_regime_input": false,
+    "signature_depth": 1,
+    "summary_dimension": 11275,
+    "sampling": "Exact integer weights for the rational softmax law."
+  },
+  "numerical_method": "Integer likelihoods and Bayes quantization; elementary binary64 products, sums and divisions expanded with nextafter; all evaluated quantities are nonnegative."
+}

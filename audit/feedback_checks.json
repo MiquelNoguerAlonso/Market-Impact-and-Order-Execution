@@ -1,0 +1,36 @@
+{
+  "encoding": {
+    "transcripts_reconstructed": 31,
+    "initial_signal_distinguished_at_depth_one": true,
+    "same_timestamp_order_distinguished_at_depth_two": true,
+    "omitted_initial_bit_infimum": 0.5,
+    "observed_initial_bit_infimum": 0.0
+  },
+  "scores": {
+    "finite_score_floor_and_mask_cases": 1260,
+    "inadmissible_probabilities_exactly_zero": true,
+    "no_logarithm_of_inadmissible_zero_probabilities": true
+  },
+  "reference": {
+    "frozen_mode_gamma": 0.0,
+    "report_probabilities_after_actions_zero_one": [
+      0.6321205588285577,
+      0.8646647167633873
+    ],
+    "changed_reset_intervention_kappa": 1.0,
+    "autonomous_reference_controlled_policy_comparisons": 256,
+    "maximum_endpoint_defect_to_path_bound_ratio": 0.4965853037914099,
+    "one_decision_softmax_second_derivatives_at_minus_two_plus_two": [
+      0.07996250105615305,
+      -0.07996250105615312
+    ]
+  },
+  "status": "All feedback, encoding, mask, hybrid and reference-model checks passed.",
+  "feedback": {
+    "policies_evaluated": 14,
+    "stage_state_optimality_comparisons": 1064,
+    "hybrid_stage_state_comparisons": 1064,
+    "scope": "Fully observed 19-state book; a Bellman oracle constructs depth-one logits. No generic depth rate or local-optimization guarantee is inferred.",
+    "full_results": "results/feedback_certificate.json"
+  }
+}
