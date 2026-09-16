@@ -1,0 +1,12 @@
+{
+  "paper": 1,
+  "repository": "Market-Impact-and-Order-Execution",
+  "private": true,
+  "main_source": "main.tex",
+  "pages": 117,
+  "png_figures": 11,
+  "pdf_sha256": "e41802b2d98a3aa4df56c749c86c0bc0c791a0bc0b678f1a372087361278bd42",
+  "source_archive_sha256": "33c4b7efc80d22cf61f3fce8e10e6d8dc24b37cfc3093e0fd6dd9917ff2ed86c",
+  "full_source_tree_in_repository": true,
+  "doi": "10.5281/zenodo.22736805"
+}

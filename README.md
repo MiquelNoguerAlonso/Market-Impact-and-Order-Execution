@@ -4,19 +4,47 @@
 DOI: <https://doi.org/10.5281/zenodo.22736805>  
 Fixed manuscript date: **15 September 2026**
 
-The main document is `main.tex`. Run `latexmk -pdf main.tex` to perform the
-required pdfLaTeX passes. All 11 PNG figures and every section and table
-dependency required to compile the deposited PDF are included.
+## Compile
 
-`Trilogy_Citations.bib` contains the definitive BibTeX records for all three
-papers. The trilogy uses a fixed star citation architecture: Papers II and III
-cite Paper I; Papers II and III do not cite one another.
+The main document is `main.tex`. With pdfLaTeX and `latexmk` installed, run:
 
-## Repository downloads
+    latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 
-- [Final PDF](paper.pdf)
-- [Complete manuscript source](Market_Impact_and_Order_Execution_Source.zip)
-- [Editable Overleaf project](https://www.overleaf.com/project/6aa88ac6155ad0f8efdcc21b)
+All 11 publication-resolution PNG figures and every section and table input
+needed to compile the deposited PDF are included. The bibliography is embedded
+in `main.tex`.
 
-The repository entry point `paper.tex` is identical to `main.tex`.
-`source-and-reproducibility.zip` combines the final manuscript with the retained Python scripts, numerical results, Lean sources, and historical audit records.
+## Reproduce and verify
+
+The numerical environment is pinned in `requirements.txt`. To regenerate the
+figures, tables, result files, and numerical audit reports, run:
+
+    python -m pip install -r requirements.txt
+    python scripts/reproduce.py
+    latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+
+The reproduction command runs ten scripts and stops on any failed assertion.
+To verify the hashes recorded for a delivered source tree before regenerating
+it, run `python scripts/check_package.py`.
+
+The `lean/` directory contains the pinned Lean 4.19.0/Mathlib v4.19.0
+companion. Its exact scope and build commands are documented in
+`lean/COMPILE.md`; the automated clean check is:
+
+    python scripts/verify_lean.py --clean
+
+The associated build, axiom, environment, and machine-readable audit evidence
+is included under `audit/`.
+
+## Package contents
+
+- `main.tex`, `sections/`, and `tables/`: manuscript source and generated inputs.
+- `figures/`: the 11 figures used by the manuscript.
+- `scripts/`, `results/`, and `requirements.txt`: complete numerical reproduction.
+- `lean/`: pinned formal companion sources and configuration.
+- `audit/`: current verification evidence and the submission review.
+- `Trilogy_Citations.bib`: definitive BibTeX records for the three papers.
+- `MANIFEST_SHA256.txt`: SHA-256 inventory of the source archive.
+
+The trilogy uses a fixed star citation architecture: Papers II and III cite
+Paper I; Papers II and III do not cite one another.

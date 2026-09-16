@@ -1,4 +1,8 @@
 \documentclass[11pt]{article}
+% Keep release builds byte-stable by omitting volatile engine timestamps and IDs.
+\ifdefined\pdfinfoomitdate\pdfinfoomitdate=1\fi
+\ifdefined\pdftrailerid\pdftrailerid{}\fi
+\ifdefined\pdfsuppressptexinfo\pdfsuppressptexinfo=-1\fi
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -2925,7 +2929,7 @@ that rate. Figure~\ref{fig:schedule} shows the increased initial urgency as
 inventory risk grows.
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/01_schedules.png}
+\centering\includegraphics[width=\linewidth]{figures/01_schedules.png}
 \caption{Analytic schedules with $Q=T=\eta=1$ and three values of $\kappa T$.
 Greater exposure aversion moves execution earlier. These are deterministic
 schedule calculations, not forecasts of available exchange liquidity.}
@@ -3027,7 +3031,7 @@ Piecewise-linear costs obtained by walking observed depth give the analogous
 discrete allocation, with lot and price-grid constraints retained.
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/02_routing.png}
+\centering\includegraphics[width=\linewidth]{figures/02_routing.png}
 \caption{Synthetic immediate allocation among three venues. The left panel
 shows the allocation as required size increases. The right panel shows
 marginal costs up to each venue's capacity. A venue with a low initial cost
@@ -3227,7 +3231,7 @@ correct empirical question is whether a specified observation or estimate
 improves a specified decision at a specified horizon.
 
 \begin{figure}[tb]
-\centering\includegraphics[width=.88\textwidth]{figures/04_information_value.png}
+\centering\includegraphics[width=.88\linewidth]{figures/04_information_value.png}
 \caption{The exact information-value example of Proposition~\ref{prop:separation}
 over different priors. The shaded gap is positive even though the price process
 is independent of hidden regime. Information is assumed free and observed
@@ -4369,7 +4373,7 @@ expensive than immediate execution despite its favorable fill price.
 \end{example}
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/03_queue_and_order_choice.png}
+\centering\includegraphics[width=\linewidth]{figures/03_queue_and_order_choice.png}
 \caption{Two synthetic components of order choice. Left: first-fill probability
 in the Poisson FIFO service model, with no cancellations or repricing. Right:
 the passive-first cost threshold in Proposition~\ref{prop:threshold}.}
@@ -4873,7 +4877,7 @@ Figure~\ref{fig:auctionmath} and \texttt{scripts/auction\_examples.py} reproduce
 the clearing curves, allocation contrast and endpoint calculation.
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/07_auction_math.png}
+\centering\includegraphics[width=\linewidth]{figures/07_auction_math.png}
 \caption{Synthetic auction illustrations: the two candidate Nasdaq prices tie on
 volume but differ in unmatched interest; the endpoint cost model has an interior
 optimum at 625 auction shares. Parameters and assumptions are given in the text.}
@@ -5128,7 +5132,7 @@ the largest quadratic immediate charge. Changing fill probabilities, impact
 coefficients or risk preferences can change these rankings.
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/05_policy_comparison.png}
+\centering\includegraphics[width=\linewidth]{figures/05_policy_comparison.png}
 \caption{Synthetic execution paths and objective decomposition. The left panel
 plots mean residual quantity after successive ledger events; its final point
 is the terminal completion trade, not an extra waiting interval. The right
@@ -5137,7 +5141,7 @@ panel separates execution charges from the chosen inventory penalty.}
 \end{figure}
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/06_urgency_and_belief.png}
+\centering\includegraphics[width=\linewidth]{figures/06_urgency_and_belief.png}
 \caption{Immediate quantities selected by the approximate belief policy at the
 first and last decisions, over remaining inventory and belief. The state
 includes both urgency and execution availability. Color scales are shared.}
@@ -5214,7 +5218,7 @@ monotonically. No claim about an unknown market distribution follows from
 measuring errors against this known synthetic law.
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/08_execution_certificate.png}
+\centering\includegraphics[width=\linewidth]{figures/08_execution_certificate.png}
 \caption{Left: feasible rates from the true-law optimum for three signal paths.
 Right: actual class regret and its deterministic certificate in the nine
 kernel-and-sampling scenarios. Exact completion follows analytically from the
@@ -5310,7 +5314,7 @@ values. Seeds are 4304211 and 4304212. This is an independent implementation
 check under a known synthetic law, not market-performance evidence.
 
 \begin{figure}[tb]
-\centering\includegraphics[width=\textwidth]{figures/09_orderbook_bridge.png}
+\centering\includegraphics[width=\linewidth]{figures/09_orderbook_bridge.png}
 \caption{The order-flow construction and its consequences. Left: the value
 of each learned policy in its fitted environment and its cost when deployed
 unchanged in the true synthetic model. Right: exact maximum state-endpoint
