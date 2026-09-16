@@ -19,4 +19,4 @@ cite Paper I; Papers II and III do not cite one another.
 - [Editable Overleaf project](https://www.overleaf.com/project/6aa88ac6155ad0f8efdcc21b)
 
 The repository entry point `paper.tex` is identical to `main.tex`.
-`source-and-reproducibility.zip` is an alias of the current manuscript source archive.
+`source-and-reproducibility.zip` combines the final manuscript with the retained Python scripts, numerical results, Lean sources, and historical audit records.
