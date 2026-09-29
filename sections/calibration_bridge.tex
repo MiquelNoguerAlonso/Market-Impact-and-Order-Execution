@@ -1,0 +1,218 @@
+\section{Calibration, implementation error, and the evidence boundary}
+\label{sec:deploymentcalibration}
+
+This section supplies a finite, explicit interface between a fitted event model
+and an implemented policy. The inequalities are elementary finite-horizon
+perturbation and concentration results; their purpose is to make the
+assumptions and units of a deployment claim auditable, not to claim new
+concentration theory.
+
+\subsection{An observed decision process and its clocks}
+
+Let $k=0,\ldots,N$ index decision opportunities. A state $x$ records the
+available public history or a declared sufficient summary, private order
+reports, outstanding commitments, clock time and remaining horizon.
+A report belongs to the controller's information only after receipt and
+sequence recovery. An exchange timestamp is not a receipt timestamp.
+For genuinely hidden state, $x$ must be a posterior or an observation history;
+replacing it by a point estimate needs an additional reduction allowance.
+An event-time model must retain holding times or calendar time whenever
+costs, signal decay or the terminal deadline depend on them. If the number
+of events before a deadline is unbounded, the finite $N$ result below applies
+to a declared truncation or batching scheme, with an additional tail error.
+
+A feasible action $a\in A_k(x)$ is a message or a deliberately empty message.
+Write $P_k^a(x,\cdot)$ for the next-state kernel and $r_k(x,a)$ for the
+conditional mean net reward accrued before the next decision. Partial fills,
+fees, simultaneous price changes and elapsed-time charges are jointly
+accounted before taking this mean. For execution, reward is negative cost.
+The additive objective is
+\[
+ J(\pi)=\E^\pi\!\left[\sum_{k=0}^{N-1}r_k(X_k,A_k)+g(X_N)\right].
+\]
+This definition does not identify risk-penalized reward with cash profit.
+A realized random reward can replace $r_k$ inside the expectation.
+
+All comparisons start from the same fixed initial state or initial law.
+The model and deployment use the same observation class and feasible sets.
+A support error that admits overfills or a missing action that changes
+feasibility is not repaired by a small reward-error bound. A conservative
+common feasible mask is permitted; the resulting benchmark is the optimum
+within that mask. Comparison with a larger action class needs a separate
+restriction gap.
+
+\subsection{A finite-horizon transfer with a compiled policy}
+
+Let hats denote the fitted model. Total variation uses the convention
+$\operatorname{TV}(p,q)=\tfrac12\sum_y|p_y-q_y|$.
+Suppose, uniformly over feasible states and actions,
+\[
+ |r_k-\widehat r_k|\le\eta_k,\quad
+ \operatorname{TV}(P_k^a,\widehat P_k^a)\le\epsilon_k,
+ \quad |g-\widehat g|\le\eta_N.
+\]
+Let $S_k$ bound the span of every fitted-model continuation value of a
+policy in the comparison class, including its optimal value. Bounded
+stage rewards give the simple choice
+$S_k\le\sum_{j=k}^{N-1}R_j+R_N$, where $R_j$ is a common range width
+across all states and actions of fitted stage reward and $R_N$ is the
+terminal range width. Set
+\begin{equation}\label{eq:deployB}
+ B_N=\eta_N,\qquad
+ B_k=B_{k+1}+\eta_k+\epsilon_k S_{k+1}.
+\end{equation}
+
+\begin{theorem}[Statistical and implementation errors in one objective]
+\label{thm:deploymenttransfer}
+Under these assumptions, $|J(\pi)-\widehat J(\pi)|\le B_0$ for each
+common feasible policy, and $|J^*-\widehat J^*|\le B_0$.
+Suppose the actual implemented policy $\widetilde\pi$ satisfies
+\[
+ \widehat V_k^*(x)-\widehat Q_k^*(x,\widetilde\pi_k(x))
+ \le\zeta_k(x),\qquad \zeta_k(x)\ge0,
+\]
+where $\widehat Q_k^*=\widehat r_k+\widehat P_k\widehat V_{k+1}^*$.
+Then
+\begin{equation}\label{eq:deploymentregret}
+ J^*-J(\widetilde\pi)
+ \le 2B_0+
+ \widehat\E^{\widetilde\pi}\sum_{k=0}^{N-1}\zeta_k(X_k).
+\end{equation}
+The expectation on the right is under the fitted deployed-policy law.
+It may be bounded by $\sum_k\sup_x\zeta_k(x)$.
+\end{theorem}
+\begin{proof}
+For a fixed action and continuation $v$,
+$|(P-\widehat P)v|\le\operatorname{TV}(P,\widehat P)
+(\max v-\min v)$. Insert and subtract the fitted continuation in the
+one-step recursion. Backward induction gives \eqref{eq:deployB} for a
+fixed policy and, since the action sets agree, for the optimal Bellman
+operators. Telescoping the fitted optimal value along the implemented
+policy gives
+$\widehat J^*-\widehat J(\widetilde\pi)
+=\widehat\E^{\widetilde\pi}\sum_k
+[\widehat V_k^*(X_k)-\widehat Q_k^*(X_k,\widetilde\pi_k(X_k))]$.
+Insert the two model-comparison bounds to obtain
+\eqref{eq:deploymentregret}. The same proof applies to history states.
+\end{proof}
+
+\begin{remarkplain}[Relation to the path-coupling certificate]
+When $x$ is the full structural state of Section~29 and the decision-time maps
+agree, Theorem~\ref{thm:bookcoupling} applied to one decision interval
+supplies the transition budget: if the one-clock mark laws differ by at most
+$\eta$ in total variation, then
+$\epsilon_k\le 1-e^{-\Lambda\eta(t_{k+1}-t_k)}$ in \eqref{eq:deployB}. Neither certificate
+dominates the other. Corollary~\ref{cor:bookcertificate} charges one loss range $L$
+against the whole-path mismatch $1-e^{-\Lambda\eta T}$, whereas \eqref{eq:deployB} weights
+each interval's mismatch by the span $S_{k+1}$ of its own remaining
+continuation and additionally accepts reward-mean errors $\eta_k$ and
+history states.
+\end{remarkplain}
+
+If a fixed pair of baseline and candidate policies has fitted improvement
+$\widehat\Delta$, its true improvement is at least
+$\widehat\Delta-B_0^{\rm candidate}-B_0^{\rm baseline}$; $2B_0$ is a
+common-envelope choice. This certificate may be conservative. A shared-law
+advantage comparison can be tighter because common errors cancel.
+The implementation allowance must evaluate the action actually emitted
+after rounding, risk checks and timeouts. An optimizer tolerance before
+those transformations is not an implementation guarantee.
+
+\subsection{A transparent finite-sample construction}
+
+\begin{proposition}[Simultaneous coverage of a finite calibration table]
+\label{prop:deploymentcoverage}
+Consider $L$ prespecified state--action--time rows, each with at most $M$
+next-state categories. In row $\ell$, collect a fixed number $n_\ell\ge1$
+of independent draws from that row's joint reward/next-state law.
+The reward has a known range width $R_\ell$. Independence between reward
+and next state, or between different rows, is not needed. Let empirical
+means and frequencies define $\widehat r_\ell,\widehat P_\ell$.
+For $0<\delta<1$, define
+\begin{align}
+ e_\ell&=\min\left\{1,
+ \sqrt{\frac{(M+2)\log2+\log(L/\delta)}{2n_\ell}}\right\},
+ \label{eq:deployeps}\\
+ d_\ell&=R_\ell\min\left\{1,
+ \sqrt{\frac{\log(4L/\delta)}{2n_\ell}}\right\}.
+ \label{eq:deployeta}
+\end{align}
+With probability at least $1-\delta$, all rows satisfy
+$\operatorname{TV}(P_\ell,\widehat P_\ell)\le e_\ell$ and
+$|r_\ell-\widehat r_\ell|\le d_\ell$ simultaneously.
+Consequently Theorem~\ref{thm:deploymenttransfer} holds on that same event,
+even for a policy selected using the table.
+\end{proposition}
+\begin{proof}
+For a fixed subset $C$ of next-state categories, the empirical indicator
+mean differs from $P_\ell(C)$ by more than $u$ with probability at most
+$2e^{-2n_\ell u^2}$. There are at most $2^M$ subsets; total variation is
+the maximum of these absolute differences. A union bound over rows gives
+$L2^{M+1}e^{-2n_\ell u_\ell^2}\le\delta/2$ with the unclipped rowwise
+choice. The bounded-variable inequality gives a further failure
+probability at most $\delta/2$ for the reward means. The deterministic
+bounds $1$ and $R_\ell$ justify clipping. On their simultaneous event the
+preceding theorem applies uniformly, so subsequent policy selection does
+not require another union bound over policies.
+\end{proof}
+
+This deliberately conservative construction is a complete positive result
+for a stated sampling experiment. It is not an assertion that adjacent
+market events are independent. A single dependent book path, data-dependent
+bins, adaptive sample counts or hidden confounding do not satisfy it merely
+because many messages were recorded. Such settings require their own
+martingale, mixing or block-sampling argument. A row with no supported
+observations receives the trivial bounds $e_\ell=1$ and $d_\ell=R_\ell$,
+or its action is excluded; it does not receive zero error.
+
+If the deployment row is within total variation $v_\ell$ of its calibration
+law and its mean reward has changed by at most $w_\ell$, use
+$\epsilon_\ell=\min(1,e_\ell+v_\ell)$ and
+$\eta_\ell=d_\ell+w_\ell$. This follows by the triangle inequality.
+The drift budgets must be supplied or validated; a regime detector alone
+does not prove them. A latency-tail, unmodeled-event or state-reduction
+allowance can enter the same budgets only after its corresponding coupling
+or mean-error argument is stated. There is no blanket independent-delay
+assumption in this finite-kernel result.
+
+\subsection{Replay, interventions and supported policy evaluation}
+
+Public order-by-order data support displayed-book reconstruction. They do
+not reveal all latent liquidity: the Nasdaq ITCH specification distinguishes
+non-displayed executions from displayed-order lifecycle events
+\citep{itch}. A simulation of an inserted order additionally chooses
+its arrival time, priority and the market's response. Replaying unchanged
+external messages is a small-intervention modeling assumption, not an
+observed response to the inserted order. Raw packet replay helps reproduce
+transport and decoder behavior; a correctly ordered event stream can be
+sufficient for an economic experiment that explicitly supplies transport
+delays. Neither format creates missing counterfactual data.
+
+A simple positive off-policy statement makes the missing assumptions
+precise. Consider independent one-decision records $(X_i,A_i,Y_i)$ from a
+logging policy $\beta$, a candidate policy $\pi$ fixed independently of
+these evaluation records, and $|Y_i|\le M_Y$. Suppose the conditional
+outcome law given $(X,A)$ is invariant under the intervention, actions
+are conditionally randomized or unconfounded given $X$, and
+$\beta(a\mid x)\ge b_0>0$ whenever $\pi(a\mid x)>0$.
+The importance-weighted estimate
+\[
+ \widehat J_{\rm IS}=\frac1n\sum_i
+ \frac{\pi(A_i\mid X_i)}{\beta(A_i\mid X_i)}Y_i
+\]
+is unbiased for the candidate value on the logging context distribution.
+Conditioning on $X$, summing over $A$ cancels $\beta$ and proves this claim.
+Each summand lies in $[-M_Y/b_0,M_Y/b_0]$, so the bounded-variable inequality
+gives the fixed-sample confidence radius
+\[
+ \frac{M_Y}{b_0}\sqrt{\frac{2\log(2/\delta)}{n}}.
+\]
+This elementary instance illustrates the established high-confidence
+off-policy evaluation programme \citep{DeployThomas2015}. For sequential
+policies one generally needs trajectory or sequential density ratios and
+support for the induced histories; one-step weights are insufficient.
+An omitted confounder or an opponent response that changes with deployment
+invalidates the invariance assumption. At an unlogged action, two laws
+can agree on every observed record and assign opposite candidate rewards.
+No amount of additional data from the same unsupported policy identifies
+that comparison.

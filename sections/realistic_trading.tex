@@ -1,0 +1,188 @@
+\section{From benchmark gaps to a joint execution law}
+\label{sec:realisticexecution}
+
+The usefulness of AC and OW is that their assumptions make a decision
+transparent. Their limitations should be attached to those assumptions,
+not attributed to every member of an entire model family. In particular,
+AC uses linear permanent impact with a constant \emph{coefficient}; the
+price displacement is not constant. Under the continuous, fixed-quantity,
+single-asset convention of Proposition~\ref{prop:perminvisible}, its
+permanent cost is schedule-independent. The original AC paper also
+considers portfolios and a liquidity-adjusted VaR criterion
+\citep{almgren2001}. OW explicitly retains transient impact and book
+resilience \citep{obizhaevawang2013}; its block-shaped benchmark is not a
+model without liquidity recovery.
+
+Likewise, an empirical square-root relation between aggregate metaorder
+size and price change is not an instruction to replace instantaneous
+trading cost by a square root. The relevant input, horizon and conditioning
+must match. A concave price response can produce a convex total charge,
+while a nonlinear transient specification can admit profitable round trips
+unless response and decay satisfy additional restrictions
+\citep{gatheral2010,curato2017}. Sections~\ref{sec:nonlinear}
+and~\ref{sec:extensions} retain those distinctions.
+
+\subsection{Six requirements and their present status}\label{sec:requirements}
+
+\paragraph{Fill law.}
+Sections~\ref{sec:types}, \ref{sec:venues}, \ref{sec:bookbridge}
+and~\ref{sec:algorithm} already distinguish instructions, venues,
+reservations, tagged orders and executable messages. A schedule is a
+requested control, not proof that every requested share fills. A market
+application still needs venue-specific priority rules, size-dependent
+partial fills, tick and lot admissibility, and the joint timing of
+messages, acknowledgements and executions. Replacing an order resets its
+priority according to those rules; a pending cancel does not release a
+reservation merely because the trader sent it.
+
+\paragraph{Impact and changing liquidity.}
+Nonlinearity and cross-impact are represented in the structural analysis;
+they are not empirically calibrated here. An intraday clock, a volatility
+state and a signal can enter the controlled book law. A U-shaped seasonal
+profile is a candidate fit to test by venue, asset and day type, not a
+universal law to impose. Own impact must enter the transition law as well
+as the current transaction price if it changes subsequent opportunities.
+A signal-dependent drift must also be separated from price movement
+caused by the trader.
+
+\paragraph{Information and adverse selection.}
+The belief and observation certificates address discarded information and
+supplied uncertainty sets. They do not make parameters known. A marked
+jump can join a fill, a news shock and a deterioration of depth in one
+event. Calibration must preserve their dependence. Hidden toxicity calls
+for a belief state or another sufficient observation summary; enlarging a
+state vector with unavailable information creates an infeasible benchmark.
+A survival estimator for fill time also needs a stated censoring target:
+policy-driven cancellation can be informative, and cancellation and fill
+can instead be modeled as competing events. Treating cancellation as
+independent censoring requires justification.
+
+\paragraph{Competition.}
+A controlled book can encode a reduced-form response to displayed size,
+quote changes and schedule predictability. It does not thereby solve a
+game among strategic agents. A Nash claim needs opponents' information,
+action sets and best responses, and a joint equilibrium calculation.
+The model-risk family should include changes in the response to one's own
+policy; perturbing only exogenous order-arrival rates misses this channel.
+
+\paragraph{Objectives and constraints.}
+The mandate ledger and terminal condition are part of the problem.
+Fees, rebates and hedge costs belong in net cash flows. Capital and
+inventory limits belong in feasibility; drawdown needs wealth and its
+running peak if modeled as a path constraint. A quadratic risk charge is
+one declared preference, not a substitute for every such requirement.
+Adaptive mean--variance and ratio objectives do not in general satisfy the
+ordinary additive Bellman recursion. Precommitment or an equilibrium
+interpretation must be specified before claiming time consistency.
+
+\paragraph{Evaluation.}
+The monograph already supplies model-error and robustness certificates. What
+remains is evidence that their uncertainty family covers the relevant
+market law. A fixed historical book cannot identify the market response
+to an unobserved intervention merely by inserting simulated orders.
+Counterfactual support, dependence stress and impact-aware evaluation are
+separate from solving the chosen control problem accurately.
+
+\subsection{What is shared by the Bellman step}
+
+At decision time \(t\), let \(x\) retain remaining quantity, live-order
+reservations, available queue information, impact memory and any observed
+signal or hidden-state belief. A joint kernel
+\(P_t(\dd z\mid x,a)\) describes executed sizes and prices, fees,
+price/depth changes and message acknowledgements. With a state update
+\(F_t\) and a one-step shortfall charge \(\ell_t\), a finite-horizon
+expected-cost problem reads
+\begin{equation}\label{eq:jointexecutionbellman}
+ V_t(x)=\inf_{a\in\mathcal A_t(x)}
+  \int\{\ell_t(x,a,z)+V_{t+1}(F_t(x,a,z))\}
+                  P_t(\dd z\mid x,a).
+\end{equation}
+Every allowed event must preserve the physical ledger. The terminal value
+specifies completion, an executable fallback, or an explicit failure
+penalty. Assigning \(+\infty\) to noncompletion is a hard constraint, not a
+claim that completion is always feasible.
+
+This recursion is shared by many models because it is conditional
+optimization. It does not justify independent fill and price kernels.
+Nor does inserting a worst-case kernel separately at each node necessarily
+evaluate one unknown, fixed model: a nodewise adversary permits different
+choices after different histories. Such rectangular uncertainty is a
+stronger problem unless the family is stable under this pasting, or the
+state retains the common latent parameter. The baseline-relative
+certificate in Section~\ref{sec:baselineexecution} instead compares the
+proposal and baseline under the same model.
+
+\subsection{A dependence term that reverses the routing decision}
+
+A two-date completion problem isolates one missing interaction without
+claiming to describe a calibrated exchange. There are \(Q\) shares left.
+An immediate market action costs \(C_M\). Alternatively, a passive order
+fills \(F\in[0,Q]\), earns a rebate \(r\) per share, and the residual is
+completed at the next date at an incremental cost \(K\) per share. Both
+choices complete the mandate; the fallback is assumed available for the
+full residual. All prices are relative to one initial benchmark, with
+\(K\) including whatever terminal slippage this supplied law specifies.
+
+\begin{proposition}[The fill--completion dependence charge]
+\label{prop:completiondependence}
+For square-integrable \(F,K\), the expected passive cost is
+\begin{equation}\label{eq:completioncovariance}
+ C_P=\E K\,(Q-\E F)-r\E F-\Cov(K,F).
+\end{equation}
+An independent coupling with the same marginals underestimates this cost
+by \(-\Cov(K,F)\) when the covariance is negative. Its absolute error is
+at most \(\sqrt{\Var(K)\Var(F)}\). If only discrete marginals
+\(p_i=\Pr(F=f_i)\), \(q_j=\Pr(K=k_j)\) are supplied, the exact smallest
+and largest expected costs are the minimum and maximum of
+\begin{equation}\label{eq:completiontransport}
+ \sum_{ij}\pi_{ij}\{k_j(Q-f_i)-rf_i\},\qquad
+ \pi_{ij}\ge0,\quad \sum_j\pi_{ij}=p_i,\quad \sum_i\pi_{ij}=q_j.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Expand \(\E[K(Q-F)-rF]\) and use
+\(\E[KF]=\E K\E F+\Cov(K,F)\). Cauchy--Schwarz gives the bound.
+Every joint law with the stated finite marginals is a feasible matrix
+\(\pi\), and every such matrix defines a joint law. The feasible set is
+nonempty and compact, so the linear objective attains both extrema.
+\end{proof}
+
+Take \(Q=1\), \(r=0.001\), \(C_M=0.06\). A paired three-event law has
+\[
+ (F,K)=(1,0.02),\ (0.5,0.08),\ (0,0.30),
+ \qquad p=(0.45,0.35,0.20).
+\]
+Both this law and the independent coupling have
+\(\E F=0.625\) and \(\E K=0.097\). Nevertheless, the independent cost is
+\(0.035750\), whereas the paired cost is \(0.073375\): the preferred
+choice changes from passive to immediate execution. The loss from using
+the independently selected action under the paired law is \(0.013375\)
+per unit parent quantity. Under a convex mixture with paired-law weight
+\(\theta\), passive cost is
+\(0.035750+0.037625\theta\), crossing the market cost at approximately
+\(\theta=0.64452\). These are normalized synthetic costs, not market bps.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Same marginal fills and completion prices; different joint laws.
+The marginal-only worst case is an extremum of
+\eqref{eq:completiontransport}. All values are synthetic.}
+\begin{tabular}{lrr}
+\toprule
+Law & Passive expected cost & Selected action\\
+\midrule
+\inputtable{tables/realism_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+The calculation in \texttt{scripts/realism\_stress.py} compares exact
+rational expectations with the marginal-coupling linear program and
+checks the routing switch on a mixture grid. It is a dependence stress,
+not an identification of endogenous impact. If \(K\) also changes with
+submitted size or timing, that response requires its own controlled law.
+
+\subsection{A falsifiable evaluation contract}
+
+Section~\ref{sec:contract} turns these requirements into a preregistered
+evaluation contract.
