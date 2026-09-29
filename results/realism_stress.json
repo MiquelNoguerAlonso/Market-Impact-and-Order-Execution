@@ -1,0 +1,18 @@
+{
+  "synthetic_only": true,
+  "mean_fill": 0.625,
+  "mean_completion_cost": 0.097,
+  "independent_cost": 0.03575,
+  "paired_cost": 0.073375,
+  "market_cost": 0.06,
+  "covariance": -0.037625,
+  "marginal_cost_extrema": [
+    0.009875,
+    0.073375
+  ],
+  "switch_theta": 0.6445182724252492,
+  "wrong_action_loss": 0.013375,
+  "exact_mixture_cases": 101,
+  "random_covariance_checks": 100,
+  "max_identity_error": 1.6653345369377348e-16
+}
