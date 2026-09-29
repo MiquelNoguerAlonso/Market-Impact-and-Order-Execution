@@ -1,6 +1,6 @@
 # Verified build
 
-The final v12 companion was compiled from a clean project build on September
+The Lean companion was compiled from a clean project build on September
 14, 2026. `lake build` and the axiom audit both passed with zero warnings and
 zero errors. The active Lean sources contain no admitted proofs, user-defined
 axioms, `native_decide`, or unsafe declarations.
