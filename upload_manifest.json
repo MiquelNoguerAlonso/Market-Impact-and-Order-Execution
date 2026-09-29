@@ -1,12 +1,18 @@
 {
   "paper": 1,
   "repository": "Market-Impact-and-Order-Execution",
-  "private": true,
+  "private": false,
+  "manuscript_date": "2026-09-28",
   "main_source": "main.tex",
-  "pages": 117,
-  "png_figures": 11,
-  "pdf_sha256": "e41802b2d98a3aa4df56c749c86c0bc0c791a0bc0b678f1a372087361278bd42",
-  "source_archive_sha256": "33c4b7efc80d22cf61f3fce8e10e6d8dc24b37cfc3093e0fd6dd9917ff2ed86c",
+  "pages": 132,
+  "png_figures": 13,
+  "pdf_sha256": "7d9411898f6a475ec751b85346306e4e0272a5a758269baba76f539a8b10b039",
+  "source_archive": "source-and-reproducibility.zip",
+  "source_archive_sha256": "63ffb190e5c0ac443f1fd9376dcb0d1a3e6c6103a17496427397bc13bf8f6c85",
+  "manifest_sha256": "bba8bd664274eb052c14dcaabd71b270ddadda083fd93f28b4ea9a291617962a",
   "full_source_tree_in_repository": true,
-  "doi": "10.5281/zenodo.22736805"
+  "original_deposit_doi": "10.5281/zenodo.22736805",
+  "doi": "10.5281/zenodo.23027593",
+  "doi_deposit_updated": false,
+  "data": "Synthetic mathematical experiments; no market data."
 }

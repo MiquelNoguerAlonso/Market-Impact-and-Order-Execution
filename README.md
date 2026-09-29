@@ -1,50 +1,30 @@
-# Market Microstructure Trilogy — Paper I
+# The Mathematics of Market Impact and Order Execution
 
-**The Mathematics of Market Impact and Order Execution**  
-DOI: <https://doi.org/10.5281/zenodo.22736805>  
-Fixed manuscript date: **15 September 2026**
+Miquel Noguer Alonso · 28 September 2026  
+DOI: https://doi.org/10.5281/zenodo.23027593
 
-## Compile
+## Manuscript
 
-The main document is `main.tex`. With pdfLaTeX and `latexmk` installed, run:
+Edit `main.tex` and its section inputs. `paper.tex` is the Overleaf entry point;
+select pdfLaTeX. `paper.pdf` is the compiled manuscript. Figures, bibliography,
+tables, mathematical verification scripts and computational results are included.
 
-    latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+## Reproduce
 
-All 11 publication-resolution PNG figures and every section and table input
-needed to compile the deposited PDF are included. The bibliography is embedded
-in `main.tex`.
+```bash
+python -m pip install -r requirements.txt
+python scripts/release.py --check
+python scripts/reproduce.py
+python scripts/certified_improvement.py
+python scripts/realism_stress.py
+python deployment/verify_production.py
+python deployment/verify_additional.py
+python scripts/release.py --build
+```
 
-## Reproduce and verify
+The release script checks references, layout warnings, SHA-256 inventories and
+archive contents. The guarantees depend on the stated models and assumptions.
+The numerical experiments are synthetic and do not establish market profitability.
 
-The numerical environment is pinned in `requirements.txt`. To regenerate the
-figures, tables, result files, and numerical audit reports, run:
-
-    python -m pip install -r requirements.txt
-    python scripts/reproduce.py
-    latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
-
-The reproduction command runs ten scripts and stops on any failed assertion.
-To verify the hashes recorded for a delivered source tree before regenerating
-it, run `python scripts/check_package.py`.
-
-The `lean/` directory contains the pinned Lean 4.19.0/Mathlib v4.19.0
-companion. Its exact scope and build commands are documented in
-`lean/COMPILE.md`; the automated clean check is:
-
-    python scripts/verify_lean.py --clean
-
-The associated build, axiom, environment, and machine-readable audit evidence
-is included under `audit/`.
-
-## Package contents
-
-- `main.tex`, `sections/`, and `tables/`: manuscript source and generated inputs.
-- `figures/`: the 11 figures used by the manuscript.
-- `scripts/`, `results/`, and `requirements.txt`: complete numerical reproduction.
-- `lean/`: pinned formal companion sources and configuration.
-- `audit/`: current verification evidence and the submission review.
-- `Trilogy_Citations.bib`: definitive BibTeX records for the three papers.
-- `MANIFEST_SHA256.txt`: SHA-256 inventory of the source archive.
-
-The trilogy uses a fixed star citation architecture: Papers II and III cite
-Paper I; Papers II and III do not cite one another.
+The scope and recorded build evidence for the Lean companion are documented
+in `lean/COMPILE.md`. Only the stated finite lemmas are formalized.

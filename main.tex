@@ -31,6 +31,7 @@
 
 \numberwithin{equation}{section}
 \newtheorem{theorem}{Theorem}[section]
+\newtheorem{classical}[theorem]{Classical result}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -39,6 +40,7 @@
 \newtheorem{definition}[theorem]{Definition}
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
+\newtheorem*{remarkplain}{Remark}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\E}{\mathbb{E}}
@@ -63,6 +65,8 @@
 \theoremstyle{definition}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{assumption}[theorem]{Assumption}
+\crefname{classical}{Classical result}{Classical results}
+\Crefname{classical}{Classical result}{Classical results}
 \crefname{assumption}{Assumption}{Assumptions}
 \Crefname{assumption}{Assumption}{Assumptions}
 \newcommand{\Pp}{\mathbb P}
@@ -86,51 +90,50 @@
 \title{The Mathematics of Market Impact and Order Execution\\[2pt]
 \large Impact Kernels, Feasible Policies, and Execution Certificates}
 \author{Miquel Noguer Alonso\\ Artificial Intelligence Finance Institute (AIFI)}
-\date{15 September 2026\\[5pt]\small DOI:
-\href{https://doi.org/10.5281/zenodo.22736805}{10.5281/zenodo.22736805}}
+\date{28 September 2026\\[5pt]\small DOI:
+\href{https://doi.org/10.5281/zenodo.23027593}{10.5281/zenodo.23027593}}
 
 \hypersetup{
   pdftitle={The Mathematics of Market Impact and Order Execution},
   pdfauthor={Miquel Noguer Alonso},
-  pdfsubject={A theoretical treatment of execution optimization, with illustrative numerical examples. DOI: 10.5281/zenodo.22736805},
+  pdfsubject={A theoretical treatment of execution optimization, with illustrative numerical examples. DOI: 10.5281/zenodo.23027593},
   pdfkeywords={optimal execution, order placement, venue allocation, hidden liquidity, stochastic control}
 }
 
 \begin{document}
 \maketitle
 \begin{abstract}
-An execution policy chooses quantities, instructions and destinations under
-uncertain fills and a completion mandate. This monograph develops conditional
-certificates that compare a feasible implemented policy with the optimum in
-a stated information class, with all errors expressed in execution cost.
-The main construction connects a controlled, tagged order-flow and clearing
-model to a conserved parent ledger, observable feedback policies and bounds
-on the effects of primitive model error.
+An execution policy must complete a parent mandate while choosing quantities,
+order instructions and destinations under uncertain liquidity. This monograph
+connects that operational problem to impact models and conditional bounds on
+execution cost. A controlled, tagged order-book model preserves the parent
+ledger, live-order reservations and the trader's information. Feasible
+signature policies admit exact quadratic reductions in an exogenous setting;
+partially observed endogenous books require separate planning and
+observation-reduction certificates.
 
-For an exogenous signal augmented by exponential-kernel coordinates, a
-completion-constrained signature rate policy has an exact quadratic objective
-and an explicit kernel, moment and optimization-error certificate. For
-endogenous partially observed books, a bounded-loss transcript argument gives
-an existential policy-class approximation result under finite actions and
-exact feasibility masks. A separate binary hidden-liquidity construction
-makes the global planning gap computable by a lower relaxation and physical
-hidden-state evaluation of a finite controller. Conditional action-law
-envelopes extend that certificate to policies using richer reports than the
-controller retains. Their backward recursions bound observation-reduction
-loss without assuming a Markov summary; binary posterior intervals reduce
-each robust step to two endpoint evaluations. Singleton envelopes establish
-exact value sufficiency; action comparisons can certify optimal decisions
-even when the conditional value is not determined by the summary.
+The structural analysis covers impact kernels, manipulation, nonlinear
+size laws, cross-impact, information value and venue allocation. The control
+analysis separates physical feasibility, approximation error, model error
+and numerical optimization error. A baseline-relative extension answers a
+further deployment question: how much of a proposed schedule change can be
+accepted without increasing cost under any law in a declared uncertainty
+family? For diagonal impact uncertainty and ellipsoidal linear charges, the
+worst-case comparison along a feasible schedule segment is an explicit
+quadratic. Its minimizer gives both an acceptance fraction and a guaranteed
+saving. A capacity condition preserves completion at each update.
 
-Structural foundations include analytic cost expansions, quartic corrections,
-size-law crossovers and the relation between permanent cross-impact and
-inventory-loop area. Information bounds, marginal-cost routing, quantity
-reservations and distinct NYSE and Nasdaq auction representations connect
-these results to execution decisions. Synthetic experiments check the
-certificates, including exact rational cases with a strictly positive cost
-of discarded reports. The claims concern supplied models and explicit
-conditional bounds. They do not establish market calibration, compact
-signature representations, or live-market outperformance.
+A joint fill--completion calculation shows how dependence alone can reverse
+a routing decision while preserving both marginal laws.
+A discrete implementation layer adds reservation-preserving order updates,
+robust completion masks and exact integer allocation. Finite-sample row
+coverage and a policy-transfer bound separate calibration uncertainty from
+the loss of the emitted implementation.
+
+Reproducible synthetic experiments, including exact rational cases, test
+the identities and certificates. The results concern supplied models and
+explicit uncertainty bounds. They do not establish market calibration,
+counterfactual identification or live-market outperformance.
 \end{abstract}
 
 \noindent\textbf{Keywords:} optimal execution; market impact; propagator models; manipulation; path signatures; information bounds; Nash equilibrium; NYSE; Nasdaq; stochastic control.
@@ -192,6 +195,8 @@ Theorem~\ref{thm:stokes}, the ray form of Corollary~\ref{cor:quartic}, and
 Theorem~\ref{thm:routing} --- are accompanied by Lean~4 formalizations;
 Appendix~\ref{app:lean} states exactly what that does and does not cover.
 
+Section~\ref{sec:realisticexecution} distinguishes six practical model gaps from mechanisms already represented, and gives an exact dependence stress in which unchanged marginal fills and completion prices reverse the routing decision.
+
 \subsection{Mechanisms and execution certificates}
 
 Two useful axes are response shape and persistence. A response can be linear or
@@ -200,7 +205,7 @@ persist, decay, or enter only the current execution premium. Trade size,
 metaorder size, participation and trading rate are different inputs; an exponent
 estimated for one is not automatically an exponent for another.
 
-The paper is primarily theoretical: it develops tractable impact benchmarks and
+The monograph is primarily theoretical: it develops tractable impact benchmarks and
 connects them to execution on NYSE and Nasdaq. Its results are conditional on explicit trading and cost
 conventions. Splitting invariance gives a Cauchy equation for permanent trade
 impact. Linear transient cost is an energy form; round-trip nonnegativity is a
@@ -216,10 +221,19 @@ terminal-state contribution of the exponential lift.
 The execution layer then treats schedules, instructions and destinations as a
 joint decision under uncertain fills. It derives accounting identities,
 reservation constraints, allocation rules, information-value bounds, and separate
-NYSE and Nasdaq auction representations. Synthetic calculations illustrate the
-comparative statics and decision rules under the stated assumptions.
-The mathematical arguments and numerical illustrations supply the evidence
-for the claims made here.
+NYSE and Nasdaq auction representations. Sections~38 and~39 complete the implementation interface: reservation-preserving
+order updates, robust completion masks, exact integer allocation, finite-sample
+row coverage, and a policy-transfer bound for the emitted implementation.
+
+\paragraph{Scope, stated once.}
+Every theorem below is conditional on its displayed hypotheses: a specified
+cost convention, a specified feasible set and, from Part~IV onward, a supplied
+controlled law or uncertainty set. Every numerical calculation uses stipulated
+synthetic parameters; none is estimated from NYSE or Nasdaq records, and none
+is evidence of market calibration, counterfactual identification or
+live-market outperformance. Section~40 states what such evidence would
+require. Individual sections repeat a caveat only when it concerns a
+hypothesis specific to that section.
 
 The central execution construction is stated in
 \cref{thm:sigquadratic,thm:completion,thm:certificate}. Exponential kernel
@@ -271,7 +285,29 @@ decisions, seven instructions, action-dependent liquidity transitions and
 private fill information; its global certificate is obtained by finite
 calculation, without an assumed optimization oracle.
 
+\subsection{From a parent mandate to executable decisions}\label{sec:intro-mandate}
+A decision to acquire a position is incomplete until a sequence of executable
+instructions has been specified. A requirement to buy 200{,}000 shares before
+the close does not say when to trade, whether to cross the spread, how long to
+wait in a queue, how much to display, or where to route. Classical optimal
+execution makes the schedule explicit \citep{bertsimaslo1998,almgren2001};
+order-placement models make uncertain liquidity explicit across venues, order
+types and dark pools
+\citep{cont2017,cartea2015,kratz2015,huang2015}.
+In practice these ingredients are often fitted and optimized separately: a
+scheduler assumes an average cost, a placement rule maximizes one child's fill
+probability, a router chases a rebate, and a hidden-stock estimate is treated
+as observable supply. Parts~V--VI give them one interface: a state containing
+remaining quantity, deadline, live commitments, public observations, private
+reports and a belief about unobserved liquidity; an action specifying quantity,
+venue, instruction, price and lifetime; and one joint transition law used both
+to optimize and to evaluate. The marginal continuation value of an unexecuted
+share connects scheduling urgency to willingness to pay at a venue.
+
+
 \part{Impact: mechanisms and evidence}\label{pt:lit}
+
+
 \section{Five mechanism families}\label{sec:families}
 
 A separable propagator is a useful model class, not a universal representation of
@@ -426,6 +462,10 @@ $c$ in the potential condition & Constant marginal energy on the optimal support
 $c_v$ in routing & Capacity of venue $v$ in the current allocation problem \\
 $C$ in the belief bound & Range of conditional expected total policy cost \\
 $c$ in the simulation bound & Upper bound on one stage's shifted nonnegative loss \\
+$\lVert\nu\rVert_{\mathrm{TV}}$ & Total-variation (mass) norm of a signed measure (Sections~14, 20)\\
+$\mathrm{TV}(P,Q)$ & Distance between probability laws, $\sup_A\lvert P(A)-Q(A)\rvert$ (Sections~18, 29, 39)\\
+$\mu$ in routing & Common marginal cost of a venue allocation (Theorem~27.1)\\
+$\mu^a_s$; $\mu$ in \S40.3 & One-clock primitive mark law (Section~29); logging policy (Section~40.3)\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -956,14 +996,14 @@ combine temporary and transient effects. These results use additional
 hypotheses and are not consequences of kernel positivity alone.
 
 \subsection{Dynamic portfolios and hedging}
-\begin{proposition}[A linear-quadratic policy form]\label{prop:gp}
+\begin{classical}[A linear-quadratic policy form]\label{prop:gp}
 In the stationary quadratic-cost, quadratic-risk and mean-reverting-predictor
 model of \citet{garleanupedersen2013}, the optimal position moves toward an aim
 portfolio according to
 $ x_t=x_{t-1}+M(\mathrm{aim}_t-x_{t-1})$,
 with the adjustment matrix and aim weights determined by the model's Riccati
 system.
-\end{proposition}
+\end{classical}
 This is a literature result under its stationary model, not a new proof here.
 Quadratic temporary-impact hedging tracks an average of expected future target
 positions \citep{banksoner2017}; it is not generally a proportional-cost
@@ -992,7 +1032,7 @@ supply different routes. No one route is guaranteed valid, and instruments are
 not the only possible identifying design. Execution and forecasting comparisons
 must state their conditioning sets and remaining uncertainty.
 
-\part{A general theory of impact}\label{pt:general}
+\part{Analytic cost functionals and the geometry of impact}\label{pt:general}
 
 The preceding part solved a list of cells: linear kernels with explicit
 schedules, nonlinear rate responses with partial obstructions, cross-impact on a
@@ -1010,6 +1050,20 @@ fair-pricing condition link the large-size exponent and permanent fraction.
 Finally, a positive convexification gap can be realised by an ordinary
 two-rate schedule; only a failure of finite contact permits non-attainment.
 Each statement below keeps its domain and boundary conditions explicit.
+
+\paragraph{Domain of this part.}
+Assumption~\ref{ax:analytic} is a genuine restriction, and it partitions the
+cells of Part~II. It holds for the linear propagator models of Sections~6--7,
+for local quadratic temporary cost, and for analytic transformations of a
+bounded energy such as the crossover of Proposition~\ref{prop:crossover}. It
+fails for the nonlinear rate propagators of Section~8 and
+Proposition~9.2: with $f(v)=\operatorname{sgn}(v)\lvert v\rvert^{\delta}$,
+$0<\delta<1$, the cost has no bounded second derivative at zero, as
+Corollary~\ref{cor:nonanalytic} records. Within this part, only Section~12 uses
+Assumption~\ref{ax:analytic}. Sections~13--16 hold under their own
+hypotheses---a linear permanent or transient operator, a bounded kernel, a
+metaorder-size law, or a lower semicontinuous local cost---and therefore also
+apply to models that Section~12 excludes.
 
 \section{The graded hierarchy of cost functionals}\label{sec:hierarchy}
 
@@ -1029,16 +1083,17 @@ smaller ball.
 \end{assumption}
 
 \begin{assumption}[Truncation consistency]\label{ass:trunc}
-There is a family $\mathcal C_t$, $t\in[0,T]$, with $\mathcal C_T=\mathcal C$,
-such that $\mathcal C_t[v]=\mathcal C[v\mathbf 1_{[0,t]}]$ for every admissible
-$v$ --- so that $\mathcal C_t[v]$ depends on $v$ only through $v|_{[0,t]}$ and
-the partial-horizon functionals are restrictions of the same functional --- and
-$t\mapsto\mathcal C_t[v]$ is nondecreasing in $t$ for $v$ of one sign.
-This is stronger than causality: the family
-$\mathcal C_t[v]=(t/T)\bigl(\int_0^t v\bigr)^2$ with
-$\mathcal C[v]=\bigl(\int_0^T v\bigr)^2$ depends only on the past,
-agrees at $t=T$, and is not a restriction of a single kernel family.
+There is a family $\mathcal C_t$, $t\in[0,T]$, with $\mathcal C_T=\mathcal C$ and
+$\mathcal C_t[v]=\mathcal C[v\mathbf 1_{[0,t]}]$ for every admissible $v$: each partial-horizon
+functional is the restriction of the same functional, and so depends on $v$
+only through $v|_{[0,t]}$. Moreover $t\mapsto \mathcal C_t[v]$ is nondecreasing for $v$
+of one sign. Truncation consistency is stronger than causality. The family
+$\mathcal C_t[v]=(t/T)\int_0^t v^2$, with $\mathcal C[v]=\int_0^T v^2$, depends only on the past
+and agrees with $\mathcal C$ at $t=T$, but it is not truncation consistent:
+$\mathcal C[v\mathbf 1_{[0,t]}]=\int_0^t v^2\ne \mathcal C_t[v]$ whenever $t<T$ and $v$ is not
+zero almost everywhere on $[0,t]$.
 \end{assumption}
+
 
 \begin{assumption}[Stationarity]\label{ax:stat}
 Extending schedules by zero to $\R$, $\mathcal C[\tau_h v]=\mathcal C[v]$ for
@@ -1731,7 +1786,7 @@ Let $h:[0,\infty)\to[0,\infty)$ be Borel with $h(0)=0$, and consider
 \end{equation}
 Write $h^{**}$ for the lower convex envelope of $h$.
 
-\begin{theorem}[Value, attainment and concentration]\label{thm:relaxation}
+\begin{classical}[Value, attainment and concentration]\label{thm:relaxation}
 Let $h$ be finite, nonnegative and lower semicontinuous, with $h(0)=0$,
 and put $x=X/T>0$. Over nonnegative integrable rates, the infimum of
 \eqref{eq:localprob} is $Th^{**}(x)$. It is attained if and only if there
@@ -1750,7 +1805,7 @@ If no finite contact pair exists, no minimizing sequence of rate laws is
 uniformly integrable in its first moment. With a finite rate cap
 $\bar V\ge x$, the infimum for the restricted integrand is always attained
 by at most two rates in $[0,\bar V]$.
-\end{theorem}
+\end{classical}
 \begin{proof}
 The cost and constraint depend only on the rate law under normalized time.
 Jensen gives the lower bound $Th^{**}(x)$. In one dimension the convex
@@ -1830,7 +1885,7 @@ Fix a deterministic initial state $z_0$ and a horizon $T$. A stopped history
 $H=(t,z)$ is a continuous finite-variation path on $[0,t]$ with $z(0)=z_0$
 and time coordinate $z^1(s)=s$. Extend every coordinate constantly from $t$ to
 $T$ to define the $1$-variation topology on histories. Write
-$\mathbb S(H)=\mathbb S_{0,t}(z)$ for the ordinary signature, including the
+$\mathbb S(H)=\mathbb S_{0,t}(z)$ for the ordinary signature \citep{lyons1998}, including the
 depth-zero constant. Policies of depth $N$ have the form
 \begin{equation}\label{eq:sigpolicy}
  v_t=\langle\ell,\mathbb S^{\le N}_{0,t}(Z)\rangle,
@@ -2298,9 +2353,9 @@ equilibrium.
 \end{proof}
 
 \begin{theorem}[The crowding operator]\label{thm:crowding}
-Assume symmetric mandates $X_i=X/N$ and look for a symmetric equilibrium
-$v_i=w/N$. Then the equilibrium aggregate $w$ satisfies, for a Lagrange
-multiplier $c$,
+Under the hypotheses of Theorem~\ref{thm:nash}, let the mandates be
+symmetric, $X_i=X/N$. The unique equilibrium is symmetric, $v_i=w/N$,
+and its aggregate $w$ satisfies, for a Lagrange multiplier $c$,
 \begin{equation}\label{eq:crowdfoc}
  \Bigl(\Gamma+\tfrac1N\Gamma^*+\tfrac{2\eta}N\Bigr)w=c ,
 \end{equation}
@@ -2318,6 +2373,10 @@ $(N-1)/(N+1)$ appears, vanishing at $N=1$ and increasing to $1$ as
 $N\to\infty$.
 \end{theorem}
 \begin{proof}
+Permuting the players maps the game to itself and equilibria to equilibria.
+By uniqueness in Theorem~\ref{thm:nash}, the equilibrium is fixed by every
+permutation and is therefore symmetric.
+
 Differentiate \eqref{eq:gamecost} in $v_i$ at a symmetric profile: the own
 contribution to the aggregate gives $\Gamma w$ from the price the trader pays
 and $\Gamma^*v_i=\Gamma^*w/N$ from the effect of the trader's own rate on prices
@@ -2478,62 +2537,10 @@ better policies. The certificate bounds regret within that class.
 \Cref{cor:samplecertificate} supplies moment bounds for independent paths and
 bounded features; it does not establish those conditions for market data.
 The crossover and fair-pricing examples specify conditional mechanisms rather
-than an estimated order-book model. These distinctions delimit what the
-numerical illustrations can establish.
+than an estimated order-book model. 
 
 \part{The execution mandate}\label{pt:mandate}
-\section{From a parent mandate to executable decisions}\label{sec:mandate}
-
-A decision to acquire a position is incomplete until a sequence of executable
-instructions has been specified. A portfolio manager may require 200,000 shares
-before the close, but this instruction does not identify when to trade, whether
-to cross the spread, how long to wait in a queue, how much size to display, or
-where to send an order. These choices determine the distribution of execution
-cost and the possibility of completing the mandate. A forecast of the next
-midpoint, even if accurate, supplies only one input to that problem.
-
-Classical optimal execution makes the schedule explicit.
-\citet{bertsimaslo1998} formulate execution-cost minimization as a dynamic
-optimization problem. In the framework of
-\citet{almgren2001}, the trader balances impact against exposure to price risk.
-Order-placement models make the uncertainty of obtaining liquidity explicit:
-\citet{cont2017} analyze the distribution of market and limit orders across
-exchanges, while \citet{cartea2015} combine market and limit orders dynamically.
-Access to a dark pool adds a stochastic completion channel to trading at a
-traditional venue \citep{kratz2015}. Queue models provide a mechanism for
-translating order-book state into event intensities \citep{huang2015}.
-
-The practical difficulty is that these ingredients are often fitted and optimized
-separately. A scheduler assumes a quantity can be executed at an average cost.
-A placement rule maximizes fill probability for a child order without considering
-the remaining parent quantity. A router seeks a favorable fee or rebate without
-accounting for queue loss, correlated fills, or messages already in flight. An
-inventory filter produces a hidden-stock estimate that is then treated as if it
-were observable supply. Each component may be locally reasonable while the
-combined strategy is inconsistent.
-
-This paper develops a common mathematical interface. The trader has a remaining
-quantity, a deadline, live commitments, public observations, private execution
-reports, and a belief about unobserved liquidity. An action specifies a quantity,
-venue, order instruction, price, and lifetime. A joint transition law determines
-executions, prices, observations, and the next state. The same law drives the
-optimization and its evaluation. The central economic quantity is the marginal
-continuation value of an unexecuted share: it connects urgency at the parent
-level to willingness to pay at a venue.
-
-The contribution is a mathematical synthesis with fully specified examples.
-The elementary propositions are derived here to make their assumptions and
-implementation consequences explicit. They are not presented as the first
-derivations of scheduling, Bayesian control, or information value. The paper's
-distinctive organization joins these ideas to asynchronous order accounting,
-venue-dependent priority, uncertain hidden liquidity, and a reproducible
-comparison of decisions. It also explains an identification issue: a hidden
-variable can be important for execution even when its estimate fails to improve
-a price forecast. Proposition~\ref{prop:impacttransfer} supplies a quantitative
-link from a discretized impact primitive to execution-policy regret under a
-common response law; \cref{thm:bookcoupling,cor:bookcertificate} derive a
-response-law certificate from primitive order flow, and
-Proposition~\ref{prop:simulation} treats uniformly bounded conditional-kernel error.
+\section{Institutional scope}\label{sec:mandate}
 
 The institutional focus is cash-equity execution on the New York Stock Exchange
 (NYSE, XNYS) and The Nasdaq Stock Market (Nasdaq, XNAS). Order types below refer
@@ -3299,32 +3306,29 @@ when their acknowledgment or execution events arrive.
 
 \begin{proposition}[Clearing and parent conservation]\label{prop:taggedconservation}
 Starting from an uncrossed book, the price--time construction terminates and
-returns an uncrossed book with nonnegative queue sizes. Write $B^\pm$ for
-total resting shares, $A^\pm$ for accepted arrivals, $C^\pm$ for cancellations,
-$D^\pm$ for expired incoming residuals, and $V$ for matched volume during
-one update. Then
+returns an uncrossed book with nonnegative queue sizes. Write $B^\pm$ for total
+resting shares, $A^\pm$ for accepted arrivals, $C^\pm$ for cancellations,
+$D^\pm$ for expired incoming residuals, and $V$ for matched volume during one
+update. Then
 \begin{equation}\label{eq:bookconservation}
- B^{\pm\prime}=B^\pm+A^\pm-C^\pm-D^\pm-V.
+  B^{\pm\prime}=B^\pm+A^\pm-C^\pm-D^\pm-V.
 \end{equation}
-For a buy-only parent, admit new potentially executable exposure only when
-total live and pending own exposure $R$ remains at most $q$. If an own fill
-of $F$ shares removes the same $F$ from $R$ and from $q$, and canceled
-exposure is released only on an authoritative report, then $0\le R\le q$
-is preserved. In particular, the parent cannot overfill. Its cash ledger
-increments by $\sum_j f_jp_j+\mathrm{fees}$ and its residual by
-$-\sum_jf_j$.
+Each own fill of $F$ shares reduces the parent residual by $F$ and increments
+cash by $\sum_j f_jp_j+\text{fees}$. The event and decision maps preserve the
+reservation invariant of Proposition~\ref{prop:reserve} with $R=\sum_j r_j$;
+in particular the parent cannot overfill.
 \end{proposition}
+
 \begin{proof}
 Every match exhausts the arriving residual or at least one finite resting
-order. Thus the matching loop terminates. It leaves no compatible resting
-counterparty for a residual that is posted, and a cancellation cannot create
-a crossed book. Each match removes the same volume from the two sides;
-arrivals, cancellations and expiry give \eqref{eq:bookconservation}.
-An admitted instruction respects $R\le q$, a fill subtracts the same amount
-from both sides of this inequality, and an acknowledged cancellation only
-decreases $R$. Induction over messages and events proves the claim. The
-cash and parent identities follow by summing the recorded own trades.
+order, so the matching loop terminates. It leaves no compatible resting
+counterparty for a residual that is posted, and a cancellation cannot create a
+crossed book. Each match removes the same volume from the two sides; arrivals,
+cancellations and expiry give \eqref{eq:bookconservation}. The parent statements are the
+event-by-event bookkeeping in the proof of Proposition~\ref{prop:reserve},
+applied to the tagged own orders.
 \end{proof}
+
 
 This is a continuous price--time matching specialization. The NYSE parity,
 reserve and auction mechanisms in \cref{sec:venues,sec:auctions} require
@@ -4146,8 +4150,7 @@ feasibility and global-optimization hypotheses, execution regret converges
 to zero against all policies in the declared observation filtration.
 \Cref{prop:finitesoftmax} supplies an explicit finite-state approximation;
 \cref{prop:endodefect} separately accounts for using a reference objective.
-Neither statement converts a local nonconvex fit into a certified global
-optimum or turns synthetic calculations into market-performance evidence.
+Neither statement converts a local nonconvex fit into a certified global optimum.
 
 The constructive specialization in \cref{sec:computablepartial} supplies a
 finite algorithm and a posteriori global gap under its additional binary
@@ -4394,14 +4397,14 @@ where $g_\pi(h)$ includes all later uncertainty and costs under that fixed
 contingent plan. Suppose the feasible policy class is the same for every
 prior in the comparison. Then $V(b)=\inf_\pi J_\pi(b)$ is concave.
 
-\begin{proposition}[Free information cannot increase optimal expected cost]
+\begin{classical}[Free information cannot increase optimal expected cost]\label{prop:freeinformation}
 Let $B$ be the posterior after an additional signal observed before choosing
 the contingent plan. If $\E[B]=b$ and the signal does not change the underlying
 feasible set or impose a cost, then
 \begin{equation}\label{eq:voi}
  \E[V(B)]\leq V(b).
 \end{equation}
-\end{proposition}
+\end{classical}
 \begin{proof}
 An infimum of linear functions is concave. Jensen's inequality gives
 $\E[V(B)]\leq V(\E B)=V(b)$. Equivalently, the informed trader can ignore the
@@ -4472,6 +4475,8 @@ criterion are adapted appropriately. Nesting one-step conditional risk
 functionals gives a dynamically consistent alternative with a different
 meaning. Neither CVaR nor a large inventory penalty makes a physically
 impossible completion constraint feasible.
+
+\input{sections/certified_schedule_improvement.tex}
 
 \section{NYSE and Nasdaq auctions at the deadline}\label{sec:auctions}
 
@@ -4954,13 +4959,665 @@ One must reserve earlier completion capacity, accept a specified residual,
 or change the mandate. Exact cutoffs are instrument-, event- and rule-dependent
 inputs, not universal constants supplied by the optimization model.
 
-\part{Numerical illustrations}\label{pt:experiments}
-\section{Reproducible numerical illustrations}\label{sec:experiments}
+\part{Computable certificates under partial observation}\label{pt:experiments}
+\section{Certified controllers with hidden liquidity}\label{sec:experiments}
+This part applies \cref{thm:computablepartial,prop:partialmeshrate,cor:partialsignature}
+and \cref{thm:summarysandwich,cor:summarysufficiency,prop:summaryrate,prop:binarysummary,thm:summaryactioncertificate} to a finite model in which the controller does not observe
+the liquidity regime and its own instructions change that regime. The global
+certificates are obtained by finite calculation with rational outward
+enclosures, without an optimization oracle. The remaining numerical checks---the
+analytic schedule and routing, the liquidity-learning comparison, the
+exact-completion certificate, the tagged-book rate certificate and
+signature feedback---are in Appendix~\ref{app:reproduction}.
 
-The examples support the theoretical development by checking arithmetic and
-showing which economic decisions the assumptions produce. Every parameter is
-stipulated below and in the executable source. The examples are model
-illustrations; no parameter was estimated from Nasdaq or NYSE records.
+\input{sections/partial_observation_experiment.tex}
+
+\input{sections/observation_summary_experiment.tex}
+
+\clearpage
+\part{Implementation and evidence}\label{pt:impl}
+\section{Learning a model suitable for execution}\label{sec:learning}
+The object to be estimated is the action-dependent joint law
+\begin{equation}
+  p_\theta\bigl(F,P,Y,B',\ell',I',r'\mid B,\ell,I,r,b,a\bigr) \label{eq:jointlearn}
+\end{equation}
+of fills, prices, reports and next state, given the current state, belief and
+action. Section~29 supplies one construction: estimate action-dependent
+primitive intensities and any unidentified mark law, then compose them with
+the known matching and reporting maps. Three consequences follow from results
+already proved. First, a generative model of displayed books that is not
+conditioned on the action cannot evaluate a policy that changes demand, queue
+composition or disclosure. The relevant accuracy is the uniform primitive
+error in \eqref{eq:primitiveerror}, which a good likelihood on the logging distribution does not
+establish (Theorem~\ref{thm:bookcoupling}). Second, a belief update takes the
+trader's own actions as inputs, \eqref{eq:bayes}; a filter trained only on passive
+observations can be miscalibrated under an aggressive policy. Third, own impact
+is identified only by variation in size and timing that is not itself driven by
+the information the action responds to (Section~11). Historical replay answers
+the narrower small-intervention question of Section~39.4.
+
+Recurrent or attention-based encoders can parameterize (35.1). A latent
+coordinate is not measured hidden inventory without an identification
+argument, and positivity-preserving decoders of spread, gaps and depth enforce
+valid book geometry, not the parent ledger or exchange priority. For transient
+impact a simple additional state is
+\begin{equation}
+  I_{k+1}=\rho I_k+\zeta x_k,\qquad 0\le\rho<1,\ \zeta\ge0, \label{eq:impactstate}
+\end{equation}
+with $\zeta$ the impact-state loading per executed share; the chosen structure
+must be checked for profitable round trips as in Sections~6 and~14.
+
+\section{From optimization to executable messages}\label{sec:algorithm}
+
+A practical controller uses receding-horizon optimization. At each reliable
+decision point it updates its state, simulates or integrates candidate
+continuations, sends the first admissible instruction, and then incorporates
+the resulting reports before replanning. Optimization frequency should reflect
+the event rate, computation budget and value of changing a decision. Faster
+replanning is not useful if it repeatedly forfeits queue position or acts on
+stale observations.
+
+\begin{center}
+\fbox{\begin{minipage}{.94\textwidth}
+\textbf{Execution controller at one decision point}
+\begin{enumerate}
+\item Incorporate sequenced market events and authoritative order reports;
+      reject duplicated fills and retain unresolved exposure.
+\item Update reference prices, book coverage, session/auction phase,
+      remaining quantity and each child's reservation.
+\item Update liquidity and queue beliefs using the actions actually sent
+      and the observations that have become available.
+\item Form the admissible actions from quantity, price, NYSE/Nasdaq
+      destination, native order instruction, participant access, lifetime
+      and mandate constraints.
+\item Evaluate joint fill/price scenarios and continuation values, including
+      terminal feasibility, risk and model uncertainty.
+\item Choose a first action, reserve its maximum possible exposure, and send
+      the instruction with a unique identifier.
+\item Replan after new information or a scheduled decision time. Release
+      capacity only after authoritative execution or terminal cancellation.
+\end{enumerate}
+\end{minipage}}
+\end{center}
+
+The optimization can use convex scheduling, dynamic programming, mixed-integer
+programming, scenario trees, or a learned policy. The choice depends on which
+state dimensions and constraints matter. Reinforcement learning is a possible
+solver for the same declared objective, not a substitute for defining it.
+Hard quantity and instruction restrictions should be enforced by construction
+or an admissibility layer; a reward penalty alone does not guarantee them.
+
+The planner must distinguish a requested cancel from a confirmed cancel,
+a route instruction from an execution, and a venue acknowledgment from a
+fill. Message arrival order can differ from event time. Market data and private
+execution reports also have different clocks and sequencing conventions.
+Nasdaq ITCH and OUCH describe public market data and the participant's own
+order lifecycle, respectively; NYSE Pillar FIX describes the NYSE order-entry
+and execution-report channel \citep{itch,ouch,nysefix}. A feed decoder should
+not invent private lifecycle events absent from public data.
+
+\subsection{A two-exchange implementation}
+
+The practical interface has four components: a parent scheduler, a NYSE adapter,
+a Nasdaq adapter, and an authoritative commitment ledger. Each adapter validates
+native instructions and returns a joint law for acceptance, fills, prices and
+reports. The scheduler requests execution subject to the mandate; it does not
+assume that a requested rate is delivered by a passive order. Child orders at
+both destinations draw from the same parent reservation budget.
+
+For example, a patient buy can compare resting displayed interest with a
+supported hidden or midpoint instruction on either exchange. When the
+conditional cost of missing the deadline rises, marketable limits or IOC
+instructions may become preferable. Approaching the primary closing auction,
+the controller compares a valid auction commitment with continuous completion.
+This is a policy comparison within the specified state and access constraints,
+not a fixed ranking of NYSE versus Nasdaq. Correlated fills, fees, adverse
+selection and lost cancellation flexibility belong in that comparison.
+
+\subsection{Causality and latency}
+
+Let $\tau_e$ be matching-engine event time and $\tau_r$ the time an event becomes
+available to the controller. The policy filtration uses $\tau_r$, together
+with completion/sequence rules needed to interpret the event. It cannot
+condition on an event merely because $\tau_e$ precedes the decision timestamp.
+Similarly, a new order sees the book at its arrival, not necessarily the book
+observed when it was sent. A latency model should couple arrival-time depth,
+price movement and cancellations rather than attach an independent constant
+slippage to every route.
+
+Latency can be economically asymmetric. It changes the chance of receiving
+an attractive displayed quote, the chance of canceling before an adverse
+execution, and the value of waiting for more information. These effects can
+change the optimal order type even when expected price drift is unchanged.
+
+\input{sections/realistic_trading.tex}
+
+\input{sections/production_execution.tex}
+
+\input{sections/calibration_bridge.tex}
+
+\section{What would constitute market evidence?}\label{sec:validation}
+
+\subsection{Data requirements matched to the claim}
+
+\begin{table}[tb]
+\centering\small
+\caption{The evidence required grows with the strength of the execution claim.}\label{tab:evidence}
+\begin{tabularx}{\textwidth}{YY}
+\toprule Claim & Required evidence \\\midrule
+Displayed-book prediction & Causal book states, quality flags, chronological splits and calibrated distributional scores \\
+Passive fill prediction & Private order lifetimes/fills or defensible queue replay, cancellations, censoring and latency \\
+Reserve inference & A validated observation model, native identities or private order evidence where available, and sensitivity to non-identification \\
+Auction execution & Imbalance/statistics/status feeds, accepted order commitments, allocation and effective cutoff rules \\
+Cross-venue routing & Synchronized relevant books/references, route and execution logs, fee eligibility and joint fill dependence \\
+Large-order impact & Data supporting counterfactual response estimates, with action selection and market conditions addressed \\
+Policy improvement & Comparable mandates, costs, residual treatment, tail outcomes and an evaluation design supporting the policy comparison \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Data selection should follow the intended claim. Market-by-price data provide
+aggregate price-level states. Market-by-order data preserve more of the
+displayed order lifecycle, but does not reveal all hidden orders or investor
+inventory. Auction statistics, imbalance and status supply different channels.
+Even a full displayed book at one exchange is not the national market. A
+faithful decoder must respect native message types, execution identifiers and
+printability flags to avoid counting one execution more than once \citep{itch}.
+
+\subsection{Evaluation of forecasts and decisions}
+
+Forecast diagnostics should cover fill-size distributions, time-to-fill,
+non-fill probability, conditional markouts and dependence across venues.
+Book energy scores or price CRPS remain useful for their own targets but
+cannot establish execution accuracy. Queue depletion, cancellation survival,
+replenishment and auction allocations require separate checks.
+
+Policy diagnostics should include arrival-price shortfall or the specified
+benchmark loss, total charges, completion probability, residual size, tail
+cost, participation, market impact, and message intensity. Report conditional
+results by spread, volatility, time of day, order size, venue and liquidity
+regime. A lower mean cost can conceal larger non-completion risk or a worse
+tail, so the same mandate must be applied to every comparator.
+
+Useful baselines include rounded TWAP, causal volume schedules, participation
+with a completion rule, immediate execution, a calibrated parametric scheduler,
+and a simple queue-aware order-placement policy. A neural controller should
+earn its complexity against these controls. A reserve-input ablation should
+hold targets and training procedures fixed while comparing observed-book
+inputs, observable execution flow, and the same inputs with inferred stock.
+
+\subsection{Selection bias and counterfactual policies}
+
+Logged fills are conditional on a historical policy. Orders that were never
+submitted have no observed counterfactual fill. Training and evaluating an
+alternative policy on those logs therefore require assumptions about support,
+state sufficiency and action-dependent response. A replay simulator supplies
+one such model; it does not erase selection bias by replaying faster.
+
+For a one-decision problem, a logged-action importance weight is
+$w=\pi(a\mid s)/\mu(a\mid s)$, where $\mu$ is the behavior policy. A zero
+denominator on actions selected by $\pi$ destroys identification by that
+method. Sequential execution compounds the problem because earlier actions
+change inventory and observations. Model-based evaluations should state their
+counterfactual assumptions; controlled prospective comparisons should retain
+mandate constraints and monitor meaningful outcome differences. A random
+train/test split of nearby events is not a substitute for chronological
+validation across independent dates.
+
+The intended sequence is mechanical verification, distributional calibration,
+decision evaluation under stated assumptions, and then appropriately designed
+prospective evidence. None of these steps certifies the others. The synthetic
+study in Section~\ref{sec:experiments} completes numerical checks within its
+declared model; the data-dependent stages remain an empirical research task.
+
+\subsection{Two conditional restrictions and their empirical tests}
+\label{sec:testable}
+
+Most evidence requirements in Table~\ref{tab:evidence} are demanding.
+Two results nevertheless supply specific restrictions that can be tested
+without deploying a counterfactual execution policy. Their data requirements
+are identification requirements: public price and trade records alone need
+not identify either the strategic trader count or complete metaorders.
+
+\emph{(i) The temporal-skew coefficient.} Under the symmetric game of
+\cref{sec:equilibrium}, \cref{thm:crowding} gives
+\[
+ \Gamma+\tfrac1N\Gamma^*
+ =a_N\Sigma+b_N\Lambda,\qquad
+ a_N=\frac{N+1}{N},\quad b_N=\frac{N-1}{N}.
+\]
+The null restriction is $b_N/a_N=(N-1)/(N+1)$, after separating the
+temporary-cost term $2\eta I/N$ and fixing the normalization of $\Sigma$
+and $\Lambda$. It concerns the equilibrium first-order operator, rather
+than the price--flow response kernel. A test therefore needs an identified
+common response operator, observed or otherwise identified strategic
+participation $N$, and data supporting the symmetric-mandate specification.
+\Cref{rem:estimation} lists the main confounds. With those quantities
+identified, fit the skew coefficient freely and test the stated equality;
+across comparable participation groups, the null also pins down its monotone
+dependence on $N$. A raw transaction count is not the strategic trader count
+in this model.
+
+\emph{(ii) The joint size-tail restriction.} \Cref{cor:jointtest} links the
+impact exponent $\delta$, the metaorder tail index $\alpha$, and the
+permanent fraction $c$:
+\[
+ \delta=\alpha-1,\qquad c=\frac1\alpha.
+\]
+With identified metaorder sizes and impact paths, estimating $\alpha$ and
+$\delta$ freely gives one scalar equality to test. If permanent displacement
+is also identified, estimating $c$ adds the second equality.
+A comparison using average execution displacement at finite $Q$ must retain
+the cutoff correction from \cref{thm:exponent},
+\[
+ \frac1Q\int_0^Q I(u)\dd u-cYQ^\delta
+ =\frac{Y\delta q_0^{1+\delta}}{(1+\delta)Q},
+\]
+or explicitly specify a different boundary model. The test must distinguish
+metaorder size from individual prints and address selection in size, horizon
+and liquidity. Inference must account for estimating the exponents, cutoff
+and nuisance parameters from dependent observations; the number of scalar
+equalities alone does not establish a reference distribution for a test
+statistic.
+
+These are tests of combined structural assumptions, and a rejection does not
+identify which assumption failed. Neither requires a counterfactual policy
+deployment or a replay simulator. Both require suitable trader-level or
+metaorder information, or a justified reconstruction and identification model.
+They are empirical targets, not tests already performed by the synthetic
+experiments in \cref{sec:experiments}.
+
+\clearpage
+\subsection{A preregistered evaluation contract}\label{sec:contract}
+Fix the parent mandates, causal information, fee convention, baseline, candidate
+generation rule and uncertainty calibration before any policy is selected.
+Split by trading day into chronological training, calibration and test
+periods, and keep overlapping outcome windows within one period. Compare a
+simple cell with successive additions of queue and partial-fill state, message
+delay, joint fill--mark laws, time-varying liquidity, own impact and opponent
+response, and stress their interactions jointly: marginal-only ablations
+cannot detect the covariance term in Proposition~\ref{prop:completiondependence}. Report
+completion probability and residual-size tails alongside shortfall, fees,
+fallback cost and violations of the declared uncertainty bounds; a lower mean
+cost obtained by leaving difficult shares unfinished is not improved execution.
+
+Retain the exchange and receipt clocks, data and protocol versions, private
+acknowledgements and fills, the fee schedule, position and capital limits,
+model and executable hashes, and the calibration split. Report separately
+(i)~matching and accounting correctness, (ii)~conditional coverage and drift,
+(iii)~realized order outcomes, and (iv)~processing and network-delay
+distributions under load. Synthetic verification, historical replay and an
+identified intervention study answer different questions, and none should be
+labelled as another. Operational recovery, exchange certification and hardware
+timings cannot be inferred from the mathematics or the synthetic evidence.
+
+
+\part{Outlook}\label{pt:outlook}
+\section{Research questions beyond the benchmarks}\label{sec:open}
+
+\begin{enumerate}
+\item \textbf{Constrained nonlinear transient execution.} Determine existence,
+global optima and quantitative approximation error for a specified nonhomogeneous
+response, rate bounds, spread and risk objective. The inequality
+$\beta+\delta\geq1$ alone does not settle any of these questions.
+\item \textbf{Mechanisms that break scale invariance.}\label{item:scaleinvariance} Test whether observed
+size-dependent schedules are explained by rate caps, endogenous horizons,
+changing liquidity or nonhomogeneous impact. The homogeneous unconstrained
+power-response model itself predicts invariant normalized shape.
+\item \textbf{Causal cross-impact estimation.} Estimate matrix kernels under
+explicit temporal and round-trip constraints and quantify the effect of the
+constraints on out-of-sample execution loss. PSD projection is a known tool;
+choosing and identifying the correct causal model is a separate problem.
+\item \textbf{Liquidity learning under intervention.} Identify how the trader's
+own orders change fills, observations and later depth. Compare a full posterior
+with simpler observable state and report decision loss as well as fit scores.
+Section~\ref{sec:summarycertificate} supplies the certificate side of that
+comparison; the open task is constructing validated posterior envelopes
+from realistic reports and timestamps.
+\item \textbf{Auction allocation under incomplete observation.} Estimate a joint
+law for eligible interest, price, DMM participation and own fills, with effective
+NYSE/Nasdaq rules. Public imbalance data alone do not determine all allocation
+state or identify investor inventory.
+\end{enumerate}
+
+\section{Conclusion}
+
+Execution is the joint choice of quantity over time, instruction and destination
+under uncertain completion. Impact benchmarks are useful when their response,
+clock, cost convention and feasible strategies are explicit. Linear impact gives
+quadratic energy and exact exponential or power-law examples. Nonlinear response
+requires separate admissibility and existence analysis; power homogeneity still
+fixes size scaling, while a power kernel also changes horizon scaling. A
+necessary round-trip restriction is not a certificate for a complete model.
+
+The marginal continuation cost of an unexecuted share connects a schedule to
+order placement. Under separable convex costs it yields marginal-cost routing;
+with uncertain fills, queue persistence or information effects the choices belong
+in a joint dynamic model. Reservations retain exposure until authoritative
+reports resolve it. Hidden-liquidity estimates should be judged by their
+incremental value for that decision, without equating execution value with price
+predictability or latent coordinates with measured investor inventory.
+
+Nasdaq and NYSE auctions require distinct price and allocation representations.
+The same public demand/supply totals need not imply the same child-order outcome.
+DMM response, order classes, counterpart restrictions, deadlines and residual
+opportunities enter the control problem. The worked examples establish their
+arithmetic under stated assumptions; the quadratic endpoint model provides an
+explicit scheduling benchmark with full fills.
+
+The tagged order-book construction makes the dynamic execution kernel an
+output of primitive flow and clearing. It preserves private fills, priority
+and the cash ledger; its stationary linear-response limit gives a conditional
+propagator representation. Primitive event-rate error then reaches the
+execution objective through a common path-coupling bound, alongside the
+separate impact-cost error. The resulting certificate does not require an
+endogenous book to have the signature model's exogenous quadratic objective.
+
+Within a finite controlled book, complete observable histories and exact
+admissibility masks support a vanishing signature policy-class gap. Combined
+with uniform model errors and certified global optimization tolerances,
+this gives conditional consistency. The explicit finite-state softmax
+experiment separates approximation error from persistent model
+misspecification. A reference objective has a transferable guarantee only
+when its intervention differences and objective-reduction error are
+accounted for; an exogenous quadratic identity requires its additional
+feature-law and rate-cost assumptions.
+
+For a finite-observation binary hidden model, lower and upper backward
+recursions turn that conditional programme into a computable global
+certificate. If the deployed controller discards reports, conditional
+action-law envelopes give a separate lower bound for the richer-history
+optimum. The endpoint construction and exact finite-tree examples show how
+to certify this comparison, while the singleton case identifies a sufficient
+summary. Coarser information can have a positive cost even with an exact
+filter; increasing a belief grid does not remove that loss. Conversely,
+an action-separation certificate can establish an optimal instruction even
+when the summary does not determine the optimal conditional value.
+Obtaining tight, validated envelopes from realistic reports remains a
+separate task.
+
+The additional finite-sample construction makes one route to uncertainty
+coverage explicit: independent observations in every declared state--action
+row give simultaneous reward and transition bounds, which transfer through
+the Bellman recursion to the implemented policy. Exact reservation and
+integer-allocation results address feasibility; the completion viability
+recursion identifies when a guaranteed finish is possible at all. These
+results include their observation, support and boundedness assumptions.
+
+The contribution is a theoretical framework linking impact assumptions to
+feasible execution decisions. Its derivations state the conditions under which
+schedules, routing rules, information bounds and auction allocations follow.
+The numerical comparison illustrates learning within one specified liquidity
+model. Empirical calibration and policy evaluation are separate extensions;
+they are not needed for the conditional mathematical statements proved here.
+
+\appendix
+\section{A continuous-time characterization}\label{app:hjb}
+
+The discrete controller has a continuous-time analogue, with the marked
+generator in \eqref{eq:markedcostgenerator} retaining joint fills and price
+changes. The following algebra also permits additional continuous dynamics;
+its characterization remains subject to the regularity conditions below. Consider a translation-invariant
+model whose expected future dollar outlay is $U(t,q,m,z)=qm+v(t,q,z)$.
+The state $z$ includes observable market features and a sufficient liquidity
+belief. Let the reference midpoint have local drift $\alpha(z)$, and let
+$\mathcal L^a$ be the between-event generator for $z$ under passive action $a$.
+It includes any belief drift generated by observing no execution.
+
+A passive event has intensity $\lambda_a(z)$ and mark $(f,g,j,z')$, where
+$f$ shares execute at premium $g$ per share over the pre-event midpoint,
+the midpoint changes by $j$, and the other state changes to $z'$.
+After subtracting $qm$, the event's incremental continuation expression is
+\begin{equation}\label{eq:jumpcost}
+ fg+(q-f)j+v(t,q-f,z')-v(t,q,z).
+\end{equation}
+This follows by substituting $U=qm+v$ and the recorded cash payment
+$f(m+g)$ into the cost-plus-continuation generator. A primitive event can
+have $f=0$ and still change the price or another state. If such events are
+included in the marked sum, they must be excluded from the separately
+specified between-event generator $\mathcal L^a$.
+The price-jump term is multiplied by the residual, not by the initial parent
+quantity. Conditioning only on $f$ while discarding its dependence with $j$
+loses the adverse-selection mechanism.
+
+For simplicity, suppose an aggressive impulse of size $x$ has premium cost
+$C_M(x,z)$, changes $z$ to $z^M$, and has no separate instantaneous midpoint
+jump outside that convention. Define
+\begin{equation}
+ \mathcal Mv(t,q,z)=\inf_{0<x\leq q}
+               \{C_M(x,z)+v(t,q-x,z^M)\}.
+\end{equation}
+If an impulse separately moves the midpoint by $j_M$, the expression must
+also include $(q-x)j_M$, consistently with \eqref{eq:jumpcost}; it should not
+also be hidden in another cost component.
+
+A formal dynamic-programming characterization is
+\begin{align}\label{eq:qvi}
+ \min\Bigg\{&\mathcal Mv-v,\quad
+ \partial_tv+\inf_{a\in\A(q,z)}\Big[\mathcal L^av+
+              \alpha(z)q+\lambda_R\sigma^2(z)q^2+c_a(z)\\
+ &\qquad+\lambda_a(z)\E_a\{
+       fg+(q-f)j+v(t,q-f,z')-v(t,q,z)\}\Big]\Bigg\}=0.\nonumber
+\end{align}
+Here $\lambda_R$ is the inventory-risk weight and $c_a$ a running decision
+cost. This expression is a characterization under suitable regularity and
+admissibility assumptions, not an existence theorem. Impulse costs or a
+frequency restriction are needed to exclude infinitely many interventions
+in finite time. Auctions impose separate boundary/transition conditions;
+they are not encoded by a smooth event intensity near the closing time.
+
+The familiar limit/market-order control structure is developed in the
+execution literature \citep{cartea2015}. Equation~\eqref{eq:qvi} states the
+joint event term explicitly so that a fill premium and a correlated midpoint
+jump are not accidentally counted as independent advantages.
+
+\section{Portfolio execution and a consistent impact kernel}\label{app:portfolio}
+
+For $d$ assets let $\bm q_k\in\R^d$ denote signed residual positions and
+$\bm x_k=\bm q_k-\bm q_{k+1}$ the trade vector. A quadratic portfolio
+program is
+\begin{equation}\label{eq:portfolio}
+ \min_{\bm x}\ \frac12\sum_{i,j}\bm x_i^\top G_{ij}\bm x_j
+   +\lambda\sum_k\bm q_{k+1}^\top\Sigma_k\bm q_{k+1}\Delta t_k
+   +\sum_k\bm\alpha_k^\top\bm q_{k+1}\Delta t_k,
+\end{equation}
+subject to inventory, participation and admissibility constraints. Correlation
+matters because independently minimizing each asset's exposure can destroy a
+hedge. The off-diagonal blocks of $G$ represent cross-impact and must be
+estimated and constrained consistently. Dark-pool portfolio execution has
+related stochastic-control structure \citep{kratz2015}; it does not follow
+by independently applying a one-asset policy to every security.
+
+\begin{proposition}[A positive quadratic impact construction]\label{prop:kron}
+Let $\Gamma$ be a symmetric positive semidefinite $d\times d$ matrix and
+$0\leq\rho\leq1$. Set $G_{ij}=\rho^{|i-j|}\Gamma$ on a finite time grid.
+Then the quadratic impact term in \eqref{eq:portfolio} is nonnegative for
+every signed trade sequence, including every round trip.
+\end{proposition}
+\begin{proof}
+For $0\leq\rho<1$, the matrix $R_{ij}=\rho^{|i-j|}$ is the covariance matrix
+of a stationary, variance-one AR(1) process and is positive semidefinite.
+For $\rho=1$, $R$ is the all-ones matrix and is also positive semidefinite.
+The full block matrix is $R\otimes\Gamma$, whose eigenvalues are products
+of the nonnegative eigenvalues of its factors. Its quadratic form is
+therefore nonnegative.
+\end{proof}
+
+\begin{remark}[Scope of the separable construction]
+For $0<\rho<1$, the temporal matrix is an exponential kernel sampled on a
+regular grid. Its PSD property is sufficient for nonnegative round-trip cost;
+necessity concerns only the zero-mass subspace. The continuous-time exponential
+schedule in Theorem~\ref{thm:ow} is a useful limiting benchmark, not the exact
+finite-grid optimum. For $N\geq2$ grid points with endpoint trades, unit scalar
+impact coefficient and no other costs, the exact normalized weights are
+\[
+ w_0=w_{N-1}=\frac1{N-(N-2)\rho},\qquad
+ w_i=\frac{1-\rho}{N-(N-2)\rho}\quad(0<i<N-1).
+\]
+They sum to one and give a constant vector $Rw$; the cost is
+$Q^2(1+\rho)/[2\{N-(N-2)\rho\}]$. As the grid becomes fine at fixed horizon,
+$\rho=e^{-\varrho\Delta t}$ yields the continuous endpoint-block formula.
+At $\rho=0$ the finite-grid matrix is the identity; it is a limiting exponential
+case, not the exponential of a finite decay parameter. At $\rho=1$ every
+fixed-mass allocation has the same cost.
+
+The symmetry of $\Gamma$ is part of this model. It does not establish that
+antisymmetric causal cross-impact is cost-free: Proposition~\ref{prop:cross}
+provides a counterexample. A numerical portfolio benchmark must retain the same
+discretization, coefficient normalization and constraint set.
+\end{remark}
+
+This proposition concerns the declared impact component only. It does not
+prove that a complete market with rebates, other signals, constraints or
+additional transient effects admits no arbitrage. It does provide a simple
+way to avoid introducing a negative-cost trading loop solely through an
+unconstrained quadratic impact fit. More general no-dynamic-arbitrage
+conditions are the subject of Part~\ref{pt:theory}; see also
+\citet{gatheral2010} and \citet{schneider2019}.
+
+\section{A bound for transition-model error}\label{app:modelerror}
+The belief bound in Theorem~\ref{thm:belief} holds the transition mechanism fixed. A
+uniform one-step comparison of the complete transition law is a special case of
+Theorem~\ref{thm:deploymenttransfer}.
+
+\begin{corollary}[Finite-horizon simulation bound]\label{prop:simulation}
+Consider two finite-horizon models with the same state, observation, action
+and cost-outcome spaces, the same admissible policies, the same initial
+state/history distribution, and $N$ stages, terminal completion included.
+Suppose each stage loss lies in $[0,c]$ and, uniformly over admissible
+histories and actions, the conditional joint laws of the next observation,
+next state and stage-loss outcome differ by at most $\varepsilon$ in total
+variation. Then every fixed policy satisfies
+\[
+  \lvert J_\pi-\widehat J_\pi\rvert\le\tfrac12 c\varepsilon N(N+1),
+\]
+and a policy optimal in the approximate model has true regret at most
+$\min\{Nc,\;c\varepsilon N(N+1)\}$.
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:deploymenttransfer} to the reward $-$(stage loss), with
+$g=\widehat g=0$ since completion is a stage. A joint total-variation bound
+$\varepsilon$ bounds both marginals: the next-state kernels differ by at most
+$\varepsilon$, and because the stage loss has range $c$ its conditional means
+differ by at most $\eta_k=c\varepsilon$. After stage $k$ there remain
+$N-k-1$ stages, so every fitted continuation value has span at most
+$S_{k+1}=(N-k-1)c$. Recursion~\eqref{eq:deployB} gives
+\[
+  B_0=\sum_{k=0}^{N-1}\bigl[c\varepsilon+\varepsilon(N-k-1)c\bigr]
+      =c\varepsilon\sum_{j=1}^{N}j=\tfrac12 c\varepsilon N(N+1).
+\]
+An approximate optimizer has $\zeta\equiv0$, so its regret is at most $2B_0$.
+Total loss lies in $[0,Nc]$, which gives the trivial bound.
+\end{proof}
+
+If initial state/history laws instead differ by $\delta_0$ in total variation,
+the fixed-policy bound becomes
+\[
+ |J_\pi-\widehat J_\pi|\leq
+ Nc\delta_0+\tfrac12c\varepsilon N(N+1),
+\]
+and the regret bound becomes
+$\min\{Nc,\,2Nc\delta_0+c\varepsilon N(N+1)\}$.
+Indeed, the conditional total cost of a fixed policy lies in $[0,Nc]$, so
+changing only its initial law changes its expectation by at most $Nc\delta_0$;
+the previous comparison handles the kernels. The shared initial law is
+essential for the original fixed-policy statement: with one stage, observed
+state $z\in\{0,1\}$, identical kernels and loss $z$, initial probabilities
+$\Pp(z=1)=1/4$ and $3/4$ give costs differing by $1/2$ even when
+$\varepsilon=0$.
+
+The uniform condition includes histories that a new policy may reach but
+the logging policy rarely visited. Fitting one-step likelihood well on the
+logging distribution does not establish it. Nor does a small displayed-book
+forecast error imply a small total-variation error for the joint execution
+kernel. With negative net charges, a common finite stage shift can place
+costs in a bounded interval without changing policy comparisons, provided
+the horizon is fixed. An unbounded terminal penalty again prevents a finite
+bound of this form.
+
+\section{Reproduction and scope of the calculations}\label{app:reproduction}
+
+\subsection{Reproduction instructions and scope}
+
+\paragraph{Reference implementation.}
+The Python reference implementation checks exact reservation invariants,
+supported discrete control, compiler action gaps, robust joint-moment decisions
+and sequential noise bounds in synthetic cells, using independent enumeration,
+linear programming and Bellman evaluation where applicable. It is a normalized
+research model, not an ITCH/OUCH decoder or an exchange-certified gateway, and
+none of its tables is a market backtest or a hardware benchmark.
+
+The source archive contains the LaTeX manuscript with an embedded
+author--year bibliography, generated PNG figures, Python scripts,
+parameters, scenario arrays, machine-readable results, table inputs, and the
+Lean~4 sources of \cref{app:lean} under \texttt{lean/}.
+From the project root, install the pinned dependencies and run
+\begin{verbatim}
+python -m pip install -r requirements.txt
+python scripts/reproduce.py
+python scripts/certified_improvement.py
+python scripts/realism_stress.py
+python deployment/verify_production.py
+latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+\end{verbatim}
+The reproduction command solves both belief grids, simulates all six policies,
+regenerates the figures and numerical inputs, solves the completion-feature
+quadratic programmes and runs the mathematical and accounting checks.
+The cross-impact checks compare exact cell integrals with independent
+state-ODE integration for the energy--area and lift-endpoint identities.
+The three-point defect checks minimize the original quadratic form over the
+total-variation polygon in exact rational arithmetic and verify the
+Lipschitz and phantom-profit constants at explicit attaining examples.
+The tagged-book script constructs and solves the finite controlled process,
+compares its transition matrices with uniformization and event simulation,
+and checks the primitive-rate and stationary-response calculations.
+The random-number construction, action tie-breaking and nearest-grid rule are
+explicit in the code. The reported stochastic estimates and table inputs
+are generated together by this implementation.
+The observation-summary script also enumerates all feasible histories in
+three finite controlled-liquidity cases, constructs posterior-fiber bounds,
+and checks the resulting conditional certificates against exact rational
+optima and an independent forward hidden-state evaluation. Its separate
+probe example checks both positive information loss and exact sufficiency.
+The same exact trees verify action bounds and strict screening against
+every feasible full-history state--action pair. A non-singleton example
+separates decision sufficiency from a zero-width value interval and checks
+both deterministic and randomized controller certificates.
+
+The empirical content is deliberately synthetic. Its economic implications
+are conditional: persistent liquidity can make learning valuable; non-fill
+cost can outweigh price improvement; the cheapest initial fee need not give
+the cheapest allocation; and quantity reservations prevent overfills under
+their stated acknowledgment assumptions. The completion-feature experiment
+additionally tests a deterministic error certificate under a known law.
+These checks establish reproducibility of the stated examples and do not
+certify an exchange simulator or validate estimated market parameters.
+
+\begin{table}[tb]
+\centering\small
+\caption{Common abbreviations used in execution research.}
+\begin{tabularx}{\textwidth}{lY}
+\toprule Abbreviation & Meaning \\\midrule
+ATS & Alternative trading system \\
+BBO / NBBO & Best bid and offer / national best bid and offer \\
+CRPS & Continuous ranked probability score \\
+CVaR & Conditional value at risk \\
+FIFO & First in, first out, within the applicable priority class \\
+FOK / IOC & Fill-or-kill / immediate-or-cancel \\
+IS & Implementation shortfall \\
+MBP / MBO & Market by price / market by order \\
+MOO / MOC & Market-on-open / market-on-close \\
+LOO / LOC & Limit-on-open / limit-on-close \\
+NOII & Net Order Imbalance Indicator \\
+POMDP & Partially observable Markov decision process \\
+TWAP / VWAP & Time-weighted / volume-weighted average price \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The mathematical proofs are given in the text. The computational checks test
+selected identities, counterexamples and implementations.
 
 \subsection{Analytic schedule and immediate routing}
 
@@ -5176,7 +5833,7 @@ substituting undocumented assumptions.
 The tests deliberately do not claim superiority of LSTMs, transformers or
 reinforcement learning. A small partially observed example can be solved by
 dynamic programming and provides a useful benchmark for more flexible methods.
-Market-calibrated conclusions require the additional evidence described next.
+
 
 \subsection{Testing the exact-completion certificate}\label{sec:certexperiment}
 The additional experiment tests \cref{thm:completion,thm:certificate} directly.
@@ -5310,8 +5967,7 @@ Using 40,000 paths in each environment gives $\BridgeModelMC$ with standard
 error $\BridgeModelSE$ in the estimated environment, and $\BridgeTrueMC$
 with standard error $\BridgeTrueSE$ in the true environment. Both estimates
 are within $\BridgeMCMaxZ$ standard errors of their respective matrix-based
-values. Seeds are 4304211 and 4304212. This is an independent implementation
-check under a known synthetic law, not market-performance evidence.
+values. Seeds are 4304211 and 4304212. 
 
 \begin{figure}[tb]
 \centering\includegraphics[width=\linewidth]{figures/09_orderbook_bridge.png}
@@ -5392,7 +6048,7 @@ $r$ & Correct-model regret & $\tau(r)$ & Misspecified regret & Combined bound\\
 \end{tabular}
 \end{table}
 
-The new verification script reconstructs 31 finite transcripts, distinguishes
+The verification script reconstructs 31 finite transcripts, distinguishes
 initial observations and co-timestamped report order, and checks 1,260
 flooring, finite-score and exact-mask cases. It evaluates 14 signature
 policies, checks 1,064 state--stage optimization comparisons and 1,064
@@ -5404,661 +6060,7 @@ established by the coupling proof. All these are finite synthetic checks,
 not a numerical proof of the general Lusin approximation, a generic depth
 complexity result, or an empirical execution study.
 
-\input{sections/partial_observation_experiment.tex}
-
-\input{sections/observation_summary_experiment.tex}
-
-\clearpage
-\part{Implementation and evidence}\label{pt:impl}
-\section{Learning a model suitable for execution}\label{sec:learning}
-
-\subsection{The target is an action-dependent joint law}
-
-The marked construction in \cref{sec:bookbridge} gives a concrete route:
-learn the action-dependent primitive intensities and any unidentified mark
-law, apply the specified matching and reporting maps, and compose the joint
-interval kernel. Known matching rules constrain the outputs, while the
-uniform primitive-error condition remains a separate statistical requirement.
-Good likelihood fit on the logging distribution alone does not establish it.
-
-A generative model for displayed books can learn
-$p(B_{t+1}\mid B_{\leq t},\text{observed flow})$. An execution optimizer needs
-more: the response to the trader's order and the joint distribution of fills,
-prices, costs and reports. Its target is of the form
-\begin{equation}\label{eq:jointlearn}
- p_\theta(F,P,Y,B',\ell',I',r'\mid B,\ell,I,r,b,a).
-\end{equation}
-Generating statistically plausible future books without conditioning on the
-action is insufficient for evaluating a policy that materially changes demand,
-queue composition or information disclosure.
-
-An LSTM variational autoencoder can compress history; a transformer can model
-longer event dependencies or interactions between venues. Their embeddings
-are useful only insofar as they support the relevant conditional law. A latent
-coordinate should not be named ``true hidden inventory'' unless there is an
-identification argument or appropriate ground truth. A model can use a latent
-state to represent uncertainty without claiming the state is physically
-measured reserve size.
-
-For displayed geometry, one can encode a reference price, positive spread,
-positive interlevel gaps, total depth, depth composition and order counts.
-Log or softplus coordinates enforce positivity; log-ratio coordinates represent
-compositions. Decoding must respect tick grids and integer quantity constraints.
-Hidden executions can use a finer price grid than displayed quotes, including
-midpoint prices. These transformations help produce valid states. They do not
-by themselves enforce the parent quantity, exchange priority, causality or
-correct joint fill/return dependence.
-
-\subsection{Observation, mechanism and policy models}
-
-It is useful to distinguish three fitted objects. The observation model maps
-latent states and actions into the data the trader can see. The mechanism model
-maps orders and market events into fills and state changes. The policy maps
-the resulting state or belief into admissible instructions. Their errors have
-different consequences. A book forecast can be accurate while its implied
-fill model is wrong; an exact accounting engine can conserve shares while its
-arrival intensities are unrealistic; a correct simulator can still be used
-by a poorly optimized policy.
-
-When all required mechanisms are observed, the book/queue engine should apply
-the rule directly. When priority, reserve attribution or far depth is unobserved,
-it should expose a distribution or bounds. Fabricating a deterministic queue
-position, matching all depth decreases to trades, or inserting a one-share
-tail beyond the observed book replaces missing information with unsupported
-liquidity.
-
-The finite-state belief approach traces back to partially observed control
-\citep{smallwood1973}. In a large model, particle filters, variational filters
-or recurrent sufficient-state approximations can replace the finite posterior.
-The action must remain an input to the update. A fixed filter trained only
-on passive observations may be miscalibrated when an aggressive execution
-policy changes the observation process.
-
-\subsection{Impact and counterfactual response}
-
-For transient impact, a simple additional state is
-\begin{equation}\label{eq:impactstate}
- I_{k+1}=\rho I_k+\zeta x_k,\qquad 0\leq\rho<1,\quad\zeta\geq0,
-\end{equation}
-where $\zeta$ is the impact-state loading per executed share, distinct from
-the permanent coefficient $\gamma_{\rm p}$. Specify the relationship between
-$I_k$, execution premiums and observed
-prices. Persistent impact makes an early venue choice influence later costs.
-Cross-venue or cross-asset impact requires an appropriately coupled state.
-The chosen impact structure should be checked for unintended profitable
-round trips, a central issue in the market-impact literature
-\citep{gatheral2010,schneider2019}. A generic neural price generator does not
-automatically satisfy such restrictions.
-
-Historical replay answers a restricted question: what would a sufficiently
-small, non-disruptive order have encountered under a modeled queue assumption?
-It cannot reveal with certainty the counterfactual response to a different
-large order. Estimating impact requires suitable variation in action size,
-timing and market conditions, with controls for the information that drove
-those actions. Otherwise, a measured post-trade price change can mix impact,
-selection and common news.
-
-\section{From optimization to executable messages}\label{sec:algorithm}
-
-A practical controller uses receding-horizon optimization. At each reliable
-decision point it updates its state, simulates or integrates candidate
-continuations, sends the first admissible instruction, and then incorporates
-the resulting reports before replanning. Optimization frequency should reflect
-the event rate, computation budget and value of changing a decision. Faster
-replanning is not useful if it repeatedly forfeits queue position or acts on
-stale observations.
-
-\begin{center}
-\fbox{\begin{minipage}{.94\textwidth}
-\textbf{Execution controller at one decision point}
-\begin{enumerate}
-\item Incorporate sequenced market events and authoritative order reports;
-      reject duplicated fills and retain unresolved exposure.
-\item Update reference prices, book coverage, session/auction phase,
-      remaining quantity and each child's reservation.
-\item Update liquidity and queue beliefs using the actions actually sent
-      and the observations that have become available.
-\item Form the admissible actions from quantity, price, NYSE/Nasdaq
-      destination, native order instruction, participant access, lifetime
-      and mandate constraints.
-\item Evaluate joint fill/price scenarios and continuation values, including
-      terminal feasibility, risk and model uncertainty.
-\item Choose a first action, reserve its maximum possible exposure, and send
-      the instruction with a unique identifier.
-\item Replan after new information or a scheduled decision time. Release
-      capacity only after authoritative execution or terminal cancellation.
-\end{enumerate}
-\end{minipage}}
-\end{center}
-
-The optimization can use convex scheduling, dynamic programming, mixed-integer
-programming, scenario trees, or a learned policy. The choice depends on which
-state dimensions and constraints matter. Reinforcement learning is a possible
-solver for the same declared objective, not a substitute for defining it.
-Hard quantity and instruction restrictions should be enforced by construction
-or an admissibility layer; a reward penalty alone does not guarantee them.
-
-The planner must distinguish a requested cancel from a confirmed cancel,
-a route instruction from an execution, and a venue acknowledgment from a
-fill. Message arrival order can differ from event time. Market data and private
-execution reports also have different clocks and sequencing conventions.
-Nasdaq ITCH and OUCH describe public market data and the participant's own
-order lifecycle, respectively; NYSE Pillar FIX describes the NYSE order-entry
-and execution-report channel \citep{itch,ouch,nysefix}. A feed decoder should
-not invent private lifecycle events absent from public data.
-
-\subsection{A two-exchange implementation}
-
-The practical interface has four components: a parent scheduler, a NYSE adapter,
-a Nasdaq adapter, and an authoritative commitment ledger. Each adapter validates
-native instructions and returns a joint law for acceptance, fills, prices and
-reports. The scheduler requests execution subject to the mandate; it does not
-assume that a requested rate is delivered by a passive order. Child orders at
-both destinations draw from the same parent reservation budget.
-
-For example, a patient buy can compare resting displayed interest with a
-supported hidden or midpoint instruction on either exchange. When the
-conditional cost of missing the deadline rises, marketable limits or IOC
-instructions may become preferable. Approaching the primary closing auction,
-the controller compares a valid auction commitment with continuous completion.
-This is a policy comparison within the specified state and access constraints,
-not a fixed ranking of NYSE versus Nasdaq. Correlated fills, fees, adverse
-selection and lost cancellation flexibility belong in that comparison.
-
-\subsection{Causality and latency}
-
-Let $\tau_e$ be matching-engine event time and $\tau_r$ the time an event becomes
-available to the controller. The policy filtration uses $\tau_r$, together
-with completion/sequence rules needed to interpret the event. It cannot
-condition on an event merely because $\tau_e$ precedes the decision timestamp.
-Similarly, a new order sees the book at its arrival, not necessarily the book
-observed when it was sent. A latency model should couple arrival-time depth,
-price movement and cancellations rather than attach an independent constant
-slippage to every route.
-
-Latency can be economically asymmetric. It changes the chance of receiving
-an attractive displayed quote, the chance of canceling before an adverse
-execution, and the value of waiting for more information. These effects can
-change the optimal order type even when expected price drift is unchanged.
-
-\section{What would constitute market evidence?}\label{sec:validation}
-
-\subsection{Data requirements matched to the claim}
-
-\begin{table}[tb]
-\centering\small
-\caption{The evidence required grows with the strength of the execution claim.}\label{tab:evidence}
-\begin{tabularx}{\textwidth}{YY}
-\toprule Claim & Required evidence \\\midrule
-Displayed-book prediction & Causal book states, quality flags, chronological splits and calibrated distributional scores \\
-Passive fill prediction & Private order lifetimes/fills or defensible queue replay, cancellations, censoring and latency \\
-Reserve inference & A validated observation model, native identities or private order evidence where available, and sensitivity to non-identification \\
-Auction execution & Imbalance/statistics/status feeds, accepted order commitments, allocation and effective cutoff rules \\
-Cross-venue routing & Synchronized relevant books/references, route and execution logs, fee eligibility and joint fill dependence \\
-Large-order impact & Data supporting counterfactual response estimates, with action selection and market conditions addressed \\
-Policy improvement & Comparable mandates, costs, residual treatment, tail outcomes and an evaluation design supporting the policy comparison \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-Data selection should follow the intended claim. Market-by-price data provide
-aggregate price-level states. Market-by-order data preserve more of the
-displayed order lifecycle, but does not reveal all hidden orders or investor
-inventory. Auction statistics, imbalance and status supply different channels.
-Even a full displayed book at one exchange is not the national market. A
-faithful decoder must respect native message types, execution identifiers and
-printability flags to avoid counting one execution more than once \citep{itch}.
-
-\subsection{Evaluation of forecasts and decisions}
-
-Forecast diagnostics should cover fill-size distributions, time-to-fill,
-non-fill probability, conditional markouts and dependence across venues.
-Book energy scores or price CRPS remain useful for their own targets but
-cannot establish execution accuracy. Queue depletion, cancellation survival,
-replenishment and auction allocations require separate checks.
-
-Policy diagnostics should include arrival-price shortfall or the specified
-benchmark loss, total charges, completion probability, residual size, tail
-cost, participation, market impact, and message intensity. Report conditional
-results by spread, volatility, time of day, order size, venue and liquidity
-regime. A lower mean cost can conceal larger non-completion risk or a worse
-tail, so the same mandate must be applied to every comparator.
-
-Useful baselines include rounded TWAP, causal volume schedules, participation
-with a completion rule, immediate execution, a calibrated parametric scheduler,
-and a simple queue-aware order-placement policy. A neural controller should
-earn its complexity against these controls. A reserve-input ablation should
-hold targets and training procedures fixed while comparing observed-book
-inputs, observable execution flow, and the same inputs with inferred stock.
-
-\subsection{Selection bias and counterfactual policies}
-
-Logged fills are conditional on a historical policy. Orders that were never
-submitted have no observed counterfactual fill. Training and evaluating an
-alternative policy on those logs therefore require assumptions about support,
-state sufficiency and action-dependent response. A replay simulator supplies
-one such model; it does not erase selection bias by replaying faster.
-
-For a one-decision problem, a logged-action importance weight is
-$w=\pi(a\mid s)/\mu(a\mid s)$, where $\mu$ is the behavior policy. A zero
-denominator on actions selected by $\pi$ destroys identification by that
-method. Sequential execution compounds the problem because earlier actions
-change inventory and observations. Model-based evaluations should state their
-counterfactual assumptions; controlled prospective comparisons should retain
-mandate constraints and monitor meaningful outcome differences. A random
-train/test split of nearby events is not a substitute for chronological
-validation across independent dates.
-
-The intended sequence is mechanical verification, distributional calibration,
-decision evaluation under stated assumptions, and then appropriately designed
-prospective evidence. None of these steps certifies the others. The synthetic
-study in Section~\ref{sec:experiments} completes numerical checks within its
-declared model; the data-dependent stages remain an empirical research task.
-
-\subsection{Two conditional restrictions and their empirical tests}
-\label{sec:testable}
-
-Most evidence requirements in Table~\ref{tab:evidence} are demanding.
-Two results nevertheless supply specific restrictions that can be tested
-without deploying a counterfactual execution policy. Their data requirements
-are identification requirements: public price and trade records alone need
-not identify either the strategic trader count or complete metaorders.
-
-\emph{(i) The temporal-skew coefficient.} Under the symmetric game of
-\cref{sec:equilibrium}, \cref{thm:crowding} gives
-\[
- \Gamma+\tfrac1N\Gamma^*
- =a_N\Sigma+b_N\Lambda,\qquad
- a_N=\frac{N+1}{N},\quad b_N=\frac{N-1}{N}.
-\]
-The null restriction is $b_N/a_N=(N-1)/(N+1)$, after separating the
-temporary-cost term $2\eta I/N$ and fixing the normalization of $\Sigma$
-and $\Lambda$. It concerns the equilibrium first-order operator, rather
-than the price--flow response kernel. A test therefore needs an identified
-common response operator, observed or otherwise identified strategic
-participation $N$, and data supporting the symmetric-mandate specification.
-\Cref{rem:estimation} lists the main confounds. With those quantities
-identified, fit the skew coefficient freely and test the stated equality;
-across comparable participation groups, the null also pins down its monotone
-dependence on $N$. A raw transaction count is not the strategic trader count
-in this model.
-
-\emph{(ii) The joint size-tail restriction.} \Cref{cor:jointtest} links the
-impact exponent $\delta$, the metaorder tail index $\alpha$, and the
-permanent fraction $c$:
-\[
- \delta=\alpha-1,\qquad c=\frac1\alpha.
-\]
-With identified metaorder sizes and impact paths, estimating $\alpha$ and
-$\delta$ freely gives one scalar equality to test. If permanent displacement
-is also identified, estimating $c$ adds the second equality.
-A comparison using average execution displacement at finite $Q$ must retain
-the cutoff correction from \cref{thm:exponent},
-\[
- \frac1Q\int_0^Q I(u)\dd u-cYQ^\delta
- =\frac{Y\delta q_0^{1+\delta}}{(1+\delta)Q},
-\]
-or explicitly specify a different boundary model. The test must distinguish
-metaorder size from individual prints and address selection in size, horizon
-and liquidity. Inference must account for estimating the exponents, cutoff
-and nuisance parameters from dependent observations; the number of scalar
-equalities alone does not establish a reference distribution for a test
-statistic.
-
-These are tests of combined structural assumptions, and a rejection does not
-identify which assumption failed. Neither requires a counterfactual policy
-deployment or a replay simulator. Both require suitable trader-level or
-metaorder information, or a justified reconstruction and identification model.
-They are empirical targets, not tests already performed by the synthetic
-experiments in \cref{sec:experiments}.
-
-\clearpage
-\part{Outlook}\label{pt:outlook}
-\section{Research questions beyond the benchmarks}\label{sec:open}
-
-\begin{enumerate}
-\item \textbf{Constrained nonlinear transient execution.} Determine existence,
-global optima and quantitative approximation error for a specified nonhomogeneous
-response, rate bounds, spread and risk objective. The inequality
-$\beta+\delta\geq1$ alone does not settle any of these questions.
-\item \textbf{Mechanisms that break scale invariance.}\label{item:scaleinvariance} Test whether observed
-size-dependent schedules are explained by rate caps, endogenous horizons,
-changing liquidity or nonhomogeneous impact. The homogeneous unconstrained
-power-response model itself predicts invariant normalized shape.
-\item \textbf{Causal cross-impact estimation.} Estimate matrix kernels under
-explicit temporal and round-trip constraints and quantify the effect of the
-constraints on out-of-sample execution loss. PSD projection is a known tool;
-choosing and identifying the correct causal model is a separate problem.
-\item \textbf{Liquidity learning under intervention.} Identify how the trader's
-own orders change fills, observations and later depth. Compare a full posterior
-with simpler observable state and report decision loss as well as fit scores.
-Section~\ref{sec:summarycertificate} supplies the certificate side of that
-comparison; the open task is constructing validated posterior envelopes
-from realistic reports and timestamps.
-\item \textbf{Auction allocation under incomplete observation.} Estimate a joint
-law for eligible interest, price, DMM participation and own fills, with effective
-NYSE/Nasdaq rules. Public imbalance data alone do not determine all allocation
-state or identify investor inventory.
-\end{enumerate}
-
-\section{Conclusion}
-
-Execution is the joint choice of quantity over time, instruction and destination
-under uncertain completion. Impact benchmarks are useful when their response,
-clock, cost convention and feasible strategies are explicit. Linear impact gives
-quadratic energy and exact exponential or power-law examples. Nonlinear response
-requires separate admissibility and existence analysis; power homogeneity still
-fixes size scaling, while a power kernel also changes horizon scaling. A
-necessary round-trip restriction is not a certificate for a complete model.
-
-The marginal continuation cost of an unexecuted share connects a schedule to
-order placement. Under separable convex costs it yields marginal-cost routing;
-with uncertain fills, queue persistence or information effects the choices belong
-in a joint dynamic model. Reservations retain exposure until authoritative
-reports resolve it. Hidden-liquidity estimates should be judged by their
-incremental value for that decision, without equating execution value with price
-predictability or latent coordinates with measured investor inventory.
-
-Nasdaq and NYSE auctions require distinct price and allocation representations.
-The same public demand/supply totals need not imply the same child-order outcome.
-DMM response, order classes, counterpart restrictions, deadlines and residual
-opportunities enter the control problem. The worked examples establish their
-arithmetic under stated assumptions; the quadratic endpoint model provides an
-explicit scheduling benchmark with full fills.
-
-The tagged order-book construction makes the dynamic execution kernel an
-output of primitive flow and clearing. It preserves private fills, priority
-and the cash ledger; its stationary linear-response limit gives a conditional
-propagator representation. Primitive event-rate error then reaches the
-execution objective through a common path-coupling bound, alongside the
-separate impact-cost error. The resulting certificate does not require an
-endogenous book to have the signature model's exogenous quadratic objective.
-
-Within a finite controlled book, complete observable histories and exact
-admissibility masks support a vanishing signature policy-class gap. Combined
-with uniform model errors and certified global optimization tolerances,
-this gives conditional consistency. The explicit finite-state softmax
-experiment separates approximation error from persistent model
-misspecification. A reference objective has a transferable guarantee only
-when its intervention differences and objective-reduction error are
-accounted for; an exogenous quadratic identity requires its additional
-feature-law and rate-cost assumptions.
-
-For a finite-observation binary hidden model, lower and upper backward
-recursions turn that conditional programme into a computable global
-certificate. If the deployed controller discards reports, conditional
-action-law envelopes give a separate lower bound for the richer-history
-optimum. The endpoint construction and exact finite-tree examples show how
-to certify this comparison, while the singleton case identifies a sufficient
-summary. Coarser information can have a positive cost even with an exact
-filter; increasing a belief grid does not remove that loss. Conversely,
-an action-separation certificate can establish an optimal instruction even
-when the summary does not determine the optimal conditional value.
-Obtaining tight, validated envelopes from realistic reports remains a
-separate task.
-
-The contribution is a theoretical framework linking impact assumptions to
-feasible execution decisions. Its derivations state the conditions under which
-schedules, routing rules, information bounds and auction allocations follow.
-The numerical comparison illustrates learning within one specified liquidity
-model. Empirical calibration and policy evaluation are separate extensions;
-they are not needed for the conditional mathematical statements proved here.
-
-\appendix
-\section{A continuous-time characterization}\label{app:hjb}
-
-The discrete controller has a continuous-time analogue, with the marked
-generator in \eqref{eq:markedcostgenerator} retaining joint fills and price
-changes. The following algebra also permits additional continuous dynamics;
-its characterization remains subject to the regularity conditions below. Consider a translation-invariant
-model whose expected future dollar outlay is $U(t,q,m,z)=qm+v(t,q,z)$.
-The state $z$ includes observable market features and a sufficient liquidity
-belief. Let the reference midpoint have local drift $\alpha(z)$, and let
-$\mathcal L^a$ be the between-event generator for $z$ under passive action $a$.
-It includes any belief drift generated by observing no execution.
-
-A passive event has intensity $\lambda_a(z)$ and mark $(f,g,j,z')$, where
-$f$ shares execute at premium $g$ per share over the pre-event midpoint,
-the midpoint changes by $j$, and the other state changes to $z'$.
-After subtracting $qm$, the event's incremental continuation expression is
-\begin{equation}\label{eq:jumpcost}
- fg+(q-f)j+v(t,q-f,z')-v(t,q,z).
-\end{equation}
-This follows by substituting $U=qm+v$ and the recorded cash payment
-$f(m+g)$ into the cost-plus-continuation generator. A primitive event can
-have $f=0$ and still change the price or another state. If such events are
-included in the marked sum, they must be excluded from the separately
-specified between-event generator $\mathcal L^a$.
-The price-jump term is multiplied by the residual, not by the initial parent
-quantity. Conditioning only on $f$ while discarding its dependence with $j$
-loses the adverse-selection mechanism.
-
-For simplicity, suppose an aggressive impulse of size $x$ has premium cost
-$C_M(x,z)$, changes $z$ to $z^M$, and has no separate instantaneous midpoint
-jump outside that convention. Define
-\begin{equation}
- \mathcal Mv(t,q,z)=\inf_{0<x\leq q}
-               \{C_M(x,z)+v(t,q-x,z^M)\}.
-\end{equation}
-If an impulse separately moves the midpoint by $j_M$, the expression must
-also include $(q-x)j_M$, consistently with \eqref{eq:jumpcost}; it should not
-also be hidden in another cost component.
-
-A formal dynamic-programming characterization is
-\begin{align}\label{eq:qvi}
- \min\Bigg\{&\mathcal Mv-v,\quad
- \partial_tv+\inf_{a\in\A(q,z)}\Big[\mathcal L^av+
-              \alpha(z)q+\lambda_R\sigma^2(z)q^2+c_a(z)\\
- &\qquad+\lambda_a(z)\E_a\{
-       fg+(q-f)j+v(t,q-f,z')-v(t,q,z)\}\Big]\Bigg\}=0.\nonumber
-\end{align}
-Here $\lambda_R$ is the inventory-risk weight and $c_a$ a running decision
-cost. This expression is a characterization under suitable regularity and
-admissibility assumptions, not an existence theorem. Impulse costs or a
-frequency restriction are needed to exclude infinitely many interventions
-in finite time. Auctions impose separate boundary/transition conditions;
-they are not encoded by a smooth event intensity near the closing time.
-
-The familiar limit/market-order control structure is developed in the
-execution literature \citep{cartea2015}. Equation~\eqref{eq:qvi} states the
-joint event term explicitly so that a fill premium and a correlated midpoint
-jump are not accidentally counted as independent advantages.
-
-\section{Portfolio execution and a consistent impact kernel}\label{app:portfolio}
-
-For $d$ assets let $\bm q_k\in\R^d$ denote signed residual positions and
-$\bm x_k=\bm q_k-\bm q_{k+1}$ the trade vector. A quadratic portfolio
-program is
-\begin{equation}\label{eq:portfolio}
- \min_{\bm x}\ \frac12\sum_{i,j}\bm x_i^\top G_{ij}\bm x_j
-   +\lambda\sum_k\bm q_{k+1}^\top\Sigma_k\bm q_{k+1}\Delta t_k
-   +\sum_k\bm\alpha_k^\top\bm q_{k+1}\Delta t_k,
-\end{equation}
-subject to inventory, participation and admissibility constraints. Correlation
-matters because independently minimizing each asset's exposure can destroy a
-hedge. The off-diagonal blocks of $G$ represent cross-impact and must be
-estimated and constrained consistently. Dark-pool portfolio execution has
-related stochastic-control structure \citep{kratz2015}; it does not follow
-by independently applying a one-asset policy to every security.
-
-\begin{proposition}[A positive quadratic impact construction]\label{prop:kron}
-Let $\Gamma$ be a symmetric positive semidefinite $d\times d$ matrix and
-$0\leq\rho\leq1$. Set $G_{ij}=\rho^{|i-j|}\Gamma$ on a finite time grid.
-Then the quadratic impact term in \eqref{eq:portfolio} is nonnegative for
-every signed trade sequence, including every round trip.
-\end{proposition}
-\begin{proof}
-For $0\leq\rho<1$, the matrix $R_{ij}=\rho^{|i-j|}$ is the covariance matrix
-of a stationary, variance-one AR(1) process and is positive semidefinite.
-For $\rho=1$, $R$ is the all-ones matrix and is also positive semidefinite.
-The full block matrix is $R\otimes\Gamma$, whose eigenvalues are products
-of the nonnegative eigenvalues of its factors. Its quadratic form is
-therefore nonnegative.
-\end{proof}
-
-\begin{remark}[Scope of the separable construction]
-For $0<\rho<1$, the temporal matrix is an exponential kernel sampled on a
-regular grid. Its PSD property is sufficient for nonnegative round-trip cost;
-necessity concerns only the zero-mass subspace. The continuous-time exponential
-schedule in Theorem~\ref{thm:ow} is a useful limiting benchmark, not the exact
-finite-grid optimum. For $N\geq2$ grid points with endpoint trades, unit scalar
-impact coefficient and no other costs, the exact normalized weights are
-\[
- w_0=w_{N-1}=\frac1{N-(N-2)\rho},\qquad
- w_i=\frac{1-\rho}{N-(N-2)\rho}\quad(0<i<N-1).
-\]
-They sum to one and give a constant vector $Rw$; the cost is
-$Q^2(1+\rho)/[2\{N-(N-2)\rho\}]$. As the grid becomes fine at fixed horizon,
-$\rho=e^{-\varrho\Delta t}$ yields the continuous endpoint-block formula.
-At $\rho=0$ the finite-grid matrix is the identity; it is a limiting exponential
-case, not the exponential of a finite decay parameter. At $\rho=1$ every
-fixed-mass allocation has the same cost.
-
-The symmetry of $\Gamma$ is part of this model. It does not establish that
-antisymmetric causal cross-impact is cost-free: Proposition~\ref{prop:cross}
-provides a counterexample. A numerical portfolio benchmark must retain the same
-discretization, coefficient normalization and constraint set.
-\end{remark}
-
-This proposition concerns the declared impact component only. It does not
-prove that a complete market with rebates, other signals, constraints or
-additional transient effects admits no arbitrage. It does provide a simple
-way to avoid introducing a negative-cost trading loop solely through an
-unconstrained quadratic impact fit. More general no-dynamic-arbitrage
-conditions are the subject of Part~\ref{pt:theory}; see also
-\citet{gatheral2010} and \citet{schneider2019}.
-
-\section{A bound for transition-model error}\label{app:modelerror}
-
-The belief bound in Theorem~\ref{thm:belief} holds the transition mechanism
-fixed. A separate bound clarifies what is required to compare a policy
-optimized in a learned simulator with one optimized in the intended model.
-
-\begin{proposition}[Finite-horizon simulation bound]\label{prop:simulation}
-Consider two finite-horizon models with the same state, observation, action
-and cost-outcome spaces, the same admissible policies, the same initial
-state/history distribution, and $N$ stages. Equivalently, compare values
-conditional on one common initial state/history.
-Include terminal completion in these stages. Suppose each stage loss belongs
-to $[0,c]$, and, uniformly over every admissible history and action, their
-conditional joint laws of the next observation, next state and stage-loss
-outcome differ by at most $\varepsilon$ in total variation. For any fixed
-policy $\pi$,
-\begin{equation}
- |J_\pi-\widehat J_\pi|\leq
-          \frac12c\varepsilon N(N+1).
-\end{equation}
-If $\widehat\pi$ is optimal in the approximate model, its regret in the
-first model is at most $c\varepsilon N(N+1)$, and also at most $Nc$.
-\end{proposition}
-\begin{proof}
-At a state with $n$ stages remaining, the immediate loss plus continuation
-under either fixed policy has range at most $nc$. Replacing the next joint
-kernel changes its expectation by at most $nc\varepsilon$. Replacing the
-remaining continuation contributes at most the previous $(n-1)$-stage bound.
-Induction gives $c\varepsilon\sum_{j=1}^Nj$ for each fixed policy.
-Compare the true and approximate costs of $\widehat\pi$ and of a true
-optimizer. The approximate-model optimality inequality removes the middle
-term, leaving twice the fixed-policy bound. Finally, total loss lies in
-$[0,Nc]$, which gives the trivial upper bound $Nc$.
-\end{proof}
-
-If initial state/history laws instead differ by $\delta_0$ in total variation,
-the fixed-policy bound becomes
-\[
- |J_\pi-\widehat J_\pi|\leq
- Nc\delta_0+\tfrac12c\varepsilon N(N+1),
-\]
-and the regret bound becomes
-$\min\{Nc,\,2Nc\delta_0+c\varepsilon N(N+1)\}$.
-Indeed, the conditional total cost of a fixed policy lies in $[0,Nc]$, so
-changing only its initial law changes its expectation by at most $Nc\delta_0$;
-the previous comparison handles the kernels. The shared initial law is
-essential for the original fixed-policy statement: with one stage, observed
-state $z\in\{0,1\}$, identical kernels and loss $z$, initial probabilities
-$\Pp(z=1)=1/4$ and $3/4$ give costs differing by $1/2$ even when
-$\varepsilon=0$.
-
-The uniform condition includes histories that a new policy may reach but
-the logging policy rarely visited. Fitting one-step likelihood well on the
-logging distribution does not establish it. Nor does a small displayed-book
-forecast error imply a small total-variation error for the joint execution
-kernel. With negative net charges, a common finite stage shift can place
-costs in a bounded interval without changing policy comparisons, provided
-the horizon is fixed. An unbounded terminal penalty again prevents a finite
-bound of this form.
-
-\section{Reproduction and scope of the calculations}\label{app:reproduction}
-
-The source archive contains the LaTeX manuscript with an embedded
-author--year bibliography, eleven generated PNG figures, Python scripts,
-parameters, scenario arrays, machine-readable results, table inputs, and the
-Lean~4 sources of \cref{app:lean} under \texttt{lean/}.
-From the project root, install the pinned dependencies and run
-\begin{verbatim}
-python -m pip install -r requirements.txt
-python scripts/reproduce.py
-latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
-\end{verbatim}
-The reproduction command solves both belief grids, simulates all six policies,
-regenerates the figures and numerical inputs, solves the completion-feature
-quadratic programmes and runs the mathematical and accounting checks.
-The cross-impact checks compare exact cell integrals with independent
-state-ODE integration for the energy--area and lift-endpoint identities.
-The three-point defect checks minimize the original quadratic form over the
-total-variation polygon in exact rational arithmetic and verify the
-Lipschitz and phantom-profit constants at explicit attaining examples.
-The tagged-book script constructs and solves the finite controlled process,
-compares its transition matrices with uniformization and event simulation,
-and checks the primitive-rate and stationary-response calculations.
-The random-number construction, action tie-breaking and nearest-grid rule are
-explicit in the code. The reported stochastic estimates and table inputs
-are generated together by this implementation.
-The observation-summary script also enumerates all feasible histories in
-three finite controlled-liquidity cases, constructs posterior-fiber bounds,
-and checks the resulting conditional certificates against exact rational
-optima and an independent forward hidden-state evaluation. Its separate
-probe example checks both positive information loss and exact sufficiency.
-The same exact trees verify action bounds and strict screening against
-every feasible full-history state--action pair. A non-singleton example
-separates decision sufficiency from a zero-width value interval and checks
-both deterministic and randomized controller certificates.
-
-The empirical content is deliberately synthetic. Its economic implications
-are conditional: persistent liquidity can make learning valuable; non-fill
-cost can outweigh price improvement; the cheapest initial fee need not give
-the cheapest allocation; and quantity reservations prevent overfills under
-their stated acknowledgment assumptions. The completion-feature experiment
-additionally tests a deterministic error certificate under a known law.
-These checks establish reproducibility of the stated examples and do not
-certify an exchange simulator or validate estimated market parameters.
-
-\begin{table}[tb]
-\centering\small
-\caption{Common abbreviations used in execution research.}
-\begin{tabularx}{\textwidth}{lY}
-\toprule Abbreviation & Meaning \\\midrule
-ATS & Alternative trading system \\
-BBO / NBBO & Best bid and offer / national best bid and offer \\
-CRPS & Continuous ranked probability score \\
-CVaR & Conditional value at risk \\
-FIFO & First in, first out, within the applicable priority class \\
-FOK / IOC & Fill-or-kill / immediate-or-cancel \\
-IS & Implementation shortfall \\
-MBP / MBO & Market by price / market by order \\
-MOO / MOC & Market-on-open / market-on-close \\
-LOO / LOC & Limit-on-open / limit-on-close \\
-NOII & Net Order Imbalance Indicator \\
-POMDP & Partially observable Markov decision process \\
-TWAP / VWAP & Time-weighted / volume-weighted average price \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-The mathematical proofs are given in the text. The computational checks test
-selected identities, counterexamples and implementations.
-
-\section{A machine-checked core}\label{app:lean}
+\section{Three machine-checked lemmas}\label{app:lean}
 
 \ifleanverified
 Three results of this monograph are formalised in Lean~4 against Mathlib and
@@ -6071,9 +6073,8 @@ are supplied with \texttt{lean/COMPILE.md}.
 \else
 Three results of this monograph are accompanied by Lean~4 formal statements
 and proofs written against Mathlib, supplied as the \texttt{lean/} directory
-of the source archive. The kernel check of that artifact is not part of this
-version: the statements below record what is formalised, and the compile
-report accompanying a later version will record what the kernel accepted.
+of the source archive. These formal statements require a successful kernel
+check before they can be described as machine-verified.
 \fi
 
 \begin{enumerate}[leftmargin=*]
@@ -6116,7 +6117,7 @@ The pinned sources expose the precise assumptions and axiom dependencies
 of the three stated formalizations.
 
 \clearpage
-\setlength{\bibsep}{2.5pt plus 0.5pt minus 0.5pt}
+\setlength{\bibsep}{2pt plus 0.5pt minus 0.5pt}
 \begin{thebibliography}{75}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -6131,7 +6132,6 @@ Eduardo {Abi Jaber} and Eyal Neuman.
   2025.
 \newblock \doi{10.1111/mafi.12465}.
 \newblock URL \url{https://arxiv.org/abs/2211.00447}.
-
 
 \bibitem[Alfonsi et~al.(2010)Alfonsi, Fruth, and
   Schied]{alfonsifruthschied2010}
@@ -6169,6 +6169,11 @@ Robert Almgren, Chee Thum, Emmanuel Hauptmann, and Hong Li.
 \newblock Direct estimation of equity market impact.
 \newblock \emph{Risk}, 18\penalty0 (7):\penalty0 58--62, 2005.
 
+\bibitem[Aubin(1991)]{Aubin1991}
+Jean-Pierre Aubin.
+\newblock \emph{Viability Theory}.
+\newblock Birkh\"auser, 1991.
+
 \bibitem[Back(1992)]{back1992}
 Kerry Back.
 \newblock Insider trading in continuous time.
@@ -6181,18 +6186,18 @@ Emmanuel Bacry and Jean-Fran{\c c}ois Muzy.
 \newblock \emph{Quantitative Finance}, 14\penalty0 (7):\penalty0 1147--1166,
   2014.
 
-\bibitem[Bank et~al.(2025)Bank, Bayer, Hager, Riedel, and Nauen]{bank2025signatures}
-Peter Bank, Christian Bayer, Paul~P. Hager, Sebastian Riedel, and Tobias Nauen.
-\newblock Stochastic control with signatures.
-\newblock \emph{SIAM Journal on Control and Optimization}, 63(5):3189--3218, 2025.
-\newblock \href{https://doi.org/10.1137/24M1667671}{doi:10.1137/24M1667671}.
-\newblock Author manuscript: \url{https://arxiv.org/abs/2406.01585}.
-
 \bibitem[Bank et~al.(2017)Bank, Soner, and Vo{\ss}]{banksoner2017}
 Peter Bank, H.~Mete Soner, and Moritz Vo{\ss}.
 \newblock Hedging with temporary price impact.
 \newblock \emph{Mathematics and Financial Economics}, 11:\penalty0 215--239,
   2017.
+
+\bibitem[Bank et~al.(2025)Bank, Bayer, Hager, Riedel, and Nauen]{bank2025signatures}
+Peter Bank, Christian Bayer, Paul~P. Hager, Sebastian Riedel, and Tobias Nauen.
+\newblock Stochastic control with signatures.
+\newblock \emph{SIAM Journal on Control and Optimization}, 63(5):3189--3218, 2025.
+\newblock \href{https://doi.org/10.1137/24M1667671}{doi: 10.1137/24M1667671}.
+\newblock Author manuscript: \url{https://arxiv.org/abs/2406.01585}.
 
 \bibitem[Bershova and Rakhlin(2013)]{bershova2013}
 Nataliya Bershova and Dmitry Rakhlin.
@@ -6201,19 +6206,18 @@ Nataliya Bershova and Dmitry Rakhlin.
 \newblock \emph{Quantitative Finance}, 13\penalty0 (11):\penalty0 1759--1778,
   2013.
 
+\bibitem[Bertsekas and Rhodes(1971)]{BertsekasRhodes1971}
+Dimitri~P. Bertsekas and Ian~B. Rhodes.
+\newblock On the minimax reachability of target sets and target tubes.
+\newblock \emph{Automatica}, 7(2):233--247, 1971.
+\newblock doi: 10.1016/0005-1098(71)90066-5.
+
 \bibitem[Bertsimas and Lo(1998)]{bertsimaslo1998}
 Dimitris Bertsimas and Andrew~W. Lo.
 \newblock Optimal control of execution costs.
 \newblock \emph{Journal of Financial Markets}, 1\penalty0 (1):\penalty0 1--50,
   1998.
 \newblock \doi{10.1016/S1386-4181(97)00012-8}.
-
-\bibitem[Bouchaud(2009)]{bouchaud2009review}
-Jean-Philippe Bouchaud.
-\newblock Price impact, 2009.
-\newblock URL \url{https://arxiv.org/abs/0903.2428}.
-\newblock Review prepared for the Encyclopedia of Quantitative Finance;
-  arXiv:0903.2428.
 
 \bibitem[Bouchaud et~al.(2004)Bouchaud, Gefen, Potters, and
   Wyart]{bouchaud2004}
@@ -6228,6 +6232,20 @@ Jean-Philippe Bouchaud, Julius Bonart, Jonathan Donier, and Martin Gould.
 \newblock \emph{Trades, Quotes and Prices: Financial Markets Under the
   Microscope}.
 \newblock Cambridge University Press, 2018.
+
+\bibitem[Bouchaud(2009)]{bouchaud2009review}
+Jean-Philippe Bouchaud.
+\newblock Price impact, 2009.
+\newblock URL \url{https://arxiv.org/abs/0903.2428}.
+\newblock Review prepared for the Encyclopedia of Quantitative Finance;
+  arXiv:0903.2428.
+
+\bibitem[Boyd et~al.(2017)]{BoydEtAl2017}
+Stephen Boyd, Enzo Busseti, Steven Diamond, Ronald~N. Kahn, Kwangmoo Koh,
+  Peter Nystrup, and Jan Speth.
+\newblock Multi-period trading via convex optimization.
+\newblock \emph{Foundations and Trends in Optimization}, 3(1):1--76, 2017.
+\newblock doi: 10.1561/2400000023.
 
 \bibitem[Brokmann et~al.(2015)Brokmann, S{\'e}ri{\'e}, Kockelkoren, and
   Bouchaud]{brokmann2015}
@@ -6259,17 +6277,17 @@ Fr{\'e}d{\'e}ric Bucci, Michael Benzaquen, Fabrizio Lillo, and Jean-Philippe
 \newblock \emph{Algorithmic and High-Frequency Trading}.
 \newblock Cambridge University Press, 2015.
 
-\bibitem[Cont et~al.(2025)Cont, Degond, and Xuan]{contdegondxuan2025}
-Rama Cont, Pierre Degond, and Lifan Xuan.
-\newblock A mathematical framework for modeling order book dynamics.
-\newblock \emph{SIAM Journal on Financial Mathematics}, 16(1):123--166, 2025.
-\newblock \href{https://doi.org/10.1137/22M1541538}{doi:10.1137/22M1541538}.
-
 \bibitem[Cont and Kukanov(2017)]{cont2017}
 Rama Cont and Arseniy Kukanov.
 \newblock Optimal order placement in limit order markets.
 \newblock \emph{Quantitative Finance}, 17\penalty0 (1):\penalty0 21--39, 2017.
 \newblock URL \url{https://arxiv.org/abs/1210.1625}.
+
+\bibitem[Cont et~al.(2025)Cont, Degond, and Xuan]{contdegondxuan2025}
+Rama Cont, Pierre Degond, and Lifan Xuan.
+\newblock A mathematical framework for modeling order book dynamics.
+\newblock \emph{SIAM Journal on Financial Mathematics}, 16(1):123--166, 2025.
+\newblock \href{https://doi.org/10.1137/22M1541538}{doi: 10.1137/22M1541538}.
 
 \bibitem[Curato et~al.(2017)Curato, Gatheral, and Lillo]{curato2017}
 Gianbiagio Curato, Jim Gatheral, and Fabrizio Lillo.
@@ -6314,15 +6332,6 @@ Nicolae G{\^a}rleanu and Lasse~Heje Pedersen.
 \newblock \emph{Journal of Finance}, 68\penalty0 (6):\penalty0 2309--2340,
   2013.
 
-\bibitem[Gatheral(2010)]{gatheral2010}
-Jim Gatheral.
-\newblock No-dynamic-arbitrage and market impact.
-\newblock \emph{Quantitative Finance}, 10\penalty0 (7):\penalty0 749--759,
-  2010.
-\newblock \doi{10.1080/14697680903373692}.
-\newblock URL
-  \url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1292353}.
-
 \bibitem[Gatheral and Schied(2011)]{gatheralschied2011}
 Jim Gatheral and Alexander Schied.
 \newblock Optimal trade execution under geometric {B}rownian motion in the
@@ -6343,6 +6352,21 @@ Jim Gatheral, Alexander Schied, and Alla Slynko.
 \newblock \emph{Mathematical Finance}, 22\penalty0 (3):\penalty0 445--474,
   2012.
 
+\bibitem[Gatheral(2010)]{gatheral2010}
+Jim Gatheral.
+\newblock No-dynamic-arbitrage and market impact.
+\newblock \emph{Quantitative Finance}, 10\penalty0 (7):\penalty0 749--759,
+  2010.
+\newblock \doi{10.1080/14697680903373692}.
+\newblock URL
+  \url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1292353}.
+
+\bibitem[Ghavamzadeh et~al.(2016)]{GhavamzadehPetrikChow2016}
+Mohammad Ghavamzadeh, Marek Petrik, and Yinlam Chow.
+\newblock Safe policy improvement by minimizing robust baseline regret.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~29, 2016.
+
 \bibitem[Glosten and Milgrom(1985)]{glostenmilgrom1985}
 Lawrence~R. Glosten and Paul~R. Milgrom.
 \newblock Bid, ask and transaction prices in a specialist market with
@@ -6350,17 +6374,15 @@ Lawrence~R. Glosten and Paul~R. Milgrom.
 \newblock \emph{Journal of Financial Economics}, 14\penalty0 (1):\penalty0
   71--100, 1985.
 
+\bibitem[Gross(1956)]{Gross1956}
+Oliver Gross.
+\newblock A class of discrete-type minimization problems.
+\newblock Research Memorandum RM-1644, RAND Corporation, 1956.
+
 \bibitem[Gu{\'e}ant(2016)]{gueant2016}
 Olivier Gu{\'e}ant.
 \newblock \emph{The Financial Mathematics of Market Liquidity}.
 \newblock Chapman and Hall/CRC, 2016.
-
-\bibitem[Huang et~al.(2015)Huang, Lehalle, and Rosenbaum]{huang2015}
-Weibing Huang, Charles-Albert Lehalle, and Mathieu Rosenbaum.
-\newblock Simulating and analyzing order book data: The queue-reactive model.
-\newblock \emph{Journal of the American Statistical Association}, 110\penalty0
-  (509):\penalty0 107--122, 2015.
-\newblock URL \url{https://arxiv.org/abs/1312.0563}.
 
 \bibitem[Hambly and Lyons(2010)]{hamblylyons2010}
 Ben Hambly and Terry Lyons.
@@ -6377,11 +6399,22 @@ Wassily Hoeffding.
   58\penalty0 (301):\penalty0 13--30, 1963.
 \newblock \doi{10.1080/01621459.1963.10500830}.
 
+\bibitem[Huang et~al.(2015)Huang, Lehalle, and Rosenbaum]{huang2015}
+Weibing Huang, Charles-Albert Lehalle, and Mathieu Rosenbaum.
+\newblock Simulating and analyzing order book data: The queue-reactive model.
+\newblock \emph{Journal of the American Statistical Association}, 110\penalty0
+  (509):\penalty0 107--122, 2015.
+\newblock URL \url{https://arxiv.org/abs/1312.0563}.
+
 \bibitem[Huberman and Stanzl(2004)]{hubermanstanzl2004}
 Gur Huberman and Werner Stanzl.
 \newblock Price manipulation and quasi-arbitrage.
 \newblock \emph{Econometrica}, 72\penalty0 (4):\penalty0 1247--1275, 2004.
 
+\bibitem[Ibaraki and Katoh(1988)]{IbarakiKatoh1988}
+Toshihide Ibaraki and Naoki Katoh.
+\newblock \emph{Resource Allocation Problems: Algorithmic Approaches}.
+\newblock MIT Press, 1988.
 
 \bibitem[Iyengar(2005)]{iyengar2005}
 Garud~N. Iyengar.
@@ -6402,6 +6435,12 @@ Paul Jusselin and Mathieu Rosenbaum.
 \newblock \emph{Mathematical Finance}, 30\penalty0 (4):\penalty0 1309--1336,
   2020.
 
+\bibitem[Kalsi et~al.(2020)Kalsi, Lyons, and Perez~Arribas]{kalsi2020}
+Jasdeep Kalsi, Terry Lyons, and Imanol Perez~Arribas.
+\newblock Optimal execution with rough path signatures.
+\newblock \emph{SIAM Journal on Financial Mathematics}, 11\penalty0
+  (2):\penalty0 470--493, 2020.
+
 \bibitem[Kratz and Sch{\"o}neborn(2015)]{kratz2015}
 Peter Kratz and Torsten Sch{\"o}neborn.
 \newblock Portfolio liquidation in dark pools in continuous time.
@@ -6410,15 +6449,15 @@ Peter Kratz and Torsten Sch{\"o}neborn.
 \newblock \doi{10.1111/mafi.12037}.
 \newblock URL \url{https://arxiv.org/abs/1201.6130}.
 
-\bibitem[Kyle(1985)]{kyle1985}
-Albert~S. Kyle.
-\newblock Continuous auctions and insider trading.
-\newblock \emph{Econometrica}, 53\penalty0 (6):\penalty0 1315--1335, 1985.
-
 \bibitem[Kyle and Obizhaeva(2016)]{kyleobizhaeva2016}
 Albert~S. Kyle and Anna~A. Obizhaeva.
 \newblock Market microstructure invariance: Empirical hypotheses.
 \newblock \emph{Econometrica}, 84\penalty0 (4):\penalty0 1345--1404, 2016.
+
+\bibitem[Kyle(1985)]{kyle1985}
+Albert~S. Kyle.
+\newblock Continuous auctions and insider trading.
+\newblock \emph{Econometrica}, 53\penalty0 (6):\penalty0 1315--1335, 1985.
 
 \bibitem[Landkof(1972)]{landkof1972}
 N.~S. Landkof.
@@ -6457,18 +6496,6 @@ Terry~J. Lyons.
 \newblock Differential equations driven by rough signals.
 \newblock \emph{Revista Matem\'atica Iberoamericana}, 14\penalty0 (2):\penalty0
   215--310, 1998.
-
-\bibitem[Kalsi et~al.(2020)Kalsi, Lyons, and Perez~Arribas]{kalsi2020}
-Jasdeep Kalsi, Terry Lyons, and Imanol Perez~Arribas.
-\newblock Optimal execution with rough path signatures.
-\newblock \emph{SIAM Journal on Financial Mathematics}, 11\penalty0
-  (2):\penalty0 470--493, 2020.
-
-\bibitem[Schied and Zhang(2019)]{schiedzhang2019}
-Alexander Schied and Tao Zhang.
-\newblock A market impact game under transient price impact.
-\newblock \emph{Mathematics of Operations Research}, 44\penalty0 (1):\penalty0
-  102--121, 2019.
 
 \bibitem[{Nasdaq}(2025)]{nasdaqlots}
 {Nasdaq}.
@@ -6517,14 +6544,6 @@ Eyal Neuman and Moritz Vo{\ss}.
   impact.
 \newblock \emph{SIAM Journal on Financial Mathematics}, 13\penalty0
   (2):\penalty0 551--575, 2022.
-
-\bibitem[Nilim and El~Ghaoui(2005)]{nilim2005}
-Arnab Nilim and Laurent {El Ghaoui}.
-\newblock Robust control of {Markov} decision processes with uncertain
-  transition matrices.
-\newblock \emph{Operations Research}, 53\penalty0 (5):\penalty0
-  780--798, 2005.
-\newblock \doi{10.1287/opre.1050.0216}.
 
 \bibitem[{New York Stock Exchange}(2019)]{nysedorders}
 {New York Stock Exchange}.
@@ -6613,6 +6632,14 @@ Arnab Nilim and Laurent {El Ghaoui}.
 \newblock URL \url{https://www.nyse.com/trade/pillar}.
 \newblock Consulted 11 September 2026.
 
+\bibitem[Nilim and El~Ghaoui(2005)]{nilim2005}
+Arnab Nilim and Laurent {El Ghaoui}.
+\newblock Robust control of {Markov} decision processes with uncertain
+  transition matrices.
+\newblock \emph{Operations Research}, 53\penalty0 (5):\penalty0
+  780--798, 2005.
+\newblock \doi{10.1287/opre.1050.0216}.
+
 \bibitem[Obizhaeva and Wang(2013)]{obizhaevawang2013}
 Anna~A. Obizhaeva and Jiang Wang.
 \newblock Optimal trading strategy and supply/demand dynamics.
@@ -6633,6 +6660,20 @@ R.~Tyrrell Rockafellar and Stanislav Uryasev.
 \newblock URL
   \url{https://www.risk.net/journal-risk/2161159/optimization-conditional-value-risk}.
 
+\bibitem[Rodriguez~Dominguez(2026a)]{RodriguezDominguez2026Market}
+Alejandro Rodriguez~Dominguez.
+\newblock The market's conditioning representation: Equilibrium, crowding, and
+  convention multiplicity.
+\newblock arXiv preprint arXiv:2608.18299, 2026a.
+\newblock doi: 10.48550/arXiv.2608.18299. Version~1, submitted 18 August 2026.
+
+\bibitem[Rodriguez~Dominguez(2026b)]{RodriguezDominguez2026Switching}
+Alejandro Rodriguez~Dominguez.
+\newblock Switching frictions, heterogeneous trading horizons, and long-memory
+  order flow.
+\newblock arXiv preprint arXiv:2609.02525, 2026b.
+\newblock doi: 10.48550/arXiv.2609.02525. Version~1, submitted 2 September 2026.
+
 \bibitem[Schied and Sch{\"o}neborn(2009)]{schiedschoeneborn2009}
 Alexander Schied and Torsten Sch{\"o}neborn.
 \newblock Risk aversion and the dynamics of optimal liquidation strategies in
@@ -6640,6 +6681,12 @@ Alexander Schied and Torsten Sch{\"o}neborn.
 \newblock \emph{Finance and Stochastics}, 13\penalty0 (2):\penalty0 181--204,
   2009.
 \newblock \doi{10.1007/s00780-008-0082-8}.
+
+\bibitem[Schied and Zhang(2019)]{schiedzhang2019}
+Alexander Schied and Tao Zhang.
+\newblock A market impact game under transient price impact.
+\newblock \emph{Mathematics of Operations Research}, 44\penalty0 (1):\penalty0
+  102--121, 2019.
 
 \bibitem[Schneider and Lillo(2016)]{schneider2019}
 Michael Schneider and Fabrizio Lillo.
@@ -6655,6 +6702,13 @@ Richard~D. Smallwood and Edward~J. Sondik.
   1973.
 \newblock \doi{10.1287/opre.21.5.1071}.
 \newblock URL \url{https://pubsonline.informs.org/doi/10.1287/opre.21.5.1071}.
+
+\bibitem[Thomas et~al.(2015)]{DeployThomas2015}
+Philip Thomas, Georgios Theocharous, and Mohammad Ghavamzadeh.
+\newblock High-confidence off-policy evaluation.
+\newblock \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, 29(1), 2015.
+\newblock doi: 10.1609/aaai.v29i1.9541.
 
 \bibitem[T{\'o}th et~al.(2011)T{\'o}th, Lemperiere, Deremble, de~Lataillade,
   Kockelkoren, and Bouchaud]{toth2011}
